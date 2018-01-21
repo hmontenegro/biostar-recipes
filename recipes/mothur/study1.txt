@@ -118,7 +118,6 @@ dist.seqs(fasta=final.fasta, output=lt, processors=2)
 #
 # Moving the final results into the output folder
 #
-system(cp scratch/final*, output)
-system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.tax.summary ./output/final.tax.summary)
+system(cp scratch/final* output)
 
 

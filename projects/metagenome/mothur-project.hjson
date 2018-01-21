@@ -30,7 +30,7 @@ data: [
 
     {
         name: Metagenomics Data
-        value: /export/data/mothur
+        value: /export/data/mothur-study1
         type: MOTHUR
         summary: A prepackaged data set with test files.
         text: '''
