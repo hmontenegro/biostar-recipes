@@ -14,9 +14,8 @@ input: {
 
 settings: {
         id: classify
-        name: Pipeline
+        name: Metagenomics Pipeline
         image: study1.png
-        index: results/index.html
         execute: {
             filename: "commands.txt"
             command: "mothur commands.txt"

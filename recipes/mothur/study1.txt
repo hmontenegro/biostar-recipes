@@ -106,13 +106,7 @@ dist.seqs(fasta=final.fasta, output=lt, processors=2)
 # Moving the final results into the output folder
 #
 system(mkdir -p output)
+system(cp scratch/final*, output)
 system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.tax.summary ./output/final.tax.summary)
-system(mv final.fasta ./output)
-system(mv final.count ./output)
-#system(mv final.phylip.tre ./output)
 
-#
-# Move the intermediary files to a scratch directory.
-#
-system(mkdir -p scratch)
-system(mv *.*.* scratch/)
+
