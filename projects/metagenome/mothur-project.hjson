@@ -20,8 +20,8 @@ settings: {
 analyses: [
 
     {
-        json: biostar-recipes/recipes/mothur/study1.hjson
-        template: biostar-recipes/recipes/mothur/study1.txt
+        json: ~/app/biostar-recipes/recipes/mothur/study1.hjson
+        template: ~/app/biostar-recipes/recipes/mothur/study1.txt
     }
 
     ]
