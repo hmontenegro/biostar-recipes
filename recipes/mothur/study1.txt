@@ -3,13 +3,21 @@
 #
 set.logfile(name=analysis.log, append=T)
 
+# Set the input dir from the data, output to scratch.
+set.dir(input={{input.data_dir}}, output=scratch)
+
+#
+# Link the data directory to the job folder.
+#
+system(ln -s {{input.data_dir}}/reads, .)
+
 #
 # Create contigs out of raw paired end sequence data
 #
 make.contigs(file=inputs.txt, processors=2)
 
 #
-# Repor statistics on the sequences.
+# Report statistics on the sequences.
 #
 summary.seqs(fasta=inputs.trim.contigs.fasta)
 

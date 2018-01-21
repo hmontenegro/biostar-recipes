@@ -1,5 +1,18 @@
- settings:
-    {
+{
+
+input: {
+
+        value: /export/data/mothur
+        label: FastQ Reads
+        name: Input Metagenomics data
+        help: A directory structure
+        summary: A prepackaged directory structure.
+        source: PROJECT
+        type: MOTHUR
+        display: DROPDOWN
+}
+
+settings: {
         id: classify
         name: Pipeline
         image: study1.png
@@ -23,3 +36,5 @@
 
             '''
     }
+
+}

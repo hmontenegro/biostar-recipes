@@ -17,12 +17,26 @@ settings: {
     '''
 }
 
-    analyses: [
+analyses: [
 
-        {
-            json: biostar-recipes/recipes/mothur/study1.hjson
-            template: biostar-recipes/recipes/mothur/study1.txt
-        }
+    {
+        json: biostar-recipes/recipes/mothur/study1.hjson
+        template: biostar-recipes/recipes/mothur/study1.txt
+    }
+
+    ]
+
+data: [
+
+    {
+        name: Metagenomics Data
+        value: /export/data/mothur
+        type: MOTHUR
+        summary: A prepackaged data set with test files.
+        text: '''
+        Contains reads in a directory and a file list.
+        '''
+    }
 
     ]
 
