@@ -1,0 +1,29 @@
+{
+
+settings: {
+    uid: mothur
+
+    name: Mothur Metagenomics
+
+    image: mothur-project.jpg
+
+    summary: '''
+    This project contains data and metagenomics analysis recipes using the [mothur](https://www.mothur.org/) package.
+    '''
+
+    text: '''
+    # Study 1
+
+    '''
+}
+
+    analyses: [
+
+        {
+            json: biostar-recipes/recipes/mothur/study1.hjson
+            template: biostar-recipes/recipes/mothur/study1.txt
+        }
+
+    ]
+
+}

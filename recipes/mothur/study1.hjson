@@ -1,0 +1,25 @@
+ settings:
+    {
+        id: classify
+        name: Pipeline
+        image: study1.png
+        index: results/index.html
+        execute: {
+            filename: "commands.txt"
+            command: "mothur commands.txt"
+        }
+        summary:
+            '''
+            Analysis summary
+            '''
+        help:
+            '''
+
+            # Help
+
+            What does this analysis do?
+
+            More detailed help.
+
+            '''
+    }
