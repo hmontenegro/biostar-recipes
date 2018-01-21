@@ -92,8 +92,8 @@ remove.seqs(fasta=inputs.trim.contigs.good.unique.good.filter.unique.precluster.
 #
 # Copy the final result files to simpler names.
 #
-system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta scratch/final.fasta)
-system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.count_table scratch/final.count)
+system(cp scratch/inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta scratch/final.fasta)
+system(cp scratch/inputs.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.count_table scratch/final.count)
 
 #
 # Classify sequences
