@@ -3,6 +3,11 @@
 #
 set.logfile(name=analysis.log, append=T)
 
+#
+# This will the folder for the final results.
+#
+system(mkdir -p output)
+
 # Set the input dir from the data, output to scratch.
 set.dir(input={{input.data_dir}}, output=scratch)
 
@@ -113,7 +118,6 @@ dist.seqs(fasta=final.fasta, output=lt, processors=2)
 #
 # Moving the final results into the output folder
 #
-system(mkdir -p output)
 system(cp scratch/final*, output)
 system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.pds.wang.tax.summary ./output/final.tax.summary)
 
