@@ -44,7 +44,6 @@ unique.seqs(fasta=inputs.trim.contigs.good.fasta)
 #
 count.seqs(name=inputs.trim.contigs.good.names, group=inputs.contigs.good.groups)
 
-
 #
 # Edit the silva.bacteria.fasta file to only include the V4 region.
 #
@@ -93,13 +92,13 @@ remove.seqs(fasta=inputs.trim.contigs.good.unique.good.filter.unique.precluster.
 #
 # Copy the final result files to simpler names.
 #
-system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta final.fasta)
-system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.count_table final.count)
+system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta scratch/final.fasta)
+system(cp inputs.trim.contigs.good.unique.good.filter.unique.precluster.denovo.uchime.pick.count_table scratch/final.count)
 
 #
 # Classify sequences
 #
-classify.seqs(fasta=final.fasta, count=final.count, reference=reference/trainset9_032012.pds.fasta, taxonomy=reference/trainset9_032012.pds.tax, cutoff=75)
+classify.seqs(fasta=final.fasta, count=final.count, reference=trainset9_032012.pds.fasta, taxonomy=trainset9_032012.pds.tax, cutoff=75)
 
 #
 # For GUniFrac analysis, first make a distance file.
