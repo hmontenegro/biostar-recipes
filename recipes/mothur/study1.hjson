@@ -1,16 +1,14 @@
 {
 
 input: {
-
-        value: /export/data/mothur
         label: FastQ Reads
-        name: Input Metagenomics data
+        value: Metagenomics Data Directory
         help: A directory structure
         summary: A prepackaged directory structure.
         source: PROJECT
         type: MOTHUR
         display: DROPDOWN
-}
+    }
 
 settings: {
         id: classify

@@ -1,19 +1,17 @@
 {
-    sequence: {
-        value: export/local/input/virus_sample1.fastq.gz
-        label: Data
-        help: The sequencing reads
-        summary: DNA reads of viral origin.
+    reads: {
+        value: Single End Reads.fq
+        label: Sequencing Data
+        help: The sequencing reads from the instrument.
         source: PROJECT
         type: FASTQ
         display: DROPDOWN
     }
 
     genome: {
-        value: export/local/input/viral_genomes.fa
+        value: Ebola Genome.fa
         label: Reference genome
         help: The reference genome
-        summary: Viral genome.
         source: PROJECT
         type: FASTA
         display: DROPDOWN
@@ -24,9 +22,9 @@
     }
 
     settings: {
-        name: Align sequences to genome with BWA
+        name: BWA Alignment
         image: bwa.png
-        index: index.html
+        index: bam/alignment.bam
         summary: Performs alignment of input sequences to a reference genome using `bwa mem` algorithm.
         help:
             '''
