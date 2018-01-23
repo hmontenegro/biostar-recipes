@@ -1,17 +1,17 @@
 set -ue
 
-# The table of content contains all files in the collection.
+# The table of contents contains all files in the collection.
 INPUTS={{reads.toc}}
 
-# Make the directory that contains the reports.
+# The directory that contains the reports.
 mkdir -p reports
 
-# Add extra flags if a paramter is checked.
+# Add extra flags if the group parameter was selected.
 if [ "{{group.value}}" == "nogroup" ]; then
     FLAGS="--nogroup"
 else
     FLAGS=""
 fi
 
-# Run it on fastq files only.
+# Run fastqc on selected files.
 cat ${INPUTS} | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o reports
