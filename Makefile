@@ -27,5 +27,5 @@ data_pull: dir
 	(cd export && tar zxvf ${DATA_FILE})
 
 pack: dir
-	(cd export && tar czvf ${DATA_FILE} local/bwa )
+	(cd export && tar czvf ${DATA_FILE} local )
 	(cd export && rsync -avz ${DATA_FILE} ${USER}@${DATA_HOST}:${DATA_DIR}/)

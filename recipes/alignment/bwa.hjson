@@ -22,28 +22,26 @@
     }
 
     settings: {
-        name: BWA Alignment
+        name: BWA Single End Alignment
         image: bwa.png
         index: bam/alignment.bam
-        summary: Performs alignment of input sequences to a reference genome using `bwa mem` algorithm.
+        summary: Generates an alignment file of single end reads to a reference genome using the `bwa mem` algorithm.
         help:
             '''
 
             # Help
 
-            This analysis align input sequences to a reference genome. The input data should be in fastq format.
-            Reference genome sequence needs to be provided unless the organism is human or mouse.
-
+            This recipe aligns single end sequencing reads to a reference genome.
 
             # Parameters
 
-            1. Input data in fastq format.
-            2. Reference genome sequence.
+            1. Input data in FASTQ format.
+            2. Reference genome sequence in FASTA format.
 
             # Results
 
             1. Alignment summary statistics.
-            2. Aligned bam files.
+            2. Aligned bam file.
 
             '''
     }

@@ -1,0 +1,30 @@
+{
+    reads: {
+        value: FASTQ Data Collection
+        label: Sequencing Reads
+        type: FASTQ
+        display: DROPDOWN
+        source: PROJECT
+    }
+
+    group: {
+        label: Plot features
+        display: DROPDOWN
+        choices:[
+            [ "default" "Default"]
+            [ "nogroup", "No Group" ]
+        ]
+        value: "default"
+    }
+
+    settings:
+    {
+        name: FastQC Report
+        image: fastqc.png
+        summary: Generates a FastQC report.
+        help:
+        '''
+        Generates a FastQC report on a single file or a data collection.
+        '''
+    }
+}

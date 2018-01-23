@@ -41,6 +41,10 @@ analyses: [
         template: recipes/alignment/bwa.sh
     }
 
+    {
+        json: recipes/quality/fastqc.hjson
+        template: recipes/quality/fastqc.sh
+    }
 
 ]
 
@@ -59,6 +63,15 @@ data: [
         type: FASTQ
         summary: Single end sequencing reads.
     }
+
+    {
+        name: FASTQ Data Collection
+        value: export/local/fastqc/
+        type: FASTQ
+        summary: This collections contains two different paired-end sequencing runs.
+    }
+
+
 
 ]
 
