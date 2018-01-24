@@ -1,0 +1,49 @@
+{
+    reads: {
+        value: FASTQ Data Collection
+        label: Sequencing Data Directory
+        help: Multiple paired-end sequencing reads.
+        source: PROJECT
+        type: FASTQ
+        display: DROPDOWN
+    }
+
+    genome: {
+        value: Ebola Genome.fa
+        label: Reference genome
+        help: The reference genome
+        source: PROJECT
+        type: FASTA
+        display: DROPDOWN
+    }
+
+    threads: {
+        value: 4
+    }
+
+    settings: {
+        name: BWA Paired End Alignment
+        image: bwa-PE.png
+        index: bam/alignment.bam
+        summary: Produces BAM alignments using the `bwa mem` algorithm in paired end mode.
+        help:
+            '''
+
+            # Help
+
+            This recipe aligns paired end sequencing reads to a reference genome.
+            It can be run on entire directories of data.
+
+            # Parameters
+
+            1. Input data collection in FASTQ format. When sorted the file names group by pairs.
+            2. Reference genome sequence in FASTA format.
+
+            # Results
+
+            1. Alignment summary statistics.
+            2. Aligned bam file.
+
+            '''
+    }
+}

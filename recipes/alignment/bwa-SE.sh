@@ -5,7 +5,7 @@ INPUT={{reads.value}}
 GENOME={{genome.value}}
 
 # Build the BWA index.
-INDEX_DIR={{runtime.local_root}}/temp/
+INDEX_DIR={{runtime.local_root}}/temp
 mkdir -p ${INDEX_DIR}
 INDEX=${INDEX_DIR}/{{genome.uid}}
 
@@ -23,16 +23,15 @@ fi
 
 # Align sequences
 echo  "Aligning reads to the genome."
-bwa mem -t 4 ${INDEX} ${INPUT}  | samtools view -b |samtools sort >${BAM}
+bwa mem -t 4 ${INDEX} ${INPUT}  | samtools sort > ${BAM}
 samtools index ${BAM}
 
+# Produce an alignment report.
 echo "Compute alignment statistics."
-samtools flagstat ${BAM} > flagstat.txt
-samtools idxstats ${BAM} > idxstats.txt
+echo "-------- $fname -------" > report.txt
+samtools flagstat ${BAM} >> report.txt
+echo "-------- $fname -------" >> report.txt
+samtools idxstats ${BAM} >> report.txt
 
 # Show the statistics on the output.
-echo "-------- Flag Stats -------------"
-cat flagstat.txt
-
-echo "-------- Index Stats ------------"
-cat idxstats.txt | head -100
+cat report.txt | head -100

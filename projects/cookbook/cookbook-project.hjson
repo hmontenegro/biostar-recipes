@@ -37,13 +37,18 @@ settings: {
 analyses: [
 
     {
-        json: recipes/alignment/bwa.hjson
-        template: recipes/alignment/bwa.sh
+        json: recipes/quality/fastqc.hjson
+        template: recipes/quality/fastqc.sh
     }
 
     {
-        json: recipes/quality/fastqc.hjson
-        template: recipes/quality/fastqc.sh
+        json: recipes/alignment/bwa-SE.hjson
+        template: recipes/alignment/bwa-SE.sh
+    }
+
+    {
+        json: recipes/alignment/bwa-PE.hjson
+        template: recipes/alignment/bwa-PE.sh
     }
 
 ]

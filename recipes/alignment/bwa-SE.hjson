@@ -23,9 +23,9 @@
 
     settings: {
         name: BWA Single End Alignment
-        image: bwa.png
+        image: bwa-SE.png
         index: bam/alignment.bam
-        summary: Generates an alignment file of single end reads to a reference genome using the `bwa mem` algorithm.
+        summary: Produces BAM alignments using the `bwa mem` algorithm in single end mode.
         help:
             '''
 
