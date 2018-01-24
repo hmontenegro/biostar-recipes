@@ -51,6 +51,11 @@ analyses: [
         template: recipes/alignment/bwa-PE.sh
     }
 
+    {
+        json: recipes/genes/gene-prediction.hjson
+        template: recipes/genes/gene-prediction.sh
+    }
+
 ]
 
 data: [
@@ -76,7 +81,19 @@ data: [
         summary: This collections contains two different paired-end sequencing runs.
     }
 
+    {
+        name: Augustus Test Sequence.fa
+        value: export/local/augustus/sag178.fa
+        type: FASTA
+        summary: Semi artificial genomic sequences from Guigo et al
+    }
 
+    {
+        name: Augustus Test GFF File.gff
+        value: export/local/augustus/sag178.gff
+        type: GFF
+        summary: Semi artificial genomic sequences from Guigo et al
+    }
 
 ]
 

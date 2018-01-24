@@ -28,9 +28,9 @@ samtools index ${BAM}
 
 # Produce an alignment report.
 echo "Compute alignment statistics."
-echo "-------- $fname -------" > report.txt
+echo "-------- $BAM -------" > report.txt
 samtools flagstat ${BAM} >> report.txt
-echo "-------- $fname -------" >> report.txt
+echo "-------- $BAM -------" >> report.txt
 samtools idxstats ${BAM} >> report.txt
 
 # Show the statistics on the output.

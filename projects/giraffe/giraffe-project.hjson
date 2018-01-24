@@ -6,7 +6,7 @@ settings: {
 
     name: Giraffe Genome Assembly and Annotation
 
-    image: giraffe-annotation.jpg
+    image: giraffe-project.jpg
 
     summary: '''
         This project contains data and analysis recipes for studying the genome of giraffe and okapi.
@@ -19,19 +19,10 @@ settings: {
 
 analyses: [
 
-    {
-        json: biostar/recipes/qc/multiqc.hjson
-        template: biostar/recipes/qc/multiqc.sh
-    }
 
     {
-        json: biostar/tools/align/scaffold_check.hjson
-        template: biostar/tools/align/scaffold_check.sh
-    }
-
-    {
-        json: biostar/tools/gene_pred/gene_pred.hjson
-        template: biostar/tools/gene_pred/gene_pred.sh
+        json: recipes/genes/gene-prediction.hjson
+        template: recipes/genes/gene-prediction.sh
     }
 
 ]

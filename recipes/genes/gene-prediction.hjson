@@ -1,0 +1,55 @@
+{
+
+    sequence: {
+        value: Augustus Test Sequence.fa
+        label: Assembly
+        type: FASTA
+        display: DROPDOWN
+        source: PROJECT
+    }
+
+    species: {
+        label: Training set
+        value: human
+        display: DROPDOWN
+        choices:[
+            [ "human", "Human" ]
+        ]
+    }
+
+    processors: {
+        value: 15
+    }
+
+    settings:
+    {
+        name: Augustus Gene Prediction
+        image: gene-prediction.png
+        index: result-preview.txt
+        summary: Predicts genes in a sequence then annotates them by find closest matches.
+        help:
+            '''
+
+            # Help
+
+            This analysis predicts genes in an assembled genome using augustus. Species to be used as training set must be
+            given.
+
+            It then annotates all predicted transcripts using diamond-blastx against NR database. Blastx results are
+            parsed to remove hypothetical and uncharacterized proteins and selects annotations from Bovine(Bos) genus.
+
+            The output of this analysis includes all predicted genes as a GFF file and transcript annotations in tabular format.
+
+            # Parameters
+
+            1. Assembled mutifasta file.
+            2. Species to be used as training set.
+
+            # Results
+
+            1. Predicted genes in GFF format.
+            2. Annotated transcripts in tabular format.
+
+            '''
+    }
+}
