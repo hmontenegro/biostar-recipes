@@ -26,7 +26,7 @@ PROTEINS=${AUGUSTUS}/proteins.fa
 mkdir -p tmp
 
 {% verbatim %}
-cat $SEQUENCE | parallel --j $NPROC --blocksize 5M --recstart '>' --pipe "cat > tmp/{%} && augustus --species=$SPECIES tmp/{%}" > $GENES
+cat $SEQUENCE | parallel --j $NPROC --blocksize 5M --recstart '>' --pipe " cat > tmp/{%} && augustus --species=$SPECIES tmp/{%}" > $GENES
 {% endverbatim %}
 rm -rf tmp
 

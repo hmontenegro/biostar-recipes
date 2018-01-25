@@ -24,7 +24,7 @@
     settings:
     {
         name: Augustus Gene Prediction
-        image: gene-prediction.png
+        image: augustus.png
         index: result-preview.txt
         summary: Predicts genes in a sequence then annotates them by find closest matches.
         help:

@@ -52,8 +52,8 @@ analyses: [
     }
 
     {
-        json: recipes/genes/gene-prediction.hjson
-        template: recipes/genes/gene-prediction.sh
+        json: recipes/genes/augustus.hjson
+        template: recipes/genes/augustus.sh
     }
 
 ]
@@ -83,16 +83,16 @@ data: [
 
     {
         name: Augustus Test Sequence.fa
-        value: export/local/augustus/sag178.fa
+        value: export/local/augustus/adh.fa
         type: FASTA
-        summary: Semi artificial genomic sequences from Guigo et al
+        summary: A 2.9 Mb long sequence from the Drosophila adh region (copied from the GASP dataset page)
     }
 
     {
         name: Augustus Test GFF File.gff
-        value: export/local/augustus/sag178.gff
+        value: export/local/augustus/adh.gff
         type: GFF
-        summary: Semi artificial genomic sequences from Guigo et al
+        summary: Genes from a  2.9 Mb long sequence from the Drosophila adh region.
     }
 
 ]
