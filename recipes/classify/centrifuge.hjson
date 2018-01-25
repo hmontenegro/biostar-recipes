@@ -1,7 +1,7 @@
 {
 
-  reads: {
-        value: FASTQ Data Collection
+    reads: {
+        value: Single End Reads.fq
         label: Sequencing Data Directory
         help: Multiple paired-end sequencing reads.
         source: PROJECT
@@ -13,30 +13,50 @@
     {
         name: Classify with Centrifuge
         image: centrifuge.jpg
-
-        summary: Predicts genes in a sequence then annotates them by find closest matches.
+        summary: Classify short reads against Bacteria, Archaea, Viruses, Human DNA.
         help:
             '''
 
             # Help
 
-            This analysis predicts genes in an assembled genome using augustus. Species to be used as training set must be
-            given.
+            Centrifuge is a microbial classification software that enables rapid, accurate,
+            and sensitive labeling of reads and quantification of species.
 
-            It then annotates all predicted transcripts using diamond-blastx against NR database. Blastx results are
-            parsed to remove hypothetical and uncharacterized proteins and selects annotations from Bovine(Bos) genus.
+            This recipe will execute the Centrifuge software and classify against Bacteria, Archaea, Viruses, Human
+            datasets. The output of the tool are
 
-            The output of this analysis includes all predicted genes as a GFF file and transcript annotations in tabular format.
+            The resulting datasets are text reports listing each species that that was found in the sample:
 
-            # Parameters
+            ```
+            0.00	0	0	U	0	unclassified
+            92.25	8186	0	-	1	root
+            53.68	4764	0	-	28384	  other sequences
+            53.68	4764	0	-	81077	    artificial sequences
+            53.68	4764	4764	S	32630	      synthetic construct
+            26.65	2364	0	D	10239	  Viruses
+            26.65	2364	0	-	439488	    ssRNA viruses
+            26.65	2364	0	-	35301	      ssRNA negative-strand viruses
+            26.65	2364	0	O	11157	        Mononegavirales
+            26.65	2364	0	F	11266	          Filoviridae
+            26.65	2364	0	G	186536	            Ebolavirus
+            26.63	2363	2363	S	186538	              Zaire ebolavirus
+            0.01	1	1	S	186541	              Tai Forest ebolavirus
+            11.92	1057	0	-	131567	  cellular organisms
+            11.11	986	0	D	2	    Bacteria
+            9.48	841	0	P	1224	      Proteobacteria
+            4.98	442	0	C	28211	        Alphaproteobacteria
+            4.54	402	0	O	356	          Rhizobiales
+            3.36	298	0	F	41294	            Bradyrhizobiaceae
+            3.23	286	0	G	374	              Bradyrhizobium
+            2.99	265	265	S	288000	                Bradyrhizobium sp. BTAi1
+            0.07	6	6	S	1355477	                Bradyrhizobium diazoefficiens
+            0.03	3	3	S	375	                Bradyrhizobium japonicum
+            0.03	3	3	S	114615	                Bradyrhizobium sp. ORS 278
+            0.03	3	3	S	335659	                Bradyrhizobium sp. S23321
+            ```
 
-            1. Assembled mutifasta file.
-            2. Species to be used as training set.
+            Tools website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
 
-            # Results
-
-            1. Predicted genes in GFF format.
-            2. Annotated transcripts in tabular format.
 
             '''
     }

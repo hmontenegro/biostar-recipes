@@ -1,8 +1,8 @@
 {
 
     sequence: {
-        value: Augustus Test Sequence.fa
-        label: Assembly
+        value: ADH partial region.fa
+        label: Sequence
         type: FASTA
         display: DROPDOWN
         source: PROJECT
@@ -22,18 +22,13 @@
     {
         name: Augustus Gene Prediction
         image: augustus.png
-        index: result-preview.txt
-        summary: Predicts genes in a sequence then annotates them by find closest matches.
+        summary: Predicts genes in a sequence.
         help:
             '''
 
             # Help
 
-            This analysis predicts genes in an assembled genome using augustus. Species to be used as training set must be
-            given.
-
-            It then annotates all predicted transcripts using diamond-blastx against NR database. Blastx results are
-            parsed to remove hypothetical and uncharacterized proteins and selects annotations from Bovine(Bos) genus.
+            This analysis predicts genes in an assembled genome using augustus.
 
             The output of this analysis includes all predicted genes as a GFF file and transcript annotations in tabular format.
 

@@ -56,6 +56,11 @@ analyses: [
         template: recipes/genes/augustus.sh
     }
 
+    {
+        json: recipes/classify/centrifuge.hjson
+        template: recipes/classify/centrifuge.sh
+    }
+
 ]
 
 data: [
@@ -82,14 +87,14 @@ data: [
     }
 
     {
-        name: Augustus Test Sequence.fa
+        name: ADH partial region.fa
         value: export/local/augustus/adh.fa
         type: FASTA
         summary: A 2.9 Mb long sequence from the Drosophila adh region (copied from the GASP dataset page)
     }
 
     {
-        name: Augustus Test GFF File.gff
+        name: ADH partial region.gff
         value: export/local/augustus/adh.gff
         type: GFF
         summary: Genes from a  2.9 Mb long sequence from the Drosophila adh region.
