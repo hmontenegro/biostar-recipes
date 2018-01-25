@@ -7,9 +7,6 @@ SEQUENCE={{sequence.value}}
 # Species to be used as training set.
 SPECIES={{species.value}}
 
-# No. of processors to be used.
-NPROC={{processors.value}}
-
 # Augustus results directory.
 RESULTS_DIR={{runtime.work_dir}}/results
 

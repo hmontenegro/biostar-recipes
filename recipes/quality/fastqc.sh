@@ -4,7 +4,7 @@ set -ue
 INPUTS={{reads.toc}}
 
 # The directory that contains the reports.
-mkdir -p reports
+mkdir -p results
 
 # Add extra flags if the group parameter was selected.
 if [ "{{group.value}}" == "nogroup" ]; then
@@ -14,4 +14,4 @@ else
 fi
 
 # Run fastqc on selected files.
-cat ${INPUTS} | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o reports
+cat ${INPUTS} | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o results
