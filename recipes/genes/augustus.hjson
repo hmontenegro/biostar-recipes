@@ -14,6 +14,7 @@
         display: DROPDOWN
         choices:[
             [ "human", "Human" ]
+            [ "fly", "Fruit Fly" ]
         ]
     }
 

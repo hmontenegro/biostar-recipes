@@ -11,30 +11,28 @@ SPECIES={{species.value}}
 NPROC={{processors.value}}
 
 # Augustus results directory.
-AUGUSTUS={{runtime.work_dir}}/augustus
+RESULTS_DIR={{runtime.work_dir}}/results
 
 # Create AUGUSTUS directory.
-mkdir -p $AUGUSTUS
+mkdir -p $RESULTS_DIR
 
-# Augustus result files.
-GENES=${AUGUSTUS}/annotations.gtf
-PROTEINS=${AUGUSTUS}/proteins.fa
+# Result files.
+GENES=${RESULTS_DIR}/annotations.txt
 
-# Run the Augustus gene predictor in parallel on each contig.
-# Use the verbatim  block when a special character is in conflict with
-# the Django Templating Language
-mkdir -p tmp
+# The protein file.
+PROTEINS=${RESULTS_DIR}/proteins.fa
 
-{% verbatim %}
-cat $SEQUENCE | parallel --j $NPROC --blocksize 5M --recstart '>' --pipe " cat > tmp/{%} && augustus --species=$SPECIES tmp/{%}" > $GENES
-{% endverbatim %}
-rm -rf tmp
+# Augustus configuration path location.
+AUGUSTUS_CONFIG_PATH=/export/src/augustus/config
+
+# Run the Augustus on the sequence.
+augustus --species=$SPECIES $SEQUENCE > $GENES
 
 # Make the proteins.fa file from the Augustus predicted GTF file.
-getAnnoFasta_mod.pl $GENES
+getAnnoFasta.pl $GENES
 
 # Change the name of the output.
-mv ${AUGUSTUS}/genes.aa ${PROTEINS}
+mv ${RESULTS_DIR}/annotations.aa ${PROTEINS}
 
 
 
