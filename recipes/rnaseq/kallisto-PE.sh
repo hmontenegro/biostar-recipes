@@ -24,26 +24,18 @@ fi
 # Calculate abundances using kallisto.
 cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2 -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
 
-# Create a combined count table for all samples.
+# Create a combined abundance table for all samples.
 
-# Get all abundance files.
-find results -name "abundance.tsv"  | cut -d "/" -f 2 | parallel cp results/{}/abundance.tsv {}_abundance.txt
+# Get all counts with est_count column renamed with sample_name
+ls -d results/* | cut -f 2 -d "/" |parallel "sed -e 1s/est_counts/{.}/ results/{}/abundance.tsv | cut -f 4 >{}_counts.txt"
 
-# Add sample names to count column.
-ls *abundance.txt | parallel sed -i  -e 's/est_counts/{.}/' -e 's/.out_abundance//' {}
+# Combine counts from all samples.
+paste *counts.txt >all.txt
 
-# Combine all abundance files.
-paste *abundance.txt >all.txt
-
-# Extract count column for all samples.
-cat all.txt | awk '{OFS="\t"; for(i=4; i<=NF; i+=5) printf("%s\t",$i); print ""}' >vals.txt
-
-# Extract transcript ids.
-cat all.txt | cut -f 1 >ids.txt
-
-# Merge transcript ids with counts to create count table.
-paste ids.txt vals.txt > results/counts.txt
+# Add  transcripts ids to the counts.
+ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - all.txt > raw_abundance.txt
 
 # Remove intermediate files.
-rm -f *abundance.txt all.txt vals.txt ids.txt *.bak
+rm -f all.txt *counts.txt
+
 
