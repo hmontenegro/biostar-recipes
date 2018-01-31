@@ -1,15 +1,14 @@
 {
-  reads:
-  {
-    value: FASTQ Data Collection
-    label: Sequencing Data Directory
+  reads: {
+    value: RNA-Seq Foo.fa
+    label: Input Reads
     help: Multiple paired-end sequencing reads.
     source: PROJECT
     type: FASTQ
     display: DROPDOWN
   }
-  genome:
-  {
+
+  genome: {
     value: Ebola Genome.fa
     label: Reference genome
     help: The reference genome
@@ -17,12 +16,12 @@
     type: FASTA
     display: DROPDOWN
   }
-  threads:
-  {
+
+  threads: {
     value: 4
   }
-  settings:
-  {
+
+  settings: {
     name: BWA Paired End Alignment
     image: bwa-PE.png
     index: bam/alignment.bam

@@ -100,6 +100,13 @@ data: [
         summary: Genes from a  2.9 Mb long sequence from the Drosophila adh region.
     }
 
+    {
+        name: RNA-Seq Pair End Collection
+        value: export/local/rnaseq/pairs
+        type: FASTA
+        summary: Foo data.
+    }
+
 ]
 
 

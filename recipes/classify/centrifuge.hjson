@@ -1,63 +1,62 @@
 {
-
-    reads: {
-        value: Single End Reads.fq
-        label: Sequencing Data Directory
-        help: Multiple paired-end sequencing reads.
-        source: PROJECT
-        type: FASTQ
-        display: DROPDOWN
-    }
-
+  reads:
+  {
+    value: Single End Reads.fq
+    label: Sequencing Data Directory
+    help: Multiple paired-end sequencing reads.
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
   settings:
-    {
-        name: Classify with Centrifuge
-        image: centrifuge.jpg
-        summary: Classify short reads against Bacteria, Archaea, Viruses, Human DNA.
-        help:
-            '''
+  {
+    name: Classify with Centrifuge
+    image: centrifuge.jpg
+    summary: Classify short reads against Bacteria, Archaea, Viruses, Human DNA.
+    help:
+      '''
 
-            # Help
+      # Help
 
-            Centrifuge is a microbial classification software that enables rapid, accurate,
-            and sensitive labeling of reads and quantification of species.
+      Centrifuge is a microbial classification software that enables rapid, accurate,
+      and sensitive labeling of reads and quantification of species.
 
-            This recipe will execute the Centrifuge software and classify against Bacteria, Archaea, Viruses, Human
-            datasets. The output of the tool are
+      This recipe will execute the Centrifuge software and classify against Bacteria, Archaea, Viruses, Human
+      datasets. The output of the tool are
 
-            The resulting datasets are text reports listing each species that that was found in the sample:
+      The resulting datasets are text reports listing each species that that was found in the sample:
 
-            ```
-            0.00	0	0	U	0	unclassified
-            92.25	8186	0	-	1	root
-            53.68	4764	0	-	28384	  other sequences
-            53.68	4764	0	-	81077	    artificial sequences
-            53.68	4764	4764	S	32630	      synthetic construct
-            26.65	2364	0	D	10239	  Viruses
-            26.65	2364	0	-	439488	    ssRNA viruses
-            26.65	2364	0	-	35301	      ssRNA negative-strand viruses
-            26.65	2364	0	O	11157	        Mononegavirales
-            26.65	2364	0	F	11266	          Filoviridae
-            26.65	2364	0	G	186536	            Ebolavirus
-            26.63	2363	2363	S	186538	              Zaire ebolavirus
-            0.01	1	1	S	186541	              Tai Forest ebolavirus
-            11.92	1057	0	-	131567	  cellular organisms
-            11.11	986	0	D	2	    Bacteria
-            9.48	841	0	P	1224	      Proteobacteria
-            4.98	442	0	C	28211	        Alphaproteobacteria
-            4.54	402	0	O	356	          Rhizobiales
-            3.36	298	0	F	41294	            Bradyrhizobiaceae
-            3.23	286	0	G	374	              Bradyrhizobium
-            2.99	265	265	S	288000	                Bradyrhizobium sp. BTAi1
-            0.07	6	6	S	1355477	                Bradyrhizobium diazoefficiens
-            0.03	3	3	S	375	                Bradyrhizobium japonicum
-            0.03	3	3	S	114615	                Bradyrhizobium sp. ORS 278
-            0.03	3	3	S	335659	                Bradyrhizobium sp. S23321
-            ```
+      ```
+      0.00	0	0	U	0	unclassified
+      92.25	8186	0	-	1	root
+      53.68	4764	0	-	28384	  other sequences
+      53.68	4764	0	-	81077	    artificial sequences
+      53.68	4764	4764	S	32630	      synthetic construct
+      26.65	2364	0	D	10239	  Viruses
+      26.65	2364	0	-	439488	    ssRNA viruses
+      26.65	2364	0	-	35301	      ssRNA negative-strand viruses
+      26.65	2364	0	O	11157	        Mononegavirales
+      26.65	2364	0	F	11266	          Filoviridae
+      26.65	2364	0	G	186536	            Ebolavirus
+      26.63	2363	2363	S	186538	              Zaire ebolavirus
+      0.01	1	1	S	186541	              Tai Forest ebolavirus
+      11.92	1057	0	-	131567	  cellular organisms
+      11.11	986	0	D	2	    Bacteria
+      9.48	841	0	P	1224	      Proteobacteria
+      4.98	442	0	C	28211	        Alphaproteobacteria
+      4.54	402	0	O	356	          Rhizobiales
+      3.36	298	0	F	41294	            Bradyrhizobiaceae
+      3.23	286	0	G	374	              Bradyrhizobium
+      2.99	265	265	S	288000	                Bradyrhizobium sp. BTAi1
+      0.07	6	6	S	1355477	                Bradyrhizobium diazoefficiens
+      0.03	3	3	S	375	                Bradyrhizobium japonicum
+      0.03	3	3	S	114615	                Bradyrhizobium sp. ORS 278
+      0.03	3	3	S	335659	                Bradyrhizobium sp. S23321
+      ```
 
-            Tools website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
+      Tools website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
 
 
-            '''
-    }
+      '''
+  }
 }

@@ -1,47 +1,53 @@
 {
+  sequence:
+  {
+    value: ADH partial region.fa
+    label: Sequence
+    type: FASTA
+    display: DROPDOWN
+    source: PROJECT
+  }
+  species:
+  {
+    label: Training set
+    value: human
+    display: DROPDOWN
+    choices:
+    [
+      [
+        human
+        Human
+      ]
+      [
+        fly
+        Fruit Fly
+      ]
+    ]
+  }
+  settings:
+  {
+    name: Augustus Gene Prediction
+    image: augustus.png
+    summary: Predicts genes in a sequence.
+    help:
+      '''
 
-    sequence: {
-        value: ADH partial region.fa
-        label: Sequence
-        type: FASTA
-        display: DROPDOWN
-        source: PROJECT
-    }
+      # Help
 
-    species: {
-        label: Training set
-        value: human
-        display: DROPDOWN
-        choices:[
-            [ "human", "Human" ]
-            [ "fly", "Fruit Fly" ]
-        ]
-    }
+      This analysis predicts genes in an assembled genome using augustus.
 
-    settings:
-    {
-        name: Augustus Gene Prediction
-        image: augustus.png
-        summary: Predicts genes in a sequence.
-        help:
-            '''
+      The output of this analysis includes all predicted genes as a GFF file and transcript annotations in tabular format.
 
-            # Help
+      # Parameters
 
-            This analysis predicts genes in an assembled genome using augustus.
+      1. Assembled mutifasta file.
+      2. Species to be used as training set.
 
-            The output of this analysis includes all predicted genes as a GFF file and transcript annotations in tabular format.
+      # Results
 
-            # Parameters
+      1. Predicted genes in GFF format.
+      2. Annotated transcripts in tabular format.
 
-            1. Assembled mutifasta file.
-            2. Species to be used as training set.
-
-            # Results
-
-            1. Predicted genes in GFF format.
-            2. Annotated transcripts in tabular format.
-
-            '''
-    }
+      '''
+  }
 }

@@ -22,7 +22,7 @@ push:
 mothur:
 	python manage.py project --json projects/metagenome/mothur-project.hjson --privacy public --jobs
 
-get_data: dir
+data: dir
 	(cd export && rsync -avz ${USER}@${DATA_HOST}:${DATA_DIR}/${DATA_FILE} . )
 	(cd export && tar zxvf ${DATA_FILE})
 
