@@ -2,47 +2,48 @@ set -ueo pipefail
 
 # Obtain the parameters.
 INPUT={{reads.toc}}
-GENOME={{genome.value}}
+TRANSCRIPTS={{transcripts.value}}
 
-# Build the BWA index.
+# Directory with Kallisto results.
+mkdir -p results
+
+# Build the Kallisto index.
 INDEX_DIR={{runtime.local_root}}/temp
 mkdir -p ${INDEX_DIR}
-INDEX=${INDEX_DIR}/{{genome.uid}}
+INDEX=${INDEX_DIR}/{{transcripts.uid}}
 
-# This directory will store the alignment.
-mkdir -p bam
 
-# Build the BWA index it does not already exist.
-if [ ! -f "$INDEX.bwt" ]; then
-    echo "Building the bwa index."
-    bwa index -p ${INDEX} ${GENOME}
+# Build the Kallisto index it does not already exist.
+if [ ! -f "$INDEX.idx" ]; then
+    echo "Building the kallisto index."
+    kallisto index -i ${INDEX} ${TRANSCRIPTS}
 else
-    echo "Found an existing bwa index."
+    echo "Found an existing kallisto index."
 fi
 
-# Align sequences
-echo  "Aligning reads to the genome."
-cat ${INPUT} | egrep "fastq|fq" | sort | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> bwa.log | samtools sort > bam/{1/.}.bam"
+# Calculate abundances using kallisto.
+cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2 -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
 
-# Generate the indices
-ls -1 bam/*.bam | parallel samtools index {}
+# Create a combined count table for all samples.
 
-# Generate an alignment report on each.
-echo "Compute alignment statistics."
+# Get all abundance files.
+find results -name "abundance.tsv"  | cut -d "/" -f 2 | parallel cp results/{}/abundance.tsv {}_abundance.txt
 
-# Reset the file.
-echo '' > report.txt
+# Add sample names to count column.
+ls *abundance.txt | parallel sed -i  -e 's/est_counts/{.}/' -e 's/.out_abundance//' {}
 
-for fname in bam/*.bam; do
+# Combine all abundance files.
+paste *abundance.txt >all.txt
 
-    echo "-------- $fname -------" >> report.txt
-    samtools flagstat ${fname} >> report.txt
+# Extract count column for all samples.
+cat all.txt | awk '{OFS="\t"; for(i=4; i<=NF; i+=5) printf("%s\t",$i); print ""}' >vals.txt
 
-    echo "-------- $fname -------" >> report.txt
-    samtools idxstats ${fname} >> report.txt
+# Extract transcript ids.
+cat all.txt | cut -f 1 >ids.txt
 
-done
+# Merge transcript ids with counts to create count table.
+paste ids.txt vals.txt > results/counts.txt
 
-# Show the statistics on the output.
-cat report.txt | head -100
+# Remove intermediate files.
+rm -f *abundance.txt all.txt vals.txt ids.txt *.bak
 
