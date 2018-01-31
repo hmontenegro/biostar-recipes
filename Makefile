@@ -23,9 +23,10 @@ mothur:
 	python manage.py project --json projects/metagenome/mothur-project.hjson --privacy public --jobs
 
 data: dir
-	(cd export && rsync -avz ${USER}@${DATA_HOST}:${DATA_DIR}/${DATA_FILE} . )
+	(cd export && curl http://data.bioinformatics.recipes/initial/${DATA_FILE} > ${DATA_FILE} )
 	(cd export && tar zxvf ${DATA_FILE})
 
 pack: dir
 	(cd export && tar czvf ${DATA_FILE} local )
+	(cd export && cp -f ${DATA_FILE} ../biostar-engine)
 	(cd export && rsync -avz ${DATA_FILE} ${USER}@${DATA_HOST}:${DATA_DIR}/)
