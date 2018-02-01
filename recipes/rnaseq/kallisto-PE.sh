@@ -13,11 +13,11 @@ mkdir -p tmp
 # Build the Kallisto index.
 INDEX_DIR={{runtime.local_root}}/temp
 mkdir -p ${INDEX_DIR}
-INDEX=${INDEX_DIR}/{{transcripts.uid}}
+INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 
 
 # Build the Kallisto index it does not already exist.
-if [ ! -f "$INDEX.idx" ]; then
+if [ ! -f ${INDEX} ]; then
     echo "Building the kallisto index."
     kallisto index -i ${INDEX} ${TRANSCRIPTS}
 else
@@ -27,7 +27,7 @@ fi
 # Calculate abundances using kallisto.
 cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
 
-# Create a combined abundance table for all samples.
+# Create a combined count table for all samples.
 
 # Directory name is the sample name.
 # Rename est_count column to sample name and extract it into a new file.
