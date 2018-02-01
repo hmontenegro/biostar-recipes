@@ -107,16 +107,22 @@ data: [
 
     {
         name: RNA-Seq Paired End Collection
-        value: export/local/rnaseq/reads
+        value: export/local/rnaseq/reads-PE
         type: FASTQ
         summary: This collection contains paired end data from 6 samples under 2 conditions(Griffith dataset subset).
+    }
+    {
+        name: RNA-Seq Single End Collection
+        value: export/local/rnaseq/reads-SE
+        type: FASTQ
+        summary: This collection contains single end data from 6 samples under 2 conditions(Griffith dataset subset).
     }
 
     {
         name: Transcripts from chr22 human genome.fa
-        value: export/local/rnaseq/chr22_ERCC92_transcripts.fa
+        value: export/local/rnaseq/chr22_transcripts.fa
         type: FASTA
-        summary: Transcript sequences from human chromosome 22 and ERCC spike in control sequences.
+        summary: Transcript sequences from human chromosome 22.
     }
 
 ]
