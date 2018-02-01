@@ -2,47 +2,41 @@ set -ueo pipefail
 
 # Obtain the parameters.
 INPUT={{reads.toc}}
-GENOME={{genome.value}}
+TRANSCRIPTS={{transcripts.value}}
 
-# Build the BWA index.
+# Directory with Kallisto results.
+mkdir -p results
+
+# Directory with intermediate files.
+mkdir -p tmp
+
+# Build the Kallisto index.
 INDEX_DIR={{runtime.local_root}}/temp
 mkdir -p ${INDEX_DIR}
-INDEX=${INDEX_DIR}/{{genome.uid}}
+INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 
-# This directory will store the alignment.
-mkdir -p bam
 
-# Build the BWA index it does not already exist.
-if [ ! -f "$INDEX.bwt" ]; then
-    echo "Building the bwa index."
-    bwa index -p ${INDEX} ${GENOME}
+# Build the Kallisto index it does not already exist.
+if [ ! -f ${INDEX} ]; then
+    echo "Building the kallisto index."
+    kallisto index -i ${INDEX} ${TRANSCRIPTS}
 else
-    echo "Found an existing bwa index."
+    echo "Found an existing kallisto index."
 fi
 
-# Align sequences
-echo  "Aligning reads to the genome."
-cat ${INPUT} | egrep "fastq|fq" | sort | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> bwa.log | samtools sort > bam/{1/.}.bam"
+# Calculate abundances using kallisto.
+cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
 
-# Generate the indices
-ls -1 bam/*.bam | parallel samtools index {}
+# Create a combined count table for all samples.
 
-# Generate an alignment report on each.
-echo "Compute alignment statistics."
+# Directory name is the sample name.
+# Rename est_count column to sample name and extract it into a new file.
+ls -d results/* | cut -f 2 -d "/" | parallel "sed -e 1s/est_counts/{.}/ results/{}/abundance.tsv | cut -f 4 >tmp/{}_counts.txt"
 
-# Reset the file.
-echo '' > report.txt
+# Combine all counts into a single file.
+paste tmp/*counts.txt > tmp/all.txt
 
-for fname in bam/*.bam; do
+# Add  transcript ids to the counts.
+ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > sample_counts.txt
 
-    echo "-------- $fname -------" >> report.txt
-    samtools flagstat ${fname} >> report.txt
-
-    echo "-------- $fname -------" >> report.txt
-    samtools idxstats ${fname} >> report.txt
-
-done
-
-# Show the statistics on the output.
-cat report.txt | head -100
 
