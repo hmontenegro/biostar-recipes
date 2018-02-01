@@ -10,7 +10,7 @@
   }
   settings:
   {
-    name: Classify with Centrifuge
+    name: Classification with Centrifuge
     image: centrifuge.jpg
     summary: Classify short reads against Bacteria, Archaea, Viruses, Human DNA.
     help:
