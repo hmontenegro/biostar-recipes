@@ -7,7 +7,7 @@ INPUT={{reads.toc}}
 # Estimated average fragment length.
 FRAG_LEN={{fragment_length.value}}
 
-# Estimated standard devitaion of fragment length
+# Estimated standard devitaion of fragment length.
 FRAG_SD={{fragment_sd.value}}
 
 # Reference transcriptome.
