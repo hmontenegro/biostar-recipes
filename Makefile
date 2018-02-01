@@ -28,5 +28,4 @@ data: dir
 
 pack: dir
 	(cd export && tar czvf ${DATA_FILE} local )
-	(cd export && cp -f ${DATA_FILE} ../biostar-engine)
 	(cd export && rsync -avz ${DATA_FILE} ${USER}@${DATA_HOST}:${DATA_DIR}/)
