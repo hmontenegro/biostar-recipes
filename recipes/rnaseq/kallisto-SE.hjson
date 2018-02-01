@@ -46,7 +46,6 @@
     summary: Produces transcript abundance estimations using `kallisto quant` algorithm in single end mode.
     help:
       '''
-
       # Help
 
       This recipe produce transcript abundances of single end sequencing reads.
