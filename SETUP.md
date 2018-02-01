@@ -28,4 +28,12 @@ A list of data  that need to be installed
     (cd $DIR && tar xzvf augustus.current.tar.gz)
     sudo apt-get install bamtools libbamtools-dev
     (cd $DIR/augustus && make)
-    ln -fs $DIR/augustus/bin/augustus /export/bin
+    
+then one of:
+    
+    #
+    #(cd $DIR/augustus && sudo make install)
+    #
+    # Alternatively link each required executable.
+    #ln -fs $DIR/augustus/bin/augustus /export/bin
+    # ln -fs $DIR/augustus/bin/augustus /export/bin

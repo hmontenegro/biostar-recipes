@@ -23,7 +23,7 @@
 
   settings: {
     name: BWA Paired End Alignment
-    image: bwa-PE.png
+    image: bwa-PE.jpg
     index: bam/alignment.bam
     summary: Produces BAM alignments using the `bwa mem` algorithm in paired end mode.
     help:
