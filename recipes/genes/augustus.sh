@@ -1,5 +1,5 @@
 # Stop on any error.
-set -uxe
+set -ue
 
 # Assembly scaffolds.
 SEQUENCE={{sequence.value}}
@@ -20,7 +20,7 @@ GENES=${RESULTS_DIR}/annotations.txt
 PROTEINS=${RESULTS_DIR}/proteins.fa
 
 # Augustus configuration path location.
-AUGUSTUS_CONFIG_PATH=/export/src/augustus/config
+export AUGUSTUS_CONFIG_PATH=/export/src/augustus/config
 
 # Run the Augustus on the sequence.
 augustus --species=$SPECIES $SEQUENCE > $GENES
@@ -31,5 +31,6 @@ getAnnoFasta.pl $GENES
 # Change the name of the output.
 mv ${RESULTS_DIR}/annotations.aa ${PROTEINS}
 
-
+# Print the first few lines.
+cat $GENES | head -50
 
