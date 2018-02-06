@@ -32,5 +32,5 @@ getAnnoFasta.pl $GENES
 mv ${RESULTS_DIR}/annotations.aa ${PROTEINS}
 
 # Print the first few lines.
-cat $GENES | head -50
+cat $GENES | head -75
 
