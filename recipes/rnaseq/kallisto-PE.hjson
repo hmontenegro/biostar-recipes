@@ -35,7 +35,7 @@
 
       # Parameters
 
-      1. Input data collection in FASTQ format. File names should be such that, when sorted they group by pairs.
+      1. Input data collection in FASTQ format. File names should be such that, when sorted replicates group together.
       2. Reference transcriptome sequence in FASTA format.
 
       # Results

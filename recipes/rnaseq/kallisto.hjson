@@ -1,0 +1,91 @@
+{
+  reads: {
+    value: RNA-Seq Paired End Collection
+    label: Input Reads
+    help: Multiple sequencing reads
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+
+  transcripts: {
+    value: Transcripts from chr22 human genome.fa
+    label: Reference transcriptome
+    help: The reference transcriptome
+    source: PROJECT
+    type: FASTA
+    display: DROPDOWN
+  }
+
+  protocol: {
+    label: Sequencing Protocol
+    display: DROPDOWN
+    choices: [
+      [ "single", "Single End" ]
+      [ "paired", "Paired End" ]
+    ]
+    value: single
+  }
+
+  sub_sample: {
+    label: Fraction to sub-sample.
+    display: DROPDOWN
+    choices: [
+      [ 0.1, "10%" ]
+      [ 0.25, "25%" ]
+      [ 0.5, "50%" ]
+      [1.0, "100%" ]
+    ]
+    value: 1.0
+    }
+
+  se_specific: {
+    label: Below are single-end specific options. Ignore if paired-end.
+    display: HIDDEN
+   }
+
+  fragment_length: {
+        value: 200
+        range: [ 50, 1000 ]
+        label: Fragment length
+        help: Estimated average fragment length (Required in Single End mode).
+        display: INTEGER
+    }
+
+  fragment_sd: {
+        value: 20
+        range: [ 1, 50 ]
+        label: Standard deviation of fragment length
+        help: Estimated standard deviation of fragment length (Required in Single End mode).
+        display: INTEGER
+    }
+
+  threads: {
+    value: 4
+  }
+
+  settings: {
+    name: Kallisto Quantification
+    image: kallisto-PE.jpg
+    summary: Produces transcript abundance estimations using `kallisto quant` algorithm.
+    help:
+      '''
+
+      # Help
+
+      This recipe produce transcript abundances of sequencing reads.
+      It can be run on entire directories of data.
+
+      # Parameters
+
+      1. Input data collection in FASTQ format. File names should be such that, when sorted they group by pairs.
+      2. Reference transcriptome sequence in FASTA format.
+
+      # Results
+
+      1. Count table with raw transcript counts from all samples.
+      2. Abundance table with counts and TPM for each sample.
+
+      '''
+  }
+}

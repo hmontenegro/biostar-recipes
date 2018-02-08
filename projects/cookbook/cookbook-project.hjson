@@ -69,6 +69,10 @@ analyses: [
         json: recipes/rnaseq/kallisto-SE.hjson
         template: recipes/rnaseq/kallisto-SE.sh
     }
+    {
+        json: recipes/rnaseq/kallisto.hjson
+        template: recipes/rnaseq/kallisto.sh
+    }
 
 ]
 
