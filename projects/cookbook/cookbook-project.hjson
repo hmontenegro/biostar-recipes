@@ -42,13 +42,8 @@ analyses: [
     }
 
     {
-        json: recipes/alignment/bwa-SE.hjson
-        template: recipes/alignment/bwa-SE.sh
-    }
-
-    {
-        json: recipes/alignment/bwa-PE.hjson
-        template: recipes/alignment/bwa-PE.sh
+        json: recipes/alignment/align.hjson
+        template: recipes/alignment/align.sh
     }
 
     {
