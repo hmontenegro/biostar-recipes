@@ -6,38 +6,40 @@ INPUT={{reads.toc}}
 # Reference Transcriptome.
 TRANSCRIPTS={{transcripts.value}}
 
-# Protocol.
-PROTOCOL={{protocol.value}}
+# Library type.
+LIBRARY={{library.value}}
 
 # Fraction to sub-sample.
-FRACTION={{sub_sample.value}}
+FRACTION={{sampling.value}}
 
-# Directory with intermediate files.
-mkdir -p tmp
+# Directory with sub-sampled data.
+SAMPLED=sampled
+mkdir -p $SAMPLED
 
 # Sub-sample data.
 if [ ${FRACTION} == 1.0 ]; then
-    # DATA and $INPUT are same if $FRACTION=100%
+    # DATA and $INPUT are same if all reads are selected.
     DATA=$INPUT
 else
     # Table of contents with sub-sampled data.
-    DATA=tmp/subset_toc.txt
+    DATA=$SAMPLED/sampled_toc.txt
 
     # Subsample data.
-    cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >tmp/{/.}_subset$FRACTION.fq"
+    echo "Randomly sampling $FRACTION % of data"
+    cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >$SAMPLED/{/.}_sampled$FRACTION.fq"
 
     # Create table of contents with sub-sampled data.
-    ls `pwd`/tmp/*.fq >$DATA
+    ls `pwd`/$SAMPLED/*.fq >$DATA
 fi
 
 # Kallisto index directory.
-INDEX_DIR={{runtime.local_root}}/temp
+INDEX_DIR={{runtime.local_root}}/indices
 mkdir -p ${INDEX_DIR}
 
 # Kallisto index.
 INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 
-# Build the Kallisto index it does not already exist.
+# Build the Kallisto index if it does not already exist.
 
 if [ ! -f ${INDEX} ]; then
     echo "Building the kallisto index."
@@ -49,12 +51,15 @@ fi
 # Directory with Kallisto results.
 mkdir -p results
 
+# Directory with intermediate files.
+mkdir -p tmp
+
 # Calculate abundances using kallisto.
-if [ ${PROTOCOL} == "paired" ]; then
+if [ ${LIBRARY} == "PE" ]; then
     echo "Running kallisto quant algorithm in paired end mode."
     cat ${DATA}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
 else
-    # Obtain additional parameters.
+    # Obtain additional parameters for SE.
     # Estimated average fragment length.
     FRAG_LEN={{fragment_length.value}}
 

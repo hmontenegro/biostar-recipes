@@ -17,26 +17,27 @@
     display: DROPDOWN
   }
 
-  protocol: {
-    label: Sequencing Protocol
-    display: DROPDOWN
-    choices: [
-      [ "single", "Single End" ]
-      [ "paired", "Paired End" ]
-    ]
-    value: single
+  library: {
+        value: PE
+        label: Library type
+        help: See the help for file naming requirement.
+        display: RADIO
+        choices: [
+            ["SE", "Single end"],
+            ["PE", "Paired end" ],
+        ]
   }
 
-  sub_sample: {
-    label: Fraction to sub-sample.
+  sampling: {
+    label: Sampling
+    help: Select random sample if needed.
     display: DROPDOWN
     choices: [
-      [ 0.1, "10%" ]
-      [ 0.25, "25%" ]
-      [ 0.5, "50%" ]
-      [1.0, "100%" ]
-    ]
-    value: 1.0
+          [0.01, "Select 1% of all reads"],
+          [0.1, "Select 10% of all reads" ],
+          [1.0, "Select all reads"],
+      ]
+    value: 0.01
     }
 
   se_specific: {
@@ -78,12 +79,14 @@
 
       # Parameters
 
-      1. Input data collection in FASTQ format. File names should be such that, when sorted they group by pairs.
+      1. Input data collection in FASTQ format. If the data is paired the the naming
+      should be chosen such that after sorting the file names of a pair follow each other.
+      For both paired and single end reads, naming should be such that after sorting replicates should group together.
       2. Reference transcriptome sequence in FASTA format.
 
       # Results
 
-      1. Count table with raw transcript counts from all samples.
+      1. Count table with transcript counts from all samples.
       2. Abundance table with counts and TPM for each sample.
 
       '''
