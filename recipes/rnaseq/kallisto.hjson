@@ -1,0 +1,94 @@
+{
+  reads: {
+    value: RNA-Seq Paired End Collection
+    label: Input Reads
+    help: Multiple sequencing reads
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+
+  transcripts: {
+    value: Transcripts from chr22 human genome.fa
+    label: Reference transcriptome
+    help: The reference transcriptome
+    source: PROJECT
+    type: FASTA
+    display: DROPDOWN
+  }
+
+  library: {
+        value: PE
+        label: Library type
+        help: See the help for file naming requirement.
+        display: RADIO
+        choices: [
+            ["SE", "Single end"],
+            ["PE", "Paired end" ],
+        ]
+  }
+
+  sampling: {
+    label: Sampling
+    help: Select random sample if needed.
+    display: DROPDOWN
+    choices: [
+          [0.01, "Select 1% of all reads"],
+          [0.1, "Select 10% of all reads" ],
+          [1.0, "Select all reads"],
+      ]
+    value: 0.01
+    }
+
+  se_specific: {
+    label: Below are single-end specific options. Ignore if paired-end.
+    display: HIDDEN
+   }
+
+  fragment_length: {
+        value: 200
+        range: [ 50, 1000 ]
+        label: Fragment length
+        help: Estimated average fragment length (Required in Single End mode).
+        display: INTEGER
+    }
+
+  fragment_sd: {
+        value: 20
+        range: [ 1, 50 ]
+        label: Standard deviation of fragment length
+        help: Estimated standard deviation of fragment length (Required in Single End mode).
+        display: INTEGER
+    }
+
+  threads: {
+    value: 4
+  }
+
+  settings: {
+    name: Kallisto Quantification
+    image: kallisto-PE.jpg
+    summary: Produces transcript abundance estimations using `kallisto quant` algorithm.
+    help:
+      '''
+
+      # Help
+
+      This recipe produce transcript abundances of sequencing reads.
+      It can be run on entire directories of data.
+
+      # Parameters
+
+      1. Input data collection in FASTQ format. If the data is paired the the naming
+      should be chosen such that after sorting the file names of a pair follow each other.
+      For both paired and single end reads, naming should be such that after sorting replicates should group together.
+      2. Reference transcriptome sequence in FASTA format.
+
+      # Results
+
+      1. Count table with transcript counts from all samples.
+      2. Abundance table with counts and TPM for each sample.
+
+      '''
+  }
+}

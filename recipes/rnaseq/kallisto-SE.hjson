@@ -7,22 +7,16 @@
     type: FASTQ
     display: DROPDOWN
   }
-  fragment_length:
-    {
+  fragment_length: {
         value: 200
-        range: [
-                 50, 1000
-        ]
+        range: [ 50, 1000 ]
         label: Fragment length
         help: Estimated average fragment length.
         display: INTEGER
     }
-    fragment_sd:
-    {
+    fragment_sd: {
         value: 20
-        range: [
-                  1, 50
-        ]
+        range: [ 1, 50 ]
         label: Standard deviation of fragment length
         help: Estimated standard deviation of fragment length.
         display: INTEGER
