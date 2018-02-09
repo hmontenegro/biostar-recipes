@@ -9,23 +9,23 @@ TRANSCRIPTS={{transcripts.value}}
 # Library type.
 LIBRARY={{library.value}}
 
-# Fraction to sub-sample.
+# Fraction to sub-sample the data.
 FRACTION={{sampling.value}}
 
-# Directory with sub-sampled data.
-SAMPLED=sampled
-mkdir -p $SAMPLED
-
 # Sub-sample data.
-if [ ${FRACTION} == 1.0 ]; then
+if [ ${FRACTION} == 1 ]; then
     # DATA and $INPUT are same if all reads are selected.
     DATA=$INPUT
 else
+    # Directory with sub-sampled data.
+    SAMPLED=sampled
+    mkdir -p $SAMPLED
+
     # Table of contents with sub-sampled data.
     DATA=$SAMPLED/sampled_toc.txt
 
     # Subsample data.
-    echo "Randomly sampling $FRACTION % of data"
+    echo "Randomly sampling $FRACTION fraction of data"
     cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >$SAMPLED/{/.}_sampled$FRACTION.fq"
 
     # Create table of contents with sub-sampled data.
