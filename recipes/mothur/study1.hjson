@@ -12,25 +12,22 @@ input: {
 
 settings: {
         id: classify
-        name: Metagenomics Pipeline
+        name: 16S Metagenomics Pipeline
         image: study1.png
-        index: output
         execute: {
             filename: "commands.txt"
             command: "mothur commands.txt"
         }
-        summary:
-            '''
-            Analysis summary
-            '''
+        summary: A metagenomics pipeline for 16S sequence analysis using the `mothur` software.
         help:
             '''
 
             # Help
 
-            What does this analysis do?
+            This recipe demonstrates a complex pipeline designed to operate on data arranged in a specific manner.
 
-            More detailed help.
+            It follows a mothur Standard Operating Protocol and will generate a wide array of results.
+
 
             '''
     }

@@ -19,10 +19,20 @@ settings: {
 
 analyses: [
 
+    {
+        json: recipes/quality/fastqc.hjson
+        template: recipes/quality/fastqc.sh
+    }
 
     {
-        json: recipes/genes/gene-prediction.hjson
-        template: recipes/genes/gene-prediction.sh
+        json: recipes/alignment/short-read-alignment.hjson
+        template: recipes/alignment/short-read-alignment.sh
+    }
+
+
+    {
+        json: recipes/rnaseq/pseudo-alignment.hjson
+        template: recipes/rnaseq/pseudo-alignment.sh
     }
 
 ]

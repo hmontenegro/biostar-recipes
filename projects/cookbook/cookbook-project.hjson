@@ -3,7 +3,7 @@
 settings: {
     uid: cookbook
 
-    name: Analysis Cookbook
+    name: Bioinformatics Cookbook
 
     image: cookbook-project.png
 
@@ -42,8 +42,8 @@ analyses: [
     }
 
     {
-        json: recipes/alignment/align.hjson
-        template: recipes/alignment/align.sh
+        json: recipes/alignment/short-read-alignment.hjson
+        template: recipes/alignment/short-read-alignment.sh
     }
 
     {
@@ -57,16 +57,8 @@ analyses: [
     }
 
     {
-        json: recipes/rnaseq/kallisto-PE.hjson
-        template: recipes/rnaseq/kallisto-PE.sh
-    }
-    {
-        json: recipes/rnaseq/kallisto-SE.hjson
-        template: recipes/rnaseq/kallisto-SE.sh
-    }
-    {
-        json: recipes/rnaseq/kallisto.hjson
-        template: recipes/rnaseq/kallisto.sh
+        json: recipes/rnaseq/pseudo-alignment.hjson
+        template: recipes/rnaseq/pseudo-alignment.sh
     }
 
 ]

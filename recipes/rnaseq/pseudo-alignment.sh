@@ -10,26 +10,34 @@ TRANSCRIPTS={{transcripts.value}}
 LIBRARY={{library.value}}
 
 # Fraction to sub-sample the data.
-FRACTION={{sampling.value}}
+FRACTION={{fraction.value}}
+
+# Run log to redirect unwanted output.
+RUNLOG=runlog/runlog.txt
+
+# This directory should already exist.
+mkdir -p runlog
+
+# Directory with Kallisto results.
+mkdir -p results
+
+# Directory with intermediate files.
+mkdir -p tmp
 
 # Sub-sample data.
-if [ ${FRACTION} == 1 ]; then
-    # DATA and $INPUT are same if all reads are selected.
-    DATA=$INPUT
-else
-    # Directory with sub-sampled data.
-    SAMPLED=sampled
-    mkdir -p $SAMPLED
-
-    # Table of contents with sub-sampled data.
-    DATA=$SAMPLED/sampled_toc.txt
+if [ ${FRACTION} != 1 ]; then
+    READS=reads
+    mkdir -p $READS
 
     # Subsample data.
     echo "Randomly sampling $FRACTION fraction of data"
-    cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >$SAMPLED/{/.}_sampled$FRACTION.fq"
+    cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >$READS/{/.}.fq"
+
+    # The name of the new table of contents.
+    INPUT=$READS/toc.txt
 
     # Create table of contents with sub-sampled data.
-    ls `pwd`/$SAMPLED/*.fq >$DATA
+    ls -1 $READS/*.fq > $INPUT
 fi
 
 # Kallisto index directory.
@@ -42,32 +50,27 @@ INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 # Build the Kallisto index if it does not already exist.
 if [ ! -f ${INDEX} ]; then
     echo "Building the kallisto index."
-    kallisto index -i ${INDEX} ${TRANSCRIPTS}
+    kallisto index -i ${INDEX} ${TRANSCRIPTS} >> $RUNLOG 2>&1
 else
     echo "Found an existing kallisto index."
 fi
 
-# Directory with Kallisto results.
-mkdir -p results
-
-# Directory with intermediate files.
-mkdir -p tmp
-
-# Calculate abundances using Kallisto.
+# Calculate abundances using kallisto.
 if [ ${LIBRARY} == "PE" ]; then
     echo "Running kallisto quant algorithm in paired end mode."
-    cat ${DATA}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
+    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2} >> $RUNLOG 2>&1
 else
-    # Obtain additional parameters for SE.
+    # Obtain the additional parameters for single end mode.
+
     # Estimated average fragment length.
     FRAG_LEN={{fragment_length.value}}
 
     # Estimated standard deviation of fragment length.
     FRAG_SD={{fragment_sd.value}}
 
-    # Run kallisto.
+    # Run kallisto in single end more.
     echo "Running kallisto quant algorithm in single end mode."
-    cat ${DATA}| egrep "fastq|fq" | sort | parallel -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} --single -l ${FRAG_LEN} -s ${FRAG_SD} {}
+    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} --single -l ${FRAG_LEN} -s ${FRAG_SD} {} >> $RUNLOG 2>&1
 fi
 
 # Create a combined count table for all samples.
@@ -80,7 +83,7 @@ ls -d results/* | cut -f 2 -d "/" | parallel "sed -e 1s/est_counts/{.}/ results/
 paste tmp/*counts.txt > tmp/all.txt
 
 # Add  transcript ids to the counts.
-ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > sample_counts.txt
+ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > combined_abundance.txt
 
 
 
