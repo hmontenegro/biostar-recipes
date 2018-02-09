@@ -53,7 +53,7 @@ mkdir -p results
 # Directory with intermediate files.
 mkdir -p tmp
 
-# Calculate abundances using kallisto.
+# Calculate abundances using Kallisto.
 if [ ${LIBRARY} == "PE" ]; then
     echo "Running kallisto quant algorithm in paired end mode."
     cat ${DATA}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
@@ -62,7 +62,7 @@ else
     # Estimated average fragment length.
     FRAG_LEN={{fragment_length.value}}
 
-    # Estimated standard devitaion of fragment length.
+    # Estimated standard deviation of fragment length.
     FRAG_SD={{fragment_sd.value}}
 
     # Run kallisto.
