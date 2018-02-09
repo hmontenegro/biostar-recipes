@@ -5,7 +5,7 @@ INPUT={{reads.toc}}
 GENOME={{genome.value}}
 LIBRARY={{library.value}}
 ALIGNER={{aligner.value}}
-SAMPLING={{sampling.value}}
+FRACTION={{fraction.value}}
 
 # Will store the indices here.
 # The first time around users must wait until this index is created
@@ -17,14 +17,35 @@ INDEX=${INDEX_DIR}/{{genome.uid}}
 # This directory will store the alignment.
 mkdir -p bam
 
-# Build the BWA if necessary.
-if [ ! -f "$INDEX.bwt" ] && [ "$ALIGNER" == "bwa" ]; then
+# Sub-sample data if necessary.
+if [ ${FRACTION} != "1" ]; then
+    # Directory with sub-sampled data.
+    READS=reads
+    mkdir -p $READS
+
+    # A seed of sampling
+    SEED=$((1 + RANDOM % 1000))
+
+    # Generate a random sample of each input file.
+    echo "Sampling fraction=$FRACTION of data with random seed=$SEED"
+    cat ${INPUT} | egrep "fastq|fq" | parallel "seqtk sample -2 -s $SEED {} $FRACTION >$READS/{/.}.fq"
+
+    # The name of the new table of contents.
+    INPUT=$READS/toc.txt
+
+    # Create table of contents with sub-sampled data.
+    ls -1 $READS/*.fq > ${INPUT}
+
+fi
+
+# Build the BWA index if needed.
+if [ "$ALIGNER" == "bwa" ] && [ ! -f "$INDEX.bwt" ]; then
     echo "Building the bwa index."
     bwa index -p ${INDEX} ${GENOME} >> log.txt 2>&1
 fi
 
-# Build the Bowtie2 index if necessary.
-if [ ! -f "$INDEX.bt2" ] && [ "$ALIGNER" == "bowtie2" ]; then
+# Build the Bowtie2 index if needed.
+if [ "$ALIGNER" == "bowtie2" ] && [ ! -f "$INDEX.bt2" ]; then
     echo "Building the bowtie2 index."
     bowtie2-build  ${GENOME} ${INDEX} >> log.txt 2>&1
 fi
@@ -57,21 +78,21 @@ fi
 ls -1 bam/*.bam | parallel samtools index {}
 
 # Generate an alignment report on each.
-echo "Compute alignment statistics."
+echo "Computing alignment reports."
 
 # Reset the file.
 echo '' > report.txt
 
 for fname in bam/*.bam; do
 
-    echo "-------- samtools flagstat: $fname -------" >> report.txt
-    samtools flagstat ${fname} >> report.txt
+    echo "-------- flagstat: $fname -------" >> flagstat.txt
+    samtools flagstat ${fname} >> flagstat.txt
 
-    echo "-------- samtools idxstats: $fname -------" >> report.txt
-    samtools idxstats ${fname} >> report.txt
+    echo "-------- idxstats: $fname -------" >> idxstats.txt
+    samtools idxstats ${fname} | head -30 >> idxstats.txt
 
 done
 
 # Show the statistics on the output.
-cat report.txt | head -100
+cat flagstat.txt | head -100
 

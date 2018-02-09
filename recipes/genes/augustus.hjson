@@ -26,9 +26,9 @@
   }
   settings:
   {
-    name: Augustus Gene Prediction
+    name: Gene Prediction
     image: augustus.png
-    summary: Predicts genes in a sequence.
+    summary: Predicts genes in a sequence using the Augustus software.
     help:
       '''
 

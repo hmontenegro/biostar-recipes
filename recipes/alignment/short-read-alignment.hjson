@@ -41,15 +41,15 @@
     ]
   }
 
-  sampling: {
+  fraction: {
       value: 1
       label: Sampling
       help: You may want to select smaller random subset of reads first
       display: DROPDOWN
       choices: [
-          ["1", "Select 1% of all reads"],
-          ["10", "Select 10% of all reads" ],
-          ["all", "Select all reads"],
+          [ 0.01, "Select 1% of all reads"],
+          [ 0.1, "Select 10% of all reads" ],
+          [ 1, "Select all reads"],
       ]
     }
 
@@ -59,7 +59,7 @@
 
   settings: {
     name: Short Read Alignment
-    image: align.png
+    image: short-read-alignment.png
     summary: Align short reads with different methodologies.
     help:
       '''
