@@ -40,7 +40,6 @@ mkdir -p ${INDEX_DIR}
 INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 
 # Build the Kallisto index if it does not already exist.
-
 if [ ! -f ${INDEX} ]; then
     echo "Building the kallisto index."
     kallisto index -i ${INDEX} ${TRANSCRIPTS}
