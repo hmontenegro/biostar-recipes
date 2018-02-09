@@ -67,18 +67,22 @@
       # Help
 
       This recipe aligns sequencing reads to a reference genome.
-      It can be run on collections of data.
+
+      There is the option to select different software and to subselect  1 percent or 10 percent of the sequencing reads.
 
       # Parameters
 
-      1. Input data collection in FASTQ format. If the data is paired the the naming
-      should be chosen such that after sorting the file names of a pair follow each other.
+      1. Input data collection in FASTQ format.
       2. Reference genome sequence in FASTA format.
+
+      # Requirements
+
+      For paired end reads, naming should be such that after sorting replicates group together.
 
       # Results
 
-      1. Alignment summary statistics.
-      2. Aligned bam file.
+      1. Aligned bam files in the `bam` folder.
+      2. Alignment statistics in the `flagstat.txt` and `idxstats.txt` files.
 
       '''
   }

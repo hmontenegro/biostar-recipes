@@ -12,6 +12,18 @@ LIBRARY={{library.value}}
 # Fraction to sub-sample the data.
 FRACTION={{fraction.value}}
 
+# Run log to redirect unwanted output.
+RUNLOG=runlog/runlog.txt
+
+# This directory should already exist.
+mkdir -p runlog
+
+# Directory with Kallisto results.
+mkdir -p results
+
+# Directory with intermediate files.
+mkdir -p tmp
+
 # Sub-sample data.
 if [ ${FRACTION} != 1 ]; then
     READS=reads
@@ -38,21 +50,15 @@ INDEX=${INDEX_DIR}/{{transcripts.uid}}.idx
 # Build the Kallisto index if it does not already exist.
 if [ ! -f ${INDEX} ]; then
     echo "Building the kallisto index."
-    kallisto index -i ${INDEX} ${TRANSCRIPTS}
+    kallisto index -i ${INDEX} ${TRANSCRIPTS} >> $RUNLOG 2>&1
 else
     echo "Found an existing kallisto index."
 fi
 
-# Directory with Kallisto results.
-mkdir -p results
-
-# Directory with intermediate files.
-mkdir -p tmp
-
 # Calculate abundances using kallisto.
 if [ ${LIBRARY} == "PE" ]; then
     echo "Running kallisto quant algorithm in paired end mode."
-    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2}
+    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} {1} {2} >> $RUNLOG 2>&1
 else
     # Obtain the additional parameters for single end mode.
 
@@ -64,7 +70,7 @@ else
 
     # Run kallisto in single end more.
     echo "Running kallisto quant algorithm in single end mode."
-    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} --single -l ${FRAG_LEN} -s ${FRAG_SD} {}
+    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 kallisto quant -o results/{1/.}.out  -i ${INDEX} --single -l ${FRAG_LEN} -s ${FRAG_SD} {} >> $RUNLOG 2>&1
 fi
 
 # Create a combined count table for all samples.
@@ -77,7 +83,7 @@ ls -d results/* | cut -f 2 -d "/" | parallel "sed -e 1s/est_counts/{.}/ results/
 paste tmp/*counts.txt > tmp/all.txt
 
 # Add  transcript ids to the counts.
-ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > transcript_count_table.txt
+ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > combined_abundance.txt
 
 
 

@@ -67,17 +67,24 @@
 
       This recipe estimates the transcript abundances of sequencing reads when compared to transcripts sequences.
 
+      There is the option to subselect  1 percent or 10 percent of the sequencing data.
+
+
       # Parameters
 
-      1. Input data collection in FASTQ format. If the data is paired the the naming
-      should be chosen such that after sorting the file names of a pair follow each other.
-      For paired end reads, naming should be such that after sorting replicates group together.
+      1. Input data collection in FASTQ format.
       2. Reference transcriptome sequence in FASTA format.
+
+      # Requirements
+
+      For paired end reads, naming should be such that after sorting replicates group together.
 
       # Results
 
-      1. Count table with transcript counts from all samples.
-      2. Abundance table with counts and TPM for each sample.
+      1. The directory `results` with a separate directory for each sample.
+      2. Abundance table with counts and TPM for each sample" `abundance.tsv`.
+      3. A combined abundance estimation across all samples: `combined_abundance.txt`.
+
 
       '''
   }
