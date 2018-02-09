@@ -60,7 +60,7 @@
   settings: {
     name: Short Read Alignment
     image: short-read-alignment.png
-    summary: Align short reads with different methodologies.
+    summary: Align short reads with different methodologies: bwa, bowtie2, hisat2
     help:
       '''
 
