@@ -1,0 +1,30 @@
+{
+  reads:
+  {
+    value: Single End Reads.fq
+    label: Sequencing Data Directory
+    help: Multiple paired-end sequencing reads.
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+    settings:
+  {
+    name: Sleep Recipe
+    image:sleep.jpg
+    summary: Sleeps for 60 seconds
+    help:
+      '''
+
+      # Help
+
+      Lazy.
+
+      Sleeps for 60 seconds.
+
+
+      Website: https://doesntdoanything.com
+
+      '''
+  }
+}

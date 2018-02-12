@@ -65,6 +65,15 @@ analyses: [
         template: recipes/rnaseq/kallisto-SE.sh
     }
 
+    {
+        json: recipes/sleep_recipe/sleep_recipe.hjson
+        template: recipes/sleep_recipe/sleep_recipe.sh
+    }
+    {
+        json: recipes/trimmomatic/trimmomatic.hjson
+        template: recipes/trimmomatic/trimmomatic.sh
+    }
+
 ]
 
 data: [
