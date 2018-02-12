@@ -61,6 +61,11 @@ analyses: [
         template: recipes/rnaseq/pseudo-alignment.sh
     }
 
+    {
+        json: recipes/trimmomatic/trimmomatic.hjson
+        template: recipes/trimmomatic/trimmomatic.sh
+    }
+
 ]
 
 data: [
