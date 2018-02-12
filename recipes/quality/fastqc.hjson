@@ -19,7 +19,7 @@
   }
 
   settings: {
-    name: Generate a FastQC Report
+    name: Visualize FASTQ quality
     image: fastqc.png
     summary: Generates a FastQC report from a data collection.
 
