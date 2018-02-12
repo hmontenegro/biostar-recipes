@@ -66,8 +66,9 @@ settings: {
 
     summary: '''
     This project contains simple analyses that demonstrate the process
-    of creating a **recipe**. More details in the [Recipe Tutorial](/docs/recipe-tutorial).
-    Follow the **instructions**, investigate the **data** and **recipe codes**
+    of creating a **recipe**. More details in the [Recipe Tutorial.](/docs/recipe-tutorial)
+
+    Follow the **instructions**, investigate the **data** and **recipe code**
     to gain a deeper understanding of how recipes work.
     '''
 

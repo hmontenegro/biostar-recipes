@@ -111,7 +111,7 @@ data: [
         type: RNASEQ, FASTQ
         summary: This collection contains paired end data from 6 samples under 2 conditions(Griffith dataset subset).
     }
-    
+
     {
         name: RNA-Seq Single End Collection
         value: export/local/rnaseq/reads-SE
