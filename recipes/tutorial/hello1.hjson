@@ -1,6 +1,5 @@
 {
-  settings:
-  {
+  settings: {
     name: Hello World
     summary: This recipe prints: Hello World!
     help:
