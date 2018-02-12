@@ -1,7 +1,8 @@
 
-The Biostar Recipes are released with the MIT Public license UNLESS OTHERWISE specified in the recipe.
+The Biostar Recipes are released with the MIT Public license unless otherwise noted in the recipe
+source code.
 
-Recipe authors may add their own license to any recipe like so:
+Recipe authors may add their own license to a recipe they have created like so:
 
     settings: {
         name: Some Recipe
@@ -13,3 +14,4 @@ the global license within the repository.
 
 Not specifying a license in the `settings` implies the MIT Public License.
 
+The copyright of each recipe belongs to the creator of the recipe.
