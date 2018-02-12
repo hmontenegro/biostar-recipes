@@ -38,13 +38,21 @@ The `value` attribute of the data provides the first file of the collection
 (this is handy when the collection contains a single file) the `toc` (table of contents) attribute 
 provides access to all files in the collection.
 
+## What is a data type?
+
+Types can be thought of as tags that allow you to filter the input data.
+For example a parameter of `FASTA` type will only list data that is tagged
+with the word `FASTA`. Data may have more than one tag listed in the type.
+A case insensitive regular expression match is performed to 
+match the parameter type to the data type.
+
 ## Recipe requirements
+
+We recommend the following best practices:
 
 * Every recipe must be documented and fully operational.
 * Every recipe must have test data and results associated with it to
 demonstrate the input requirements as well as the results.
-* Every recipe may be modified, changed, reused and 
-shared across different projects.
-            
-Notably the software is able to generate a graphical user interface
-from each recipe when these contain a JSON specification syntax.
+
+The test data should be small so that it can be readily 
+executed to allow users to investigate the outputs of it.
