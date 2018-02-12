@@ -58,9 +58,8 @@
   }
 
   settings: {
-    name: Interface Element Examples
+    name: Interface Element Demonstration
     summary: This recipe demonstrates the use of different parameter types.
-    index: results.txt
     help:
     '''
     # Help

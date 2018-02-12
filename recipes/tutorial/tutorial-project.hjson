@@ -17,6 +17,16 @@ analyses: [
         template: recipes/tutorial/hello3.sh
     }
 
+    {
+        json: recipes/tutorial/makefile.hjson
+        template: recipes/tutorial/makefile.txt
+    }
+
+    {
+        json: recipes/tutorial/rscript.hjson
+        template: recipes/tutorial/rscript.r
+    }
+
 ]
 
 data: [
