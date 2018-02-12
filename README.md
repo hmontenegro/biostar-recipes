@@ -5,20 +5,20 @@ Life sciences are experiencing a reproducibility crisis.
 It has become unexpectedly challenging to even understand how analyses 
 are performed and even more difficult to repeat the same process again.
 
-This [Biostar Engine][engine] was designed to help scientists share, document, 
-distribute and rerun data analysis scripts. We call these scripts recipes. 
+The Biostar Recipes were created to help scientists share, document, 
+distribute and rerun data analysis scripts. 
+
+We call these scripts recipes. 
 
 Recipes are designed to facilitate 
 the distribution, the sharing and the reuse of bioinformatics pipelines
 
+Visit the [Biostar Engine][engine] for installation of each recipe into  
+into the engine.
+
+    https://github.com/biostars/biostar-engine
+
 [engine]: https://github.com/biostars/biostar-engine
-
-## Installation
-
-A typical installation links the current package into the current python environment
-
-    python setup.py develop
-    
 
 ## What is a recipe made of?
 
