@@ -23,10 +23,10 @@
   settings: {
     name: Makefile Example
     summary: This recipe demonstrates the use of makefiles.
-     execute: {
-            filename: "Makefile"
-            command: "make -f Makefile {{command.value}}"
-        }
+    execute: {
+       filename: "Makefile"
+       command: "make -f Makefile {{command.value}}"
+    }
     help:
     '''
     # Help
