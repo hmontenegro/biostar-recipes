@@ -28,6 +28,18 @@
         ]
   }
 
+   tool: {
+    value: kallisto
+    label: Tool to be used
+    help: Select the tool to be used for transcript abundance estimation.
+    display: DROPDOWN
+    choices: [
+        ["kallisto", "Kallisto"],
+        ["salmon", "Salmon" ],
+    ]
+  }
+
+
   fraction: {
     label: Sampling
     help: Select random sample if needed.
@@ -44,7 +56,7 @@
         value: 200
         range: [ 50, 1000 ]
         label: Fragment length
-        help: Estimated average fragment length (Required in Single End mode).
+        help: Estimated average fragment length (Required for Kallisto in Single End mode).
         display: INTEGER
   }
 
@@ -52,7 +64,7 @@
         value: 20
         range: [ 1, 50 ]
         label: Standard deviation of fragment length
-        help: Estimated standard deviation of fragment length (Required in Single End mode).
+        help: Estimated standard deviation of fragment length (Required for Kallisto in Single End mode).
         display: INTEGER
   }
 
