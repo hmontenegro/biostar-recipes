@@ -78,7 +78,7 @@ Whereas the script template could be extended to read:
 When a recipe is run the site generates a user interface for the
 parameter called `readlen` that will look like this:
 
-![Interface element](docs/images/readlen.png)
+![Interface element](../../docs/images/readlen.png)
 
 When executed the value from the interface above will be filled into
 the script to produce
