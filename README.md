@@ -12,9 +12,7 @@ We call these scripts recipes.
 
 Recipes are designed to facilitate 
 the distribution, the sharing and the reuse of bioinformatics pipelines
-
-Visit the [Biostar Engine][engine] for installation of each recipe into  
-into the engine.
+Visit the [Biostar Engine][engine] for installation of each recipe into into the engine.
 
     https://github.com/biostars/biostar-engine
 
@@ -28,16 +26,36 @@ A recipe consists of two files:
 and how these are rendered.
 2. The script template. This specify the actions that the script performs.
 
-# What are collections?
+## How do I learn how to write recipes?
+
+Investigate the tutorial recipes at:
+
+* https://github.com/biostars/biostar-recipes/tree/master/recipes/tutorial
+  
+Alternatively look at these same recipes deployed on the main site at:
+
+* https://www.bioinformatics.recipes/project/view/tutorial/
+    
+## What are data collections?
  
 The Biostar Engine operates with the concept of a *data collection*.
  
 A collection may though of as a directory that contains one or more (any number) of files.
 
-The `value` attribute of the data provides the first file of the collection 
-(this is handy when the collection contains a single file) the `toc` (table of contents) attribute 
-provides access to all files in the collection.
+The `value` attribute of the data provides the first file of the collection.
+This is handy when the collection contains a single file. The `toc` (table of contents) attribute 
+is a filelist of all files in the collection. It is a list of all files in the collection.
 
+Usage:
+
+    echo parameter.value
+    
+to get the first file of the collection. Use
+    
+    cat parameter.toc
+      
+to obtain a list of all files of the collection.
+    
 ## What is a data type?
 
 Types can be thought of as tags that allow you to filter the input data.
