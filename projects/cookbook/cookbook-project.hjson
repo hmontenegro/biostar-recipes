@@ -66,8 +66,8 @@ analyses: [
     }
 
     {
-        json: recipes/trimmomatic/trimmomatic.hjson
-        template: recipes/trimmomatic/trimmomatic.sh
+        json: recipes/quality/quality_check.hjson
+        template: recipes/quality/quality_check.sh
     }
 
 ]

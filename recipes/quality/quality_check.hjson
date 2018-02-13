@@ -1,0 +1,90 @@
+{
+  reads:
+  {
+    value: Single End Reads.fq
+    label: Sequencing Data Directory
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+    quality: {
+    label: Quality Score
+    display: INTEGER
+    value: 30
+    range: [ 1,50 ]
+  }
+  window: {
+    label: Window Size
+    display: INTEGER
+    value: 4
+    range: [ 1,20 ]
+  }
+    group:
+  {
+    label: Plot features
+    display: DROPDOWN
+    choices:
+    [
+      [
+        default
+        Default
+      ]
+      [
+        nogroup
+        No Group
+      ]
+    ]
+    value: default
+  }
+  library: {
+        value: SE
+        label: Library layout
+        display: RADIO
+        choices: [
+            ["SE", "Single end"],
+            ["PE", "Paired end" ],
+        ]
+  }
+  adapter: {
+        value: No_adapter
+        label: Adapter type
+        display: RADIO
+        choices: [
+            ["No_adapter","No Adapter trimming"],
+            ["AGATCGGAAGAG", "Illumina Universal Adapter"],
+            ["CTGTCTCTTATA", "Nextera Transposase Sequence"],
+        ]
+  }
+
+
+
+  settings:
+  {
+    name:Quality Check
+    image: fastqc.png
+    summary: Tool for pre-processing sequence data (quality check and trimming).
+    help:
+    '''
+
+    #Help
+    This recipe is used for pre-processing of sequencing reads.
+    The data obtained from the sequencer can have poor quality or technical sequences (like adapters).
+    Removing those sequences can improve the downstream analysis.
+    This recipe can be used to remove those poor quality sequences and/or adapter sequences from sequencer.
+
+    #Parameters:
+    1. Group or no-group to distinguish single file or data collection.
+    2. Single end reads or Paired end reads.
+    3. Threshold quality score.
+    4. Window size for trimming.
+    5. Adapter type for adapter removal.
+
+    #Output
+    1. Fastqc report of sequence(s) before quality control in folder fastqc_reports.
+    2. Trimmed Reads
+    3. Fastqc report of sequence(s) after quality control inside the output folder within fastqc_reports_after_trimming.
+
+    '''
+
+  }
+}
