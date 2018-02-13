@@ -60,7 +60,7 @@
 
   settings:
   {
-    name:Quality Check
+    name: Filter and trim sequencing reads by quality
     image: fastqc.png
     summary: Tool for pre-processing sequence data (quality check and trimming).
     help:

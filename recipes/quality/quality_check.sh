@@ -42,7 +42,7 @@ fi
 
 
 if [ "$ADAPTER" != "No_adapter" ] &&  [ "$LIBRARY" == "PE" ]; then
-    cat ${INPUTS} | sort | egrep 'fastq|fq' | parallel -N 2 "trimmomatic PE {1} {2} ./output/{1/.}paired.fq ./output/{1/.}unpaired.fq ./output/{2/.}paired.fq  ./output/{2/.}unpaired.fq ILLUMINACLIP:adapter.fa:2:30:10"
+    cat ${INPUTS} | sort | egrep 'fastq|fq' | parallel -N 2 "trimmomatic PE {1} {2} ./output/{1/.}_paired.fq ./output/{1/.}_unpaired.fq ./output/{2/.}paired.fq  ./output/{2/.}unpaired.fq ILLUMINACLIP:adapter.fa:2:30:10"
 fi
 
 
@@ -58,7 +58,5 @@ mkdir -p fastqc_reports_after_trimming
 #Running fastqc on reported files
 cat file_list.txt | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o fastqc_reports_after_trimming
 
-#Remove the file list.
-rm file_list.txt
 
 
