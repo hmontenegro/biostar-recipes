@@ -11,18 +11,29 @@
     label: Quality Score
     display: INTEGER
     value: 30
-    range: [ 1,50 ]
+    help: Average threshold quality score within the window. Put 0 if you do not want to perform sliding window trimming.
+    range: [ 0,50 ]
+  }
+  minLength: {
+    label: Minimum Length
+    display: INTEGER
+    value: 35
+    help: The recipe removes reads that fall below the specified minimum length.
+    range: [ 0,400 ]
   }
   window: {
     label: Window Size
     display: INTEGER
     value: 4
-    range: [ 1,20 ]
+    help: Window size to calculate average threshold quality.
+    range: [ 0,20 ]
   }
+
     group:
   {
     label: Plot features
     display: DROPDOWN
+    help: Default enables grouping of bases for reads greater than >50 bp. For long reads, --nogroup might lead to crash of fastqc and/or generate large size plots.
     choices:
     [
       [
@@ -51,8 +62,8 @@
         display: RADIO
         choices: [
             ["No_adapter","No Adapter trimming"],
-            ["AGATCGGAAGAG", "Illumina Universal Adapter"],
-            ["CTGTCTCTTATA", "Nextera Transposase Sequence"],
+            ["AGATCGGAAGAG", "Illumina Universal Adapter: AGATCGGAAGAG"],
+            ["CTGTCTCTTATA", "Nextera Transposase Sequence: CTGTCTCTTATA"],
         ]
   }
 
@@ -60,9 +71,10 @@
 
   settings:
   {
-    name: Filter and trim sequencing reads by quality
-    image: fastqc.png
-    summary: Tool for pre-processing sequence data (quality check and trimming).
+
+    name: Data Cleaning (Filtering)
+    image: quality_before_after.png
+    summary: Filtration of sequence reads by trimming low quality reads and/or adapter. Performs sliding window trimming followed by an optional adapter trimming step.
     help:
     '''
 
@@ -73,11 +85,13 @@
     This recipe can be used to remove those poor quality sequences and/or adapter sequences from sequencer.
 
     #Parameters:
-    1. Group or no-group to distinguish single file or data collection.
+    1. Group or no-group for fastqc analysis.
     2. Single end reads or Paired end reads.
     3. Threshold quality score.
-    4. Window size for trimming.
-    5. Adapter type for adapter removal.
+    4. Minimum length of reads
+    5. Window size for trimming.
+    6. Adapter type for adapter removal.
+
 
     #Output
     1. Fastqc report of sequence(s) before quality control in folder fastqc_reports.
