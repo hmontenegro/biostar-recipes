@@ -3,7 +3,7 @@
 settings: {
     uid: cookbook
 
-    name: Analysis Cookbook
+    name: Bioinformatics Cookbook
 
     image: cookbook-project.png
 
@@ -42,8 +42,8 @@ analyses: [
     }
 
     {
-        json: recipes/alignment/align.hjson
-        template: recipes/alignment/align.sh
+        json: recipes/alignment/short-read-alignment.hjson
+        template: recipes/alignment/short-read-alignment.sh
     }
 
     {
@@ -57,12 +57,8 @@ analyses: [
     }
 
     {
-        json: recipes/rnaseq/kallisto-PE.hjson
-        template: recipes/rnaseq/kallisto-PE.sh
-    }
-    {
-        json: recipes/rnaseq/kallisto-SE.hjson
-        template: recipes/rnaseq/kallisto-SE.sh
+        json: recipes/rnaseq/pseudo-alignment.hjson
+        template: recipes/rnaseq/pseudo-alignment.sh
     }
 
     {
@@ -112,20 +108,21 @@ data: [
     {
         name: RNA-Seq Paired End Collection
         value: export/local/rnaseq/reads-PE
-        type: FASTQ
+        type: RNASEQ, FASTQ
         summary: This collection contains paired end data from 6 samples under 2 conditions(Griffith dataset subset).
     }
+
     {
         name: RNA-Seq Single End Collection
         value: export/local/rnaseq/reads-SE
-        type: FASTQ
+        type: RNASEQ, FASTQ
         summary: This collection contains single end data from 6 samples under 2 conditions(Griffith dataset subset).
     }
 
     {
         name: Transcripts from chr22 human genome.fa
         value: export/local/rnaseq/chr22_transcripts.fa
-        type: FASTA
+        type: FASTA, TRANSCRIPTS
         summary: Transcript sequences from human chromosome 22.
     }
 

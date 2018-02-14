@@ -67,7 +67,5 @@ mkdir -p after_trimming_fastqc_reports
 #Running fastqc on reported files
 cat file_list.txt | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o after_trimming_fastqc_reports
 
-#Remove the file list.
-rm file_list.txt
 
 

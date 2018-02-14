@@ -3,12 +3,13 @@
 settings: {
     uid: mothur
 
-    name: Mothur Metagenomics
+    name: Metagenomics with the Mothur Package
 
     image: mothur-project.jpg
 
     summary: '''
-    This project contains data and metagenomics analysis recipes using the [mothur](https://www.mothur.org/) package.
+    This project contains data and metagenomics analysis recipes
+    using the [mothur](https://www.mothur.org/) package.
     '''
 
     text: '''
