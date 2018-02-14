@@ -21,7 +21,7 @@ def setup():
             'OPTIONS': {
                 'string_if_invalid': "** MISSING **",
                 'libraries': {
-                    'igv': 'recipes.igv',
+                    'igv': 'recipes.code.igv',
                 }
             },
         }

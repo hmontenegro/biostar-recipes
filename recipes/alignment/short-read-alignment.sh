@@ -118,3 +118,22 @@ done
 # Show the statistics on the output.
 cat flagstat.txt | head -100
 
+# Generate IGV plots for the alignments
+# This step is optional and is used to demonstrate
+# a utility script that come with the biostar-recipes
+
+# Make a directory for the gnome
+mkdir -p refs
+
+# This will be a link to the genome in job directory.
+LOCAL=refs/genome.fa
+
+# Link the genome to the current directory
+ln -sf $GENOME $LOCAL
+
+# Create an index for the genome
+samtools faidx $LOCAL
+
+# This module crawls the current job directory
+# and generates an IGV entry for eligible files in it.
+python -m recipes.code.igv --genome  $LOCAL --baseurl {{runtime.job_url}} > igv.xml

@@ -1,9 +1,11 @@
 """
 IGV related code.
 """
-import os
-from recipes.render import render_template
+import os, sys
+
 from django import template
+
+from recipes.code.render import render_template
 
 register = template.Library()
 
@@ -11,11 +13,13 @@ register = template.Library()
 KNOWN_EXT = ["bam", "bw", "vcf",
              "gff3", "gtf", "bedgraph", "bigwig"]
 
+
 class Bunch(object):
     def __init__(self, path, baseurl=''):
         self.path = path
         self.name = os.path.basename(self.path)
-        self.link = os.path.join(baseurl, self.name)
+        self.link = os.path.join(baseurl, self.path)
+
 
 @register.inclusion_tag('igv/bam.xml')
 def bam(bunch):
@@ -55,32 +59,52 @@ def create_resources(root, baseurl):
     data = list(walk(root, baseurl=baseurl))
     return data
 
+
 def filter_resources(data, type='bam'):
     subset = filter(lambda bunch: bunch.path.endswith(type), data)
     subset = list(subset)
     return subset
+
 
 def get_parser():
     import argparse
     parser = argparse.ArgumentParser(description='Creates an IGV session '
                                                  'file from all files in a directory.')
 
-    parser.add_argument('--root', default="", help='The location that needs to be searched')
-    parser.add_argument('--url', help='The base URL for the directory')
-    parser.add_argument('--genome', default="genome.fa", help='The path to the genome')
+    parser.add_argument('--root', default=".", help='The location that needs to be searched')
+    parser.add_argument('--baseurl', default=".", help='The base URL for the directory')
+    parser.add_argument('--genome', required=True, default="genome.fa", help='The path to the genome')
 
     return parser
 
 
 if __name__ == '__main__':
 
-    genome="/Users/ialbert/edu/24/db/AF086833.fa"
+    extras = "--root /Users/ialbert/edu/24/ --baseurl /Users/ialbert/edu/24/ --genome db/AF086833.fa"
+    # sys.argv.extend( extras.split())
 
-    data = create_resources(root="/Users/ialbert/edu/24/", baseurl='/Users/ialbert/edu/24/')
+    parser = get_parser()
+    args = parser.parse_args()
+
+    # The directory relative to which to look for data.
+    root = args.root
+
+    # The address of the root directory on the web.
+    baseurl = args.baseurl
+
+    # Create the genome data.
+    genome = Bunch(path=args.genome, baseurl=baseurl)
+
+    # Find all relevant resources.
+    data = create_resources(root=args.root, baseurl=baseurl)
+
+    # Select the BAM files.
     bams = filter_resources(data, 'bam')
 
+    # Populate the context.
     context = dict(bams=bams, genome=genome)
 
-    html = render_template("igv/main.xml", context=context)
+    # Generate the IGV output
+    xml = render_template("igv/main.xml", context=context)
 
-    print (html)
+    print(xml)
