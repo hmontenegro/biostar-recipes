@@ -32,8 +32,9 @@ mkdir -p runlog
 # Generate the input file names.
 cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
-# Sub-sample data if necessary.
-if [ ${FRACTION} != "1" ]; then
+{% if fraction.value != "1" %}
+
+    # Sub-sampling step.
 
     # The random seed for sampling.
     SEED=$((1 + RANDOM % 1000))
@@ -45,61 +46,71 @@ if [ ${FRACTION} != "1" ]; then
     # Create a new table of contents with sub-sampled data.
     ls -1 $READS/*.fq > ${FILES}
 
-fi
+{% endif %}
 
-# Build the BWA index if needed.
-if [ "$ALIGNER" == "bwa" ] && [ ! -f "$INDEX.bwt" ]; then
-    echo "Building the bwa index."
-    bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
-fi
+{# Generate script depending on the  aligner #}
 
-# Build the Bowtie2 index if needed.
-if [ "$ALIGNER" == "bowtie2" ] && [ ! -f "$INDEX.bt2" ]; then
-    echo "Building the bowtie2 index."
-    bowtie2-build  ${GENOME} ${INDEX} >> $RUNLOG 2>&1
-fi
+{% if aligner.value == "bwa" %}
 
-# Build the Hisat2 index if needed.
-if [ "$ALIGNER" == "hisat2" ] && [ ! -f "$INDEX.ht2" ]; then
-    echo "Building the hisat2 index."
-    hisat2-build  ${GENOME} ${INDEX} >> $RUNLOG 2>&1
-fi
+    # Build the BWA index if needed.
+    if [ ! -f "$INDEX.bwt" ]; then
+        echo "Building the bwa index."
+        bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
+    fi
 
-# BWA single end mode.
-if [ "$ALIGNER" == "bwa" ] && [ "$LIBRARY" == "SE" ]; then
-    echo  "Aligning single end reads to the genome using $ALIGNER."
-    cat ${FILES} | parallel "bwa mem -t 4 ${INDEX} {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+    {% if library.value == "SE" %}
+        # Run bwa in single end mode.
+        cat ${FILES} | parallel "bwa mem -t 4 ${INDEX} {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
 
-# BWA paired end mode.
-if [ "$ALIGNER" == "bwa" ] && [ "$LIBRARY" == "PE" ]; then
-    echo  "Aligning paired end reads to the genome using $ALIGNER."
-    cat ${FILES} | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+    {% else %}
+        # Run bwa in paired end mode.
+        cat ${FILES} | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
 
-# Bowtie2 single end mode.
-if [ "$ALIGNER" == "bowtie2" ] && [ "$LIBRARY" == "SE" ]; then
-    echo  "Aligning single end reads to the genome using $ALIGNER."
-    cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+    {% endif %}
 
-# Bowtie2 paired end mode.
-if [ "$ALIGNER" == "bowtie2" ] && [ "$LIBRARY" == "PE" ]; then
+{% endif %}
 
-    cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+{% if aligner.value == "bowtie2" %}
 
-# Hisat2 single end mode.
-if [ "$ALIGNER" == "hisat2" ] && [ "$LIBRARY" == "SE" ]; then
-    echo  "Aligning single end reads to the genome using $ALIGNER."
-    cat ${FILES} | parallel "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+    # Build the Bowtie2 index if needed.
+    if [ ! -f "$INDEX.bt2" ]; then
+        echo "Building the bowtie2 index."
+        bowtie2-build  ${GENOME} ${INDEX} >> $RUNLOG 2>&1
+    fi
 
-# Hisat2 paired end mode.
-if [ "$ALIGNER" == "hisat2" ] && [ "$LIBRARY" == "PE" ]; then
-    echo  "Aligning paired end reads to the genome using $ALIGNER."
-    cat ${FILES} | parallel "hisat2 -x ${INDEX} -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-fi
+    {% if library.value == "SE" %}
+        # Run bowtie2 in single end mode.
+        cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+
+    {% else %}
+        # Run bowtie2 in paired end mode.
+        cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+
+    {% endif %}
+
+{% endif %}
+
+
+{% if aligner.value == "hisat2" %}
+
+    # Build the Bowtie2 index if needed.
+    if [ ! -f "$INDEX.ht2" ]; then
+        echo "Building the hisat2 index."
+        hisat2-build  ${GENOME} ${INDEX} >> $RUNLOG 2>&1
+    fi
+
+    {% if library.value == "SE" %}
+
+        # Run hisat2 in single end mode.
+        cat ${FILES} | parallel "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+
+    {% else %}
+        # Run hisat2 in paired end mode.
+        cat ${FILES} | parallel "hisat2 -x ${INDEX} -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+
+    {% endif %}
+
+{% endif %}
 
 # Generate the indices
 ls -1 bam/*.bam | parallel samtools index {}
