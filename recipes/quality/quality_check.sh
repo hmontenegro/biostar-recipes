@@ -9,7 +9,7 @@ ADAPTER={{adapter.value}}
 MINIMUMLENGTH={{minLength.value}}
 
 #Create file list
-cat ${TOC} | egrep 'fastq|fq|fastq.gz|fq.gz'|sort >files
+cat ${TOC} | egrep 'fastq|fq'|sort >files
 INPUTS=files
 
 # The directory that contains the preliminary reports.
@@ -65,7 +65,7 @@ ls > file_list.txt
 mkdir -p after_trimming_fastqc_reports
 
 #Running fastqc on reported files
-cat file_list.txt | egrep 'fastq|fq|fastq.gz|fq.gz' | parallel fastqc -q ${FLAGS} {} -o after_trimming_fastqc_reports
+cat file_list.txt | egrep 'fastq|fq' | parallel fastqc -q ${FLAGS} {} -o after_trimming_fastqc_reports
 
 #Remove the file list.
 rm file_list.txt
