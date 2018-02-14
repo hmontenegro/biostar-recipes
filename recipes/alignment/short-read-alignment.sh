@@ -61,11 +61,9 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
     {% if library.value == "SE" %}
         # Run bwa in single end mode.
         cat ${FILES} | parallel "bwa mem -t 4 ${INDEX} {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% else %}
         # Run bwa in paired end mode.
         cat ${FILES} | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% endif %}
 
 {% endif %}
@@ -81,11 +79,9 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
     {% if library.value == "SE" %}
         # Run bowtie2 in single end mode.
         cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% else %}
         # Run bowtie2 in paired end mode.
         cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% endif %}
 
 {% endif %}
@@ -103,11 +99,9 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
         # Run hisat2 in single end mode.
         cat ${FILES} | parallel "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% else %}
         # Run hisat2 in paired end mode.
         cat ${FILES} | parallel "hisat2 -x ${INDEX} -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
-
     {% endif %}
 
 {% endif %}
