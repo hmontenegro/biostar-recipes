@@ -72,9 +72,9 @@
   settings:
   {
 
-    name: Data Cleaning (Filtering)
-    image: quality_before_after.png
-    summary: Filtration of sequence reads by trimming low quality reads and/or adapter. Performs sliding window trimming followed by an optional adapter trimming step.
+    name: Improve the quality of sequencing reads
+    image: quality_check.png
+    summary: Improves the quality of sequence reads by trimming low quality reads and/or adapter. Performs sliding window trimming followed by an optional adapter trimming step.
     help:
     '''
 
