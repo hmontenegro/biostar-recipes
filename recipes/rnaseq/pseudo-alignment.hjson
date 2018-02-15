@@ -4,7 +4,7 @@
     label: Input Reads
     help: Multiple sequencing reads
     source: PROJECT
-    type: FASTQ
+    type: RNASEQ
     display: DROPDOWN
   }
 
@@ -13,7 +13,7 @@
     label: Reference transcriptome
     help: The reference transcriptome
     source: PROJECT
-    type: FASTA
+    type: TRANSCRIPTS
     display: DROPDOWN
   }
 
