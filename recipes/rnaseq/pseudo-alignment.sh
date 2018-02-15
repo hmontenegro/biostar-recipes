@@ -6,8 +6,14 @@ INPUT={{reads.toc}}
 # Reference Transcriptome.
 TRANSCRIPTS={{transcripts.value}}
 
-# Library type.
+# Library protocol.
 LIBRARY={{library.value}}
+
+# Library type
+LIBRARY_TYPE={{library_tpe.value}}
+
+# PE read orientation
+ORIENTATION={{orientation.value}}
 
 # Tool to be used.
 TOOL={{tool.value}}
@@ -33,6 +39,10 @@ mkdir -p results
 # Directory with intermediate files.
 mkdir -p tmp
 
+#Create file list
+cat ${TOC} | egrep 'fastq|fq'|sort >files.txt
+INPUT=files.txt
+
 # Sub-sample data.
 if [ ${FRACTION} != 1 ]; then
 
@@ -42,7 +52,7 @@ if [ ${FRACTION} != 1 ]; then
 
     # Subsample data.
     echo "Randomly sampling $FRACTION fraction of data"
-    cat ${INPUT} | egrep "fastq|fq" | sort |  parallel "seqtk sample -s 11 {} $FRACTION >$READS/{/.}.fq"
+    cat ${INPUT} |  parallel "seqtk sample -s 11 {} $FRACTION >$READS/{/.}.fq"
 
     # The name of the new table of contents.
     INPUT=$READS/toc.txt
