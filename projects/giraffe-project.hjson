@@ -226,11 +226,14 @@ data: [
         name: Sequencing Run: NZOO_RNASEQ,
         value: /export/data/giraffe/data/GIRAFFE/RNASEQ
         type: FASTQ, RNASEQ
-        summary: Giraffe, NZOO, RNASEQ, 150bp,  4 x 56 million, for Liver, Heart, Lung and Fibroblast Cell Line
+        summary: Giraffe, NZOO, RNASEQ, 150bp,  4 x 50 million, for Liver, Heart, Lung and Fibroblast Cell Line
         text: '''
         Specimen ID: `NZOO` and 'MASG'
         ```
-
+        GiraffeCellLine_R1.fastq.gz  FASTQ   DNA   50,073,121  7,510,968,150      150      150      150
+        GiraffeHeart_R1.fastq.gz     FASTQ   DNA   40,082,453  6,012,367,950      150      150      150
+        GiraffeLiver_R1.fastq.gz     FASTQ   DNA   49,715,450  7,457,317,500      150      150      150
+        GiraffeLung_R1.fastq.gz      FASTQ   DNA   54,637,776  8,195,666,400      150      150      150
         ```
         '''
     }
