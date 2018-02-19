@@ -29,7 +29,7 @@ a recipe in one of two ways.
 
 * Copy an existing recipe
 
-##### Editing recipe code
+#### Editing recipe code
 
 ## Running recipes
 
