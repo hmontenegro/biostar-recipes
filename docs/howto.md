@@ -11,10 +11,10 @@ at the bottom of your projects list.
 
 ## Import data
 
-##### 1. Upload files
+### 1. Upload files
 
 
-##### 2. Copy existing data
+### 2. Copy existing data
 
 
 ## Make your own recipes
@@ -22,21 +22,21 @@ at the bottom of your projects list.
 If you have `WRITE ACCESS` or higher to a project then you have the ability to create
 a recipe one of two ways.
 
-##### Start from scratch
+### Start from scratch
 
 To create a new recipe
 
 
-##### Copy an existing recipe
+### Copy an existing recipe
 
 ## Running recipes
 
-##### Authorization
+### Authorization
 
 
-##### Job states
+### Job states
 
-##### Deleting and Editing jobs
+### Deleting and Editing jobs
 
 ## Extracting results
 You can copy files from pipeline results
@@ -44,7 +44,7 @@ You can copy files from pipeline results
 
 ## Simple Demo
 
-###### Create a project
+### Create a project
 
 
 
