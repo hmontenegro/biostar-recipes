@@ -11,17 +11,6 @@ Clicking `Create` makes an empty project that you have `OWNER ACCESS` to.
 
 Now that you have complete access to a project you can populate it with data, collaborators, and recipes. 
 
-We will show how to populate an empty project with these steps. 
-
-   1. Adding collaborators
-   
-   2. Importing data
-   
-   3. Creating recipes
-   
-   4. Runnning recipes and gathering results 
-  
-  
 
 ## 1. Add collaborators
 
