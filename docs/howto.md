@@ -19,13 +19,17 @@ at the bottom of your projects list.
 ## Make your own recipes
 
 If you have `WRITE ACCESS` or higher to a project then you have the ability to create
-a recipe one of two ways.
+a recipe in one of two ways.
 
 * Start from scratch
 
-To create a new recipe
+    To create a brand new recipe simply click on the ```Create Recipe``` button found at the bottom
+    of your recipes list. This opens a page that allowing you to name your recipe, give it a picture, etc. 
+    Clicking `Save` will create a recipe with an empty template and json file. 
 
 * Copy an existing recipe
+
+##### Editing recipe code
 
 ## Running recipes
 
