@@ -1,39 +1,79 @@
 # Biostar Engine
 
 
-## Start a project
+## Where to start ?
 
 To start the a project, simply click the ```Create Project``` button found
 at the bottom of your projects list. This will open page allowing you to name your project, give it an image, etc. 
 
-Clicking `Create` makes an empty project and gives you `OWNER ACCESS` to it. 
+Clicking `Create` makes an empty project that you have `OWNER ACCESS` to. 
 
-Having `OWNER ACCESS` to a project means you created the project and can delete/edit anything inside of it.
+We will show how to populate an empty project with data, collaborators, recipes, and jobs.  
+
+   1. Add collaborators
+   
+   2. Import data
+   
+   3. Create recipes
+   
+   4. Runnning recipes and gathering results 
+  
+  
+
+## 1. Add collaborators
+
+To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
+
+Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
+
+* `READ ACCESS` allows users to view and copy what they may desire.  
+
+* `WRITE ACCESS` allows users to: import data, create and run recipes, and delete/edit what they create.
+
+* `OWNER ACCESS` allows users to delete/edit anything and revoke/grant access to project
+
+The project creator is the only one with `OWNER ACCESS` to a project
 
 
-## Import data
+## 2. Import data
 
-1. Upload files
+Having `WRITE ACCESS` or higher
 
-2. Copy existing data
+* Upload files
 
 
-## Make your own recipes
+* Copy and Paste existing data
 
-If you have `WRITE ACCESS` or higher to a project then you have the ability to create
-a recipe in one of two ways.
+
+## 3. Make your own recipes
+
+If you have `WRITE ACCESS` or higher then you have the ability to create a recipe in one of two ways.
 
 * Start from scratch
 
     To create a brand new recipe simply click on the ```Create Recipe``` button found at the bottom
-    of your recipes list. This opens a page that allowing you to name your recipe, give it a picture, etc. 
-    Clicking `Save` will create a recipe with an empty template and json file. 
+    of your recipes list. 
+    
+    This opens a page that allowing you to name your recipe, give it a picture, etc. 
+    
+    Clicking `Save` will create a recipe with an empty template and json file, which you can edit by clicking `View Code`. 
+    
+   
+* Copy and Paste existing recipes ( **Recommended** )
 
-* Copy an existing recipe
+    This is the simplest way of populating your project with recipes.
+    
+    You only need `READ ACCESS` to be able to copy a recipe, so public project like `The Biostar Cookbook` are treasure troves.
+    
+    After pasting the recipe you can edit it by clicking `View Code`
+    
+   
+**Editing recipe code**
 
-#### Editing recipe code
+   Editing a template will result in the changes having to be reviewed and authorized by a staff member.
+    
 
-## Running recipes
+## 4. Running recipes
 
 * Authorization
 
@@ -41,11 +81,11 @@ a recipe in one of two ways.
 
 * Deleting and Editing jobs
 
-## Getting results
+* Getting results
 You can copy files from pipeline results
 
 
-## Simple Demo
+## 5. Simple Demo
 
 
 1. Create a project
