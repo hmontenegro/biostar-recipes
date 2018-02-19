@@ -3,18 +3,23 @@
 
 ## Where to start ?
 
-To start the a project, simply click the ```Create Project``` button found
-at the bottom of your projects list. This will open page allowing you to name your project, give it an image, etc. 
+The first step is to create a project you will be given full access to. 
+
+To create a project, click the ```Create Project``` button found at the bottom of your projects list. 
+
+This will open page allowing you to name your project, give it an image, etc. 
 
 Clicking `Create` makes an empty project that you have `OWNER ACCESS` to. 
 
-We will show how to populate an empty project with data, collaborators, recipes, and jobs.  
+Now that you have complete access to a project you can populate it with data, collaborators, and recipes. 
 
-   1. Add collaborators
+We will show how to populate an empty project with these steps. 
+
+   1. Adding collaborators
    
-   2. Import data
+   2. Importing data
    
-   3. Create recipes
+   3. Creating recipes
    
    4. Runnning recipes and gathering results 
   
@@ -51,7 +56,7 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
 
 * Start from scratch
 
-    To create a brand new recipe simply click on the ```Create Recipe``` button found at the bottom
+    To create a brand new recipe click on the ```Create Recipe``` button found at the bottom
     of your recipes list. 
     
     This opens a page that allowing you to name your recipe, give it a picture, etc. 
