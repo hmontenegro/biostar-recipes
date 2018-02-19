@@ -82,18 +82,27 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
    You need `WRITE ACCESS` to view pages
 
 * Job states
-   `Queued`
-   `Running`
-   `Completed`
-   `Error`
-   `Deleted`
-   `Spooled`
-   `Paused`
-   `Restored` 
+
+     `Queued`
+   
+     `Running`
+   
+     `Completed`
+   
+     `Error`
+   
+     `Deleted`
+   
+     `Spooled`
+   
+     `Paused`
+   
+     `Restored` 
 
 * Deleting and Editing jobs
 
 * Getting results
+
    You can copy files from pipeline results
 
 
