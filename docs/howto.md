@@ -41,12 +41,17 @@ The project creator is the only one with `OWNER ACCESS` to a project
 
 ## 2. Import data
 
-Having `WRITE ACCESS` or higher
 
-* Upload files
-
-
+* Uploading files
+   
+   You can upload data by clicking the ```Upload File``` button on your data list page. 
+   
+   25 MB file size limit and you are only 
+   
 * Copy and Paste existing data
+
+   There are no limits to the amount of pasting. The name of pasted data will have `Copy of `
+   
 
 
 ## 3. Make your own recipes
@@ -74,19 +79,33 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
    
 **Editing recipe code**
 
-   Editing a template will result in the changes having to be reviewed and authorized by a staff member.
-    
+   * Editing Json
+
+   * Editing template
+   
+       Editing a template will result in the changes having to be reviewed and authorized by a staff member.
+   
 
 ## 4. Running recipes
 
 * Authorization
 
+   You need `WRITE ACCESS` to view pages
+
 * Job states
+   `Queued`
+   `Running`
+   `Completed`
+   `Error`
+   `Deleted`
+   `Spooled`
+   `Paused`
+   `Restored` 
 
 * Deleting and Editing jobs
 
 * Getting results
-You can copy files from pipeline results
+   You can copy files from pipeline results
 
 
 ## 5. Simple Demo
