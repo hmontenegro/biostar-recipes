@@ -79,25 +79,25 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
 
 * Authorization
 
-   You need `WRITE ACCESS` to view pages
+   You need `WRITE ACCESS` to run analysis; in addition, 
 
 * Job states
 
-     `Queued`
+     `Queued` - Job is staged to run.
+     
+     `Spooled` -
    
-     `Running`
+     `Running` -
    
-     `Completed`
+     `Completed` - 
    
-     `Error`
+     `Error` - 
    
-     `Deleted`
+     `Deleted` - Deleted and can be found in your recycle bin.
    
-     `Spooled`
+     `Paused` -
    
-     `Paused`
-   
-     `Restored` 
+     `Restored` -
 
 * Deleting and Editing jobs
 
