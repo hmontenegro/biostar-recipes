@@ -4,9 +4,11 @@
 ## Start a project
 
 To start the a project, simply click the ```Create Project``` button found
-at the bottom of your projects list.
+at the bottom of your projects list. This will open page allowing you to name your project, give it an image, etc. 
 
-###### Access
+Clicking `Create` makes an empty project and gives you `OWNER ACCESS` to it. 
+
+Having `OWNER ACCESS` to a project means you created the project and can delete/edit anything inside of it.
 
 
 ## Import data
