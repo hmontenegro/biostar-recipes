@@ -3,9 +3,7 @@
 
 ## Where to start ?
 
-The first step is to create a project you will be given full access to. 
-
-To create a project, click the ```Create Project``` button found at the bottom of your projects list. 
+The first step is to create a project you will be given full access to. To  do this, click the ```Create Project``` button found at the bottom of your projects list. 
 
 This will open page allowing you to name your project, give it an image, etc. 
 
@@ -28,6 +26,7 @@ We will show how to populate an empty project with these steps.
 ## 1. Add collaborators
 
 To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
+
 
 Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
 
