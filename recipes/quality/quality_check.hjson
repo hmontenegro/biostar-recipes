@@ -7,13 +7,15 @@
     type: FASTQ
     display: DROPDOWN
   }
-    quality: {
+
+  quality: {
     label: Quality Score
     display: INTEGER
     value: 30
     help: Average threshold quality score within the window. Put 0 if you do not want to perform sliding window trimming.
     range: [ 0,50 ]
   }
+
   minLength: {
     label: Minimum Length
     display: INTEGER
