@@ -107,7 +107,7 @@ Editing recipe code is done by clicking `View Code`.
    
        Editing a template will result in the changes having to be reviewed and authorized by a staff member.
        
-       The recipe can not be executed without a staff member authorizing it. 
+       A recipe with a changed template can not be executed without a staff member authorizing it. 
        
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code.png "Recipe code")
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code2.png "Recipe code")
@@ -120,6 +120,9 @@ Editing recipe code is done by clicking `View Code`.
       
      1. You need `WRITE ACCESS` to the project
      2. Recipe needs to be reviewd by a staff if any changes have been made.
+     
+    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/template_change.png "Recipe code")
+     
 
 * Job states
 
@@ -144,7 +147,7 @@ Editing recipe code is done by clicking `View Code`.
    Deleting and editing jobs are actions only allowed to the creator of the job or project. 
    
 
-* Getting results
+* Gathering results
 
    In the same way you copy data, you can also copy result files 
 
