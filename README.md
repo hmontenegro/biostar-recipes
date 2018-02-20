@@ -1,6 +1,5 @@
 # Biostar Recipes
 
-
 Life sciences are experiencing a reproducibility crisis. 
 It has become unexpectedly challenging to even understand how analyses 
 are performed and even more difficult to repeat the same process again.
@@ -25,6 +24,12 @@ A recipe consists of two files:
 1. The interface specification. This is a text file in the JSON format that describes the parameters
 and how these are rendered.
 2. The script template. This specify the actions that the script performs.
+
+## How to write recipes?
+
+See the page 
+
+* [How to write recipes?](docs/how-to-write-recipes.md)
 
 ## How do I learn how to write recipes?
 

@@ -1,0 +1,74 @@
+{
+
+settings: {
+    uid: fish
+
+    name: Fish Metabarcoding
+
+    image: usfish-project.jpg
+
+    summary: '''
+    This project contains data and analysis recipes for studying metabarcoded
+    data of fish populations.
+    '''
+
+    text: '''
+    # Help
+
+    Metabarcoded data
+    '''
+}
+
+analyses: [
+
+    {
+        json: recipes/quality/fastqc.hjson
+        template: recipes/quality/fastqc.sh
+    }
+
+     {
+        json: recipes/classify/centrifuge.hjson
+        template: recipes/classify/centrifuge.sh
+    }
+
+    ]
+
+data: [
+
+        {
+            name: Sequencing Run 1
+            value: /export/data/usfish/runs/run1
+            type: FASTQ
+            summary: Data for sequencing run 1
+        }
+
+        {
+            name: Sequencing Run 2
+            value: /export/data/usfish/runs/run2
+            type: FASTQ
+            summary: Data for sequencing run 2
+        }
+
+        {
+            name: Sequence accession numbers.txt
+            value: /export/data/usfish/reference/run1/accessions.txt
+            type: ACCESSION
+            summary: Accession numbers for the reference sequences.
+            text: '''
+            A list with accession numbers.
+            '''
+        }
+
+        {
+            name: Fish database.fa
+            value: /export/data/usfish/reference/run1/fish_seq.fa
+            type: FASTA
+            summary: Fish sequences extracted from accession numbers.
+            text: '''
+            Sequences that correspond to accession numbers.
+            '''
+        }
+
+    ]
+
+}

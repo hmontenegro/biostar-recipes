@@ -6,6 +6,7 @@
     type: FASTQ
     display: DROPDOWN
     source: PROJECT
+    help: This should be a collection of FASTQ files.
   }
 
   group: {
@@ -16,6 +17,14 @@
       [ "nogroup", "No Grouping"]
     ]
     value: default
+    help: Turns on/off binning in the plots.
+  }
+
+  summarize: {
+    label: Summarize with MultiQC
+    display: CHECKBOX
+    value: true
+    help: Check this to produce a single plot with all data overlaid.
   }
 
   settings: {
