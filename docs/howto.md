@@ -86,7 +86,7 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
      
      2. Click `Copy Recipe` and save it into your clipboard. 
       
-      ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_paste.png "Paste Recipe")
+     ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_paste.png "Paste Recipe")
       
     This is the simplest way of populating your project with recipes.
     
