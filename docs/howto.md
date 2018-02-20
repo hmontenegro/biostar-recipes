@@ -7,7 +7,7 @@ The first recommended step is to create a project where you will be given full a
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/create_project.png "Create Project")
 
-This will open page allowing you to name your project, give it an image, etc. 
+This will open a page allowing you to name your project, give it an image, etc. 
 
 Clicking `Create` makes an empty project that you have `OWNER ACCESS` to. 
 
@@ -18,18 +18,19 @@ Now that you have complete access to a project you can populate it with data, co
 
 To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
 
-
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/manage_access.png "Manage Access")
+
+That will take you to an access page that allows you to add collaborators by searching for them and changing their access rights to the project. 
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/access_interface.png "Manage Access")
 
 Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
 
-* `READ ACCESS` allows users to view and copy what they may desire.  
+* `READ ACCESS` Allows users to view and copy what they may desire.  
 
-* `WRITE ACCESS` allows users to: import data, create and run recipes, and delete/edit what they create.
+* `WRITE ACCESS` Allows users to: import data, create and run recipes, and delete/edit what they create.
 
-* `OWNER ACCESS` allows users to delete/edit anything and revoke/grant access to project
-
-The project creator is the only one with `OWNER ACCESS` to a project
+* `OWNER ACCESS` Given to user when creating a project. Allows them to delete/edit anything and revoke/grant access to project.
 
 
 ## 2. Import data
@@ -40,8 +41,10 @@ The project creator is the only one with `OWNER ACCESS` to a project
    You can upload data by clicking the ```Upload File``` button found at the top of your data list page. 
    
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_dash.png "Manage Access")
+   
+   This will open a page allowing you to name your data, give it a type, etc. 
 
-   There is a 25 MB file size limit and every user gets approximately 300 MB of upload space. 
+   There is a 25 MB file size limit and every user gets approximately 300 MB of total upload space. 
    
 * Copy and Paste existing data ( **Recommended** )
 
@@ -55,9 +58,23 @@ The project creator is the only one with `OWNER ACCESS` to a project
      
      ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/copy_data.png "Copy Data")
 
+   You can edit the information like name, type, and description by clicking the `Edit Info` button found on the bottom of every data page.
    
-   Copied data will have `Copy of ` in the beginning of its name after being pasted . 
+    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_info.png "Edit Data")
    
+   
+**Data Types**
+
+
+Data types are used to sub-select for data during analysis. You can specifiy a data type when uploading or afterwards by clicking `Edit Info` . 
+
+To change a type, you simply have to enter a string in the box labeled `Data Type`. Leaving it blank on upload will give the data a default type `DATA`.  
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_type.png "Edit Data")
+
+Data can have multiple types, all comma seperated. This denotes that data will be sub-selected for any type present in the comma seperated string.   
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_type2.png "Edit Data")
 
 
 ## 3. Make your own recipes
@@ -99,7 +116,7 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
 
 Editing recipe code is done by clicking `View Code`. 
 
-   * Editing Json
+   * Editing Json and **Sub-selecting data types**
    
       You can make changes to the interface and preview them before saving. 
 
@@ -111,6 +128,8 @@ Editing recipe code is done by clicking `View Code`.
        
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code.png "Recipe code")
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code2.png "Recipe code")
+
+
 
 ## 4. Running recipes
 
@@ -126,21 +145,21 @@ Editing recipe code is done by clicking `View Code`.
 
 * Job states
 
-     `Queued` : Job is staged to run.
+     `Queued`    : Job is staged to run.
      
-     `Spooled` : Spooling directory has been made and script is ready to be ran.
+     `Spooled`   : Spooling directory has been made and script is ready to be ran.
    
-     `Running` : Job script is ran using bash.
+     `Running`   : Job script is ran using bash.
    
      `Completed` : Job is successfully completed.
    
-     `Error` : Job is unsuccessfully completed.
+     `Error`     : Job is unsuccessfully completed.
    
-     `Deleted` : Deleted job not appearing in your list but your recycle bin.
+     `Deleted`   : Deleted job not appearing in your list but your recycle bin.
    
-     `Paused` : Job is paused from its previous state. 
+     `Paused`    : Job is paused from its previous state. 
    
-     `Restored` : A once deleted job restored from the recycle bin. 
+     `Restored`  : A once deleted job restored from the recycle bin. 
 
 * Deleting and Editing jobs
    
