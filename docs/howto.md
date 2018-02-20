@@ -118,8 +118,6 @@ Editing recipe code is done by clicking `View Code`.
 
    * Editing json and **sub-selecting for data types**
       
-      The recipe interface is dynamically generated using json. This allows us to edit it and preview changes before saving them. 
-      
       Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` for the interface to be  correctly generated.
       
       Here are simple examples that show how to sub-select:
