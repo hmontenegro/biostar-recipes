@@ -108,6 +108,8 @@
 
       There is the option to subselect  1 percent or 10 percent of the sequencing data.
 
+      Recipe can be run either with kallisto or salmon algorithm.
+
 
       # Parameters
 

@@ -28,7 +28,7 @@ FRAG_LEN={{fragment_length.value}}
 FRAG_SD={{fragment_sd.value}}
 
 # Run log to redirect unwanted output.
-RUNLOG=runlog/runlog.txt
+RUNLOG=runlog/runlog.
 
 # This directory should already exist.
 mkdir -p runlog
@@ -39,26 +39,28 @@ mkdir -p results
 # Directory with intermediate files.
 mkdir -p tmp
 
+# Directory with sub-sampled data.
+READS=reads
+mkdir -p $READS
+
+# The name of the input files.
+FILES=${READS}/files.txt
+
 #Create file list
-cat ${TOC} | egrep 'fastq|fq'|sort >files.txt
-INPUT=files.txt
+cat ${INPUT} | egrep 'fastq|fq'|sort >${FILES}
 
 # Sub-sample data.
 if [ ${FRACTION} != 1 ]; then
 
-    # Directory with sub-sampled data
-    READS=reads
-    mkdir -p $READS
+    # The random seed for sampling.
+    SEED=$((1 + RANDOM % 1000))
 
-    # Subsample data.
-    echo "Randomly sampling $FRACTION fraction of data"
-    cat ${INPUT} |  parallel "seqtk sample -s 11 {} $FRACTION >$READS/{/.}.fq"
-
-    # The name of the new table of contents.
-    INPUT=$READS/toc.txt
+    # Generate a random sample of each input file.
+    echo "Sampling fraction=$FRACTION of data with random seed=$SEED"
+    cat ${FILES} |  parallel "seqtk sample -s $SEED {} $FRACTION >$READS/{/.}.fq"
 
     # Create table of contents with sub-sampled data.
-    ls -1 $READS/*.fq > $INPUT
+    ls -1 $READS/*.fq > ${FILES}
 fi
 
 # Index directory.
@@ -73,18 +75,21 @@ SINDEX=${INDEX_DIR}/{{transcripts.uid}}_salmon.idx
 
 # Build the Kallisto index if needed.
 if [ "$TOOL" == "kallisto" ] && [ ! -f "$KINDEX" ]; then
+
     echo "Building the kallisto index."
     kallisto index -i ${SINDEX} ${TRANSCRIPTS} >> $RUNLOG 2>&1
 fi
 
 # Build the Salmon index if needed.
 if [ "$TOOL" == "salmon" ] && [ ! -f "$SINDEX" ]; then
+
     echo "Building the salmon index."
     salmon index -i ${SINDEX} -t ${TRANSCRIPTS} -p 2 >> $RUNLOG 2>&1
 fi
 
 # Kallisto in single end mode.
 if [ "$TOOL" == "kallisto" ] && [ "$LIBRARY" == "SE" ]; then
+
     echo  "Estimating transcript abundances using $TOOL in single end mode."
     cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 kallisto quant -o results/{1/.}.out  -i ${KINDEX} --single
     -l ${FRAG_LEN} -s ${FRAG_SD} {} >> $RUNLOG 2>&1
@@ -92,24 +97,46 @@ fi
 
 # Kallisto in paired end mode.
 if [ "$TOOL" == "kallisto" ] && [ "$LIBRARY" == "PE" ]; then
+
     echo "Estimating transcript abundances usinf $TOOL in paired end mode."
-    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${KINDEX} {1}
+
+    if [ "$LIBRARY_TYPE" == "unstranded" ]; then
+        cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out  -i ${KINDEX} {1}
      {2} >> $RUNLOG 2>&1
+
+    else
+        # run kallisto in stranded mode.
+        cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2  -j 4 kallisto quant -o results/{1/.}.out --${LIBRARY_TYPE} -i ${KINDEX} {1}
+     {2} >> $RUNLOG 2>&1
+     fi
+
 fi
 
 # Salmon in single end mode.
 if [ "$TOOL" == "salmon" ] && [ "$LIBRARY" == "SE" ]; then
+
     echo  "Estimating transcript abundances using $TOOL in single end mode."
-    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 salmon quant -o results/{1/.}.out  -i ${SINDEX} --libType A
+    cat ${INPUT}| egrep "fastq|fq" | sort | parallel -j 4 salmon quant -o results/{1/.}.out  -i ${SINDEX} --libType ${LIBRARY_TYPE}
      -r {} >> $RUNLOG 2>&1
 fi
 
 
 # Salmon in paired end mode.
 if [ "$TOOL" == "salmon" ] && [ "$LIBRARY" == "PE" ]; then
+
     echo  "Estimating transcript abundances using $TOOL in single end mode."
+
+    if ["${LIB_TYPE}" == "fr-stranded" ]; then
+        LIB_TYPE_STR=${ORIENTATION}"SF"
+    fi
+
+    if ["${LIB_TYPE}" == "rf-stranded" ]; then
+        LIB_TYPE_STR=${ORIENTATION}"SR"
+    fi
+
     cat ${INPUT}| egrep "fastq|fq" | sort | parallel -N 2 -j 4 salmon quant -o results/{1/.}.out  -i ${SINDEX}
-    --libType A -1 {1} -2 {2} >> $RUNLOG 2>&1
+    --libType ${LIB_TYPE_STR} -1 {1} -2 {2} >> $RUNLOG 2>&1
+
 fi
 
 
@@ -123,7 +150,7 @@ fi
 
 if [ "$TOOL" == "salmon" ]; then
     # Directory name is the sample name.
-    # Rename est_count column to sample name and extract it into a new file.
+    # Rename NumReads column to sample name and extract it into a new file.
     ls -d results/* | cut -f 2 -d "/" | parallel "sed -e 1s/NumReads/{.}/ results/{}/quant.sf | cut -f 5 >tmp/{}_counts.txt"
 fi
 
