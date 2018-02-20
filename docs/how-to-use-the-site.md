@@ -1,12 +1,12 @@
 # How to use the website?
 
-The following questions enumerate the recommended practices when using the site.
+The following questions describe the recommended practices when using the site.
 
-### 1. Create your project
+## 1. Create your project
 
-Each project has permissions associated with them. This can be confusing at first.
+Each project has permissions associated with them. You have full (read/write) access) to projects that you create.
 
-You have full (read/write) access) to projects that you create. Start by creating your own project until you become more familiar with permissions.
+Start by creating your own project until you become more familiar with permissions.
 
 To create a project, click the ```Create Project``` button found at the top of your projects list.
 
@@ -14,10 +14,9 @@ To create a project, click the ```Create Project``` button found at the top of y
 
 This will open a page allowing you to name your project, optionally give it an image,  provide a description etc.
 
-Creating an new and empty project will give you full access to it.
-You may now populate your project with recipes, data and you may allow other users to access your project.
+You may now populate your new project with recipes, data and you may allow other users to access your project.
 
-### 2. Create recipes
+## 2. Create recipes
 
 Start by copying existing recipes from other projects.
 
