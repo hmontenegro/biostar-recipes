@@ -39,6 +39,8 @@ The project creator is the only one with `OWNER ACCESS` to a project
    
    You can upload data by clicking the ```Upload File``` button found at the top of your data list page. 
    
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_dash.png "Manage Access")
+
    There is a 25 MB file size limit and every user gets approximately 300 MB of upload space. 
    
 * Copy and Paste existing data ( **Recommended** )
@@ -51,6 +53,8 @@ The project creator is the only one with `OWNER ACCESS` to a project
      
      2. Select data/files and click `Copy Data` at the bottom 
      
+     ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/copy_data.png "Copy Data")
+
    
    Copied data will have `Copy of ` in the beginning of its name after being pasted . 
    
@@ -65,6 +69,8 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
     To create a brand new recipe click on the ```Create Recipe``` button found at the bottom
     of your recipes list. 
     
+    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_create.png "Create Recipe")
+    
     This opens a page that allowing you to name your recipe, give it a picture, etc. 
     
     Clicking `Save` will create a recipe with an empty template and json file, which you can edit by clicking `View Code`. 
@@ -75,8 +81,12 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
     You can copy data by following these steps:
     
      1. Go to a recipe of choice and right under the run button should be a `Copy Recipe` button.
-      
+     
+     ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_copy.png "Copy Recipe")
+     
      2. Click `Copy Recipe` and save it into your clipboard. 
+      
+     ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_paste.png "Paste Recipe")
       
     This is the simplest way of populating your project with recipes.
     
@@ -98,7 +108,9 @@ Editing recipe code is done by clicking `View Code`.
        Editing a template will result in the changes having to be reviewed and authorized by a staff member.
        
        The recipe can not be executed without a staff member authorizing it. 
-   
+       
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code.png "Recipe code")
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code2.png "Recipe code")
 
 ## 4. Running recipes
 
