@@ -52,9 +52,9 @@ Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other user
    
    You can copy data by following these steps:
    
-     1. Click on `Browse Files` to see data/file copying interface
+     1. Click on `Browse Files` to see the copying interface
      
-     2. Select data/files and click `Copy Data` at the bottom 
+     2. Select the files and click `Copy Data`
      
      ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/copy_data.png "Copy Data")
 
