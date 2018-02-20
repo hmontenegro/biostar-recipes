@@ -26,4 +26,3 @@ data: dir
 pack: dir
 	(cd export && tar czvf ${DATA_FILE} local )
 	(cd export && rsync -avz ${DATA_FILE} ${USER}@${DATA_HOST}:${DATA_DIR}/)
-

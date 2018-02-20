@@ -37,14 +37,14 @@ data: [
 
         {
             name: Sequencing Run 1
-            value: /export/data/usfish/run1
+            value: /export/data/usfish/runs/run1
             type: FASTQ
             summary: Data for sequencing run 1
         }
 
         {
             name: Sequencing Run 1
-            value: /export/data/usfish/run2
+            value: /export/data/usfish/runs/run2
             type: FASTQ
             summary: Data for sequencing run 2
         }
