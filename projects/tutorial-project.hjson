@@ -33,7 +33,7 @@ data: [
 
     {
         name: Genome.fa
-        value: ../biostar-recipes/recipes/tutorial/data/genome.fa
+        value: recipes/tutorial/data/genome.fa
         type: FASTA
         summary: A test genome file.
         text: A longer description for the test sequence file goes here.
@@ -41,7 +41,7 @@ data: [
 
     {
         name: SRR numbers.txt
-        value: ../biostar-recipes/recipes/tutorial/data/sra.txt
+        value: recipes/tutorial/data/sra.txt
         type: SRR
         summary: SRR sequencing run accession numbers from SRA.
         text: Each line represents a SRR run id.
@@ -49,7 +49,7 @@ data: [
 
     {
         name: Data directory
-        value: ../biostar-recipes/recipes/tutorial/collection
+        value: recipes/tutorial/collection
         summary: An entire folder may be represented as a single data entry.
         text: This collection contains multiple files. The data view lists the content of the directory.
     }

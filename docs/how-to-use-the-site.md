@@ -2,7 +2,7 @@
 
 The following questions describe the recommended practices when using the site.
 
-## 1. Create your project
+## 1. Create a project
 
 Each project has permissions associated with them. You have full (read/write) access) to projects that you create.
 
@@ -18,11 +18,13 @@ You may now populate your new project with recipes, data and you may allow other
 
 ## 2. Create recipes
 
-Start by copying existing recipes from other projects.
+The simples way to get a recipe is to by copy an existing recipes from another project.
 
-Visit any **other** project accesible to you, select the `Recipes` tab then press the `Copy Recipe` from that project to your current project. The steps to achieve this are the following:
+Visit any **other** project accessible to you, select the `Recipes` tab, pick the recipe of interest, then press the `Copy Recipe` button.
 
  ![Copy Recipe](images/recipe_copy.png)
+
+Now navigate back to the project that you have created and in the `Recipes` tab select the `Paste Recipe` button that is now visible to you.
 
 
 ## 1. Add collaborators
