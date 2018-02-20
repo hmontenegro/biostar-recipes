@@ -108,7 +108,9 @@ Editing recipe code is done by clicking `View Code`.
        Editing a template will result in the changes having to be reviewed and authorized by a staff member.
        
        The recipe can not be executed without a staff member authorizing it. 
-   
+       
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code.png "Recipe code")
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code2.png "Recipe code")
 
 ## 4. Running recipes
 
