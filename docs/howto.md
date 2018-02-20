@@ -19,6 +19,8 @@ Now that you have complete access to a project you can populate it with data, co
 To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
 
 
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/manage_access.png "Manage Access")
+
 Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
 
 * `READ ACCESS` allows users to view and copy what they may desire.  
