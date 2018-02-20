@@ -33,13 +33,22 @@ The project creator is the only one with `OWNER ACCESS` to a project
 
 * Uploading files
    
-   You can upload data by clicking the ```Upload File``` button on your data list page. 
+   You can upload data by clicking the ```Upload File``` button found at the top of your data list page. 
    
-   25 MB file size limit and you are only 
+   There is a 25 MB file size limit and every user gets approximately 300 MB of upload space. 
    
-* Copy and Paste existing data
+* Copy and Paste existing data ( **Recommended** )
 
-   There are no limits to the amount of pasting. The name of pasted data will have `Copy of `
+   Copy files or data from other projects you have `READ ACCESS` to and paste them with no limits on size.
+   
+   You can copy data by following these steps:
+   
+     1. Click on `Browse Files` to see data/file copying interface
+     
+     2. Select data/files and click `Copy Data` at the bottom 
+     
+   
+   Copied data will have `Copy of ` in the beginning of its name after being pasted . 
    
 
 
@@ -59,6 +68,12 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
    
 * Copy and Paste existing recipes ( **Recommended** )
 
+    You can copy data by following these steps:
+    
+     1. Go to a recipe of choice and right under the run button should be a `Copy Recipe` button.
+      
+     2. Click `Copy Recipe` and save it into your clipboard. 
+      
     This is the simplest way of populating your project with recipes.
     
     You only need `READ ACCESS` to be able to copy a recipe, so public project like `The Biostar Cookbook` are treasure troves.
@@ -68,42 +83,54 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
    
 **Editing recipe code**
 
+Editing recipe code is done by clicking `View Code`. 
+
    * Editing Json
+   
+      You can make changes to the interface and preview them before saving. 
 
    * Editing template
    
        Editing a template will result in the changes having to be reviewed and authorized by a staff member.
+       
+       The recipe can not be executed without a staff member authorizing it. 
    
 
 ## 4. Running recipes
 
 * Authorization
 
-   You need `WRITE ACCESS` to run analysis; in addition, 
+   Two things need to be occur before running recipes
+      
+     1. You need `WRITE ACCESS` to the project
+     2. Recipe needs to be reviewd by a staff if any changes have been made.
 
 * Job states
 
      `Queued` - Job is staged to run.
      
-     `Spooled` -
+     `Spooled` - Spooling directory has been made and script is ready to be ran.
    
-     `Running` -
+     `Running` - Job script is ran using bash.
    
-     `Completed` - 
+     `Completed` - Job is successfully completed.
    
-     `Error` - 
+     `Error` - Job is unsuccessfully completed.
    
-     `Deleted` - Deleted and can be found in your recycle bin.
+     `Deleted` - Deleted job not appearing in your list but your recycle bin.
    
-     `Paused` -
+     `Paused` - Job is paused from its previous state. 
    
-     `Restored` -
+     `Restored` - A once deleted job restored from the recycle bin. 
 
 * Deleting and Editing jobs
+   
+   Deleting and editing jobs are actions only allowed to the creator of the job or project. 
+   
 
 * Getting results
 
-   You can copy files from pipeline results
+   In the same way you copy data, you can also copy result files 
 
 
 ## 5. Simple Demo
