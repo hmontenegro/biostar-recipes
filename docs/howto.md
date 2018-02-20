@@ -5,7 +5,7 @@
 
 The first step is to create a project you will be given full access to. To  do this, click the ```Create Project``` button found at the bottom of your projects list. 
 
-![alt text](docs/images/create_project.png "Create Project")
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/create_project.png "Create Project")
 
 This will open page allowing you to name your project, give it an image, etc. 
 
@@ -18,6 +18,8 @@ Now that you have complete access to a project you can populate it with data, co
 
 To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
 
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/manage_access.png "Manage Access")
 
 Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
 
