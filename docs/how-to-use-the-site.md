@@ -1,16 +1,29 @@
-# How to use the site?
+# How to use the website?
 
-## Where to start ?
+The following questions enumerate the recommended practices when using the site.
 
-The first recommended step is to create a project where you will be given full access. To do this, click the ```Create Project``` button found at the top of your projects list. 
+### 1. Create your project
 
-![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/create_project.png "Create Project")
+Each project has permissions associated with them. This can be confusing at first.
 
-This will open a page allowing you to name your project, give it an image, etc. 
+You have full (read/write) access) to projects that you create. Start by creating your own project until you become more familiar with permissions.
 
-Clicking `Create` makes an empty project that you have `OWNER ACCESS` to. 
+To create a project, click the ```Create Project``` button found at the top of your projects list.
 
-Now that you have complete access to a project you can populate it with data, collaborators, and recipes. 
+![Create Project](images/create_project.png)
+
+This will open a page allowing you to name your project, optionally give it an image,  provide a description etc.
+
+Creating an new and empty project will give you full access to it.
+You may now populate your project with recipes, data and you may allow other users to access your project.
+
+### 2. Create recipes
+
+Start by copying existing recipes from other projects.
+
+Visit any **other** project accesible to you, select the `Recipes` tab then press the `Copy Recipe` from that project to your current project. The steps to achieve this are the following:
+
+ ![Copy Recipe](images/recipe_copy.png)
 
 
 ## 1. Add collaborators
