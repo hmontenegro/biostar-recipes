@@ -42,7 +42,7 @@ data: [
 
     {
         name: Results: Genome Annotations.gtf
-        value: /export/data/giraffe/annot/annotations.gtf
+        value: /export/data/giraffe/results/annotations.gtf
         type: GTF, ANNOTATIONS
         summary: Annotations produced with Augustus and using RNA-Seq data.
         text: '''
@@ -52,7 +52,7 @@ data: [
 
     {
         name: Results: Protein Sequences.fa
-        value: /export/data/giraffe/annot/protein.fa
+        value: /export/data/giraffe/results/proteins.fa
         type: FASTA, PROTEIN
         summary: Predicted protein sequences.
         text: '''
@@ -61,8 +61,19 @@ data: [
     }
 
     {
+        name: Results: Functional Annotations.txt
+        value: /export/data/giraffe/results/functional-annotations.txt
+        type: FASTA, TRANSCRIPT
+        summary: Functional annotations for each gene annotation.
+        text: '''
+        Contains the predicted transcript sequences annotated by their closest
+        match to a known sequence.
+        '''
+    }
+
+    {
         name: Results: Transcript Sequences.fa
-        value: /export/data/giraffe/annot/transcripts.fa
+        value: /export/data/giraffe/results/transcripts.fa
         type: FASTA, TRANSCRIPT
         summary: Predicted transcript sequences.
         text: '''

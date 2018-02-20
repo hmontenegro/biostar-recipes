@@ -8,6 +8,18 @@
     type: FASTQ
     display: DROPDOWN
   }
+
+  library: {
+        value: SE
+        label: Library type
+        help: See the help for file naming requirement.
+        display: RADIO
+        choices: [
+            ["SE", "Single end"],
+            ["PE", "Paired end" ],
+        ]
+  }
+
   settings:
   {
     name: Taxonomic Classification
@@ -56,6 +68,9 @@
 
       Tools website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
 
+      ## Requirements
+
+      For paired end reads, naming should be such that after sorting replicates group together.
 
       '''
   }
