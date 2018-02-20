@@ -3,7 +3,7 @@
 
 ## Where to start ?
 
-The first recommended step is to create a project where you will be given full access. To do this, click the ```Create Project``` button found at the bottom of your projects list. 
+The first recommended step is to create a project where you will be given full access. To do this, click the ```Create Project``` button found at the top of your projects list. 
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/create_project.png "Create Project")
 
