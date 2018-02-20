@@ -146,6 +146,7 @@ Editing recipe code is done by clicking `View Code`.
    
    Deleting and editing jobs are actions only allowed to the creator of the job or project. 
    
+   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/job_edit.png "Recipe code")
 
 * Gathering results
 
