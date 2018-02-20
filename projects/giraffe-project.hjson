@@ -72,16 +72,6 @@ data: [
     }
 
     {
-        name: Results: Transcript Sequences.fa
-        value: /export/data/giraffe/results/transcripts.fa
-        type: FASTA, TRANSCRIPT
-        summary: Predicted transcript sequences.
-        text: '''
-        Contains the predicted transcript sequences based on the annotations generated with Augustus.
-        '''
-    }
-
-    {
         name: Assembly: Short Section.fa
         value: /export/data/giraffe/assembly/subset.fa
         type: FASTA
