@@ -51,14 +51,14 @@ data: [
 
         {
             name: Sequence accession numbers.txt
-            value: /export/data/usfish/reference/run1/accession.txt
+            value: /export/data/usfish/reference/run1/accessions.txt
             type: ACCESSION
             summary: Accession numbers for the reference sequences.
         }
 
         {
             name: Fish database.fa
-            value: /export/data/usfish/reference/run1/fish_seq.txt
+            value: /export/data/usfish/reference/run1/fish_seq.fa
             type: FASTA
             summary: Fish sequences extracted from accession numbers.
         }
