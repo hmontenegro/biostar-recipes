@@ -26,11 +26,11 @@ else
     cat ${FILES} | parallel -j 4 "centrifuge -x  $INDEX -U {} > results/{1/.}.rep"
 fi
 
-
-# Reformat the results as a report.
+# Reformat each results as a report.
 for FNAME in results/*.rep; do
     echo "-------- Processing $FNAME -------"
     centrifuge-kreport -x $INDEX $FNAME > $FNAME.txt
 done
 
-
+# Rename file to be readable in the browser.
+mv centrifuge_report.tsv centrifuge_report.txt
