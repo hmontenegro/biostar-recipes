@@ -20,7 +20,7 @@ push:
 	git push
 
 data: dir
-	(cd export && curl http://data.bioinformatics.recipes/initial/${DATA_FILE} > ${DATA_FILE} )
+	(cd export && curl http://${DATA_HOST}/initial/${DATA_FILE} > ${DATA_FILE} )
 	(cd export && tar zxvf ${DATA_FILE})
 
 pack: dir
