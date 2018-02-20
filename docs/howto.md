@@ -3,7 +3,7 @@
 
 ## Where to start ?
 
-The first recommended step is to create a project where you will be given full access. To  do this, click the ```Create Project``` button found at the bottom of your projects list. 
+The first recommended step is to create a project where you will be given full access. To do this, click the ```Create Project``` button found at the bottom of your projects list. 
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/create_project.png "Create Project")
 
@@ -52,9 +52,9 @@ Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other user
    
    You can copy data by following these steps:
    
-     1. Click on `Browse Files` to see data/file copying interface
+     1. Click on `Browse Files` to see the copying interface
      
-     2. Select data/files and click `Copy Data` at the bottom 
+     2. Select the files and click `Copy Data`
      
      ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/copy_data.png "Copy Data")
 
@@ -118,11 +118,9 @@ Editing recipe code is done by clicking `View Code`.
 
    * Editing json and **sub-selecting for data types**
       
-      The recipe interface is dynamically generated using json. This allows us to edit it and preview changes before saving them. 
+      Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` for the interface to be  correctly generated.
       
-      Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` for this interface to be  correctly generated.
-      
-      Here are examples with json that sub-selects for data:
+      Here are simple examples that show how to sub-select:
       
       
           # Only show FASTA type in the dropdown
@@ -154,10 +152,19 @@ Editing recipe code is done by clicking `View Code`.
 
 ## 4. Running recipes
 
-* Authorization
+After modifying your recipe, you can finally use it to analyze some data. To do this, choose a recipe and click on the green ```Run``` button found at the top. 
 
-   Two things need to be occur before running recipes
-      
+This opens the interface page that allows you to specify parameters and execute a recipe.
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/run_interface.png "interface")
+
+Clicking `Run` on the interface page starts a job in a `Queued` state
+
+![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/params.png)
+
+
+* Authorization requirements
+
      1. You need `WRITE ACCESS` to the project
      2. Recipe needs to be reviewd by a staff if any changes have been made.
      
