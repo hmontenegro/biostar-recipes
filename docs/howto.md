@@ -107,21 +107,21 @@ Editing recipe code is done by clicking `View Code`.
 
 * Job states
 
-     `Queued` - Job is staged to run.
+     `Queued` : Job is staged to run.
      
-     `Spooled` - Spooling directory has been made and script is ready to be ran.
+     `Spooled` : Spooling directory has been made and script is ready to be ran.
    
-     `Running` - Job script is ran using bash.
+     `Running` : Job script is ran using bash.
    
-     `Completed` - Job is successfully completed.
+     `Completed` : Job is successfully completed.
    
-     `Error` - Job is unsuccessfully completed.
+     `Error` : Job is unsuccessfully completed.
    
-     `Deleted` - Deleted job not appearing in your list but your recycle bin.
+     `Deleted` : Deleted job not appearing in your list but your recycle bin.
    
-     `Paused` - Job is paused from its previous state. 
+     `Paused` : Job is paused from its previous state. 
    
-     `Restored` - A once deleted job restored from the recycle bin. 
+     `Restored` : A once deleted job restored from the recycle bin. 
 
 * Deleting and Editing jobs
    
