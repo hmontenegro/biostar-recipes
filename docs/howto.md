@@ -20,17 +20,17 @@ To add collaborators , click ```Manage Access``` found on the bottom of your dat
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/manage_access.png "Manage Access")
 
-That will take you to an access page that allows you to add collaborators by searching for them and changing their access rights to the project. 
+That will take you to an access page that allows you to add collaborators by searching for them.
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/access_interface.png "Manage Access")
 
 Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other users.
 
-* `READ ACCESS` Allows users to view and copy what they may desire.  
+* `READ ACCESS` Allows users to view and copy what they desire.  
 
 * `WRITE ACCESS` Allows users to: import data, create and run recipes, and delete/edit what they create.
 
-* `OWNER ACCESS` Given to user when creating a project. Allows them to delete/edit anything and revoke/grant access to project.
+* `OWNER ACCESS` Given to user when creating a project. Allows them to delete/edit anything and revoke/grant access 
 
 
 ## 2. Import data
@@ -109,22 +109,43 @@ If you have `WRITE ACCESS` or higher then you have the ability to create a recip
     
     You only need `READ ACCESS` to be able to copy a recipe, so public project like `The Biostar Cookbook` are treasure troves.
     
-    After pasting the recipe you can edit it by clicking `View Code`
+    After pasting the recipe you can edit the code by clicking `View Code`.
     
    
 **Editing recipe code**
 
 Editing recipe code is done by clicking `View Code`. 
 
-   * Editing Json and **Sub-selecting data types**
-   
-      You can make changes to the interface and preview them before saving. 
-
+   * Editing json and **sub-selecting for data types**
+      
+      The recipe interface is dynamically generated using json. This allows us to edit it and preview changes before saving them. 
+      
+      Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` for this interface to be  correctly generated.
+      
+      Here are examples with json that sub-selects for data:
+      
+      
+          # Only show FASTA type in the dropdown
+          { 
+            name : Test
+            source : PROJECT
+            type : FASTA
+            display: DROPDOWN
+          }
+          
+          # Shows all data in a project
+          { 
+            name : Test
+            source : PROJECT
+            display: DROPDOWN
+          }
+    
+         
    * Editing template
    
        Editing a template will result in the changes having to be reviewed and authorized by a staff member.
        
-       A recipe with a changed template can not be executed without a staff member authorizing it. 
+       For security reasons,a recipe with a changed template can not be executed without a staff member authorizing it. 
        
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code.png "Recipe code")
    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/recipe_code2.png "Recipe code")
