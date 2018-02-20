@@ -5,6 +5,8 @@
 
 The first step is to create a project you will be given full access to. To  do this, click the ```Create Project``` button found at the bottom of your projects list. 
 
+![alt text](docs/images/create_project.png "Create Project")
+
 This will open page allowing you to name your project, give it an image, etc. 
 
 Clicking `Create` makes an empty project that you have `OWNER ACCESS` to. 
