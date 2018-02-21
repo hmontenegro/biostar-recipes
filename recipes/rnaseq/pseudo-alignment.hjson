@@ -19,7 +19,7 @@
 
   library: {
         value: PE
-        label: Library
+        label: Library type
         help: See the help for file naming requirement.
         display: RADIO
         choices: [
@@ -27,45 +27,6 @@
             ["PE", "Paired end" ],
         ]
   }
-
-  library_tpe: {
-        value: RF-stranded
-        label: Library type
-        help: Specify stranded or unstranded library.
-        display: RADIO
-        choices: [
-            ["unstranded", "Unstranded library"],
-            ["SF", "Stranded SE library with reads mapping in the forward strand of the transcript " ],
-            ["SR", "Stranded SE library with  reads mapping in the reverse strand of the transcript " ],
-            ["fr-stranded", "Stranded PE library with read1 maps to forward strand of the transcript" ],
-            ["rf-stranded", "Stranded PE library with read1 maps to reverse strand of the transcript" ],
-        ]
-  }
-
-  orientation: {
-        value: I
-        label: Read orientation
-        help: Relative orientation of PE read (Required only for Salmon in PE mode).
-        display: RADIO
-        choices: [
-            ["I", "Inward"],
-            ["O", "Outward" ],
-            ["M", "Matching" ],
-        ]
-  }
-
-
-   tool: {
-    value: kallisto
-    label: Tool to be used
-    help: Select the tool to be used for transcript abundance estimation.
-    display: DROPDOWN
-    choices: [
-        ["kallisto", "Kallisto"],
-        ["salmon", "Salmon" ],
-    ]
-  }
-
 
   fraction: {
     label: Sampling
@@ -83,7 +44,7 @@
         value: 200
         range: [ 50, 1000 ]
         label: Fragment length
-        help: Estimated average fragment length (Required for only for Kallisto in Single End mode).
+        help: Estimated average fragment length (Required in Single End mode).
         display: INTEGER
   }
 
@@ -91,7 +52,7 @@
         value: 20
         range: [ 1, 50 ]
         label: Standard deviation of fragment length
-        help: Estimated standard deviation of fragment length (Required only for Kallisto in Single End mode).
+        help: Estimated standard deviation of fragment length (Required in Single End mode).
         display: INTEGER
   }
 
@@ -107,8 +68,6 @@
       This recipe estimates the transcript abundances of sequencing reads when compared to transcripts sequences.
 
       There is the option to subselect  1 percent or 10 percent of the sequencing data.
-
-      Recipe can be run either with kallisto or salmon algorithm.
 
 
       # Parameters
