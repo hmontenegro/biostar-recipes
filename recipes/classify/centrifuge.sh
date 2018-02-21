@@ -14,8 +14,7 @@ FILES=files.txt
 cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 
 # Select the database to classify against.
-if [ ${REFERENCE} == "HV" ]; then
-    # Use the Centrifuge index.
+if [ ${REFERENCE} == "BAVH" ]; then
     INDEX=/export/refs/centrifuge/p_compressed+h+v
 else
     INDEX=/export/refs/centrifuge/p_compressed+h+v
