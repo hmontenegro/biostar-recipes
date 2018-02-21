@@ -16,7 +16,7 @@
         display: DROPDOWN
         choices: [
             ["BAVH", "Bacteria, Archaea, Viruses, Human"],
-            ["FISH", "Gnathostomata Lineage (Jawed Vertebrates)" ],
+            ["ALL", "All known organisms" ],
         ]
   }
 

@@ -17,7 +17,7 @@ cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 if [ ${REFERENCE} == "BAVH" ]; then
     INDEX=/export/refs/centrifuge/p_compressed+h+v
 else
-    INDEX=/export/refs/centrifuge/p_compressed+h+v
+    INDEX=/export/refs/centrifuge/nt
 fi
 
 # Create the reports file.
