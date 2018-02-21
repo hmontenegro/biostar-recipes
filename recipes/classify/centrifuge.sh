@@ -38,5 +38,8 @@ for FNAME in results/*.rep; do
     centrifuge-kreport -x $INDEX $FNAME > $FNAME.txt
 done
 
-# Rename file to be readable in the browser.
-mv centrifuge_report.tsv centrifuge_report.txt
+# Reformat the file for more readibility
+cat centrifuge_report.tsv | tr "\t", "," | column -t -s , > centrifuge_report.txt
+
+# Print a report to standard output.
+cat centrifuge_report.txt | head -100
