@@ -9,6 +9,17 @@
     display: DROPDOWN
   }
 
+  reference: {
+        value: BAVH
+        label: Library type
+        help: See the help for file naming requirement.
+        display: RADIO
+        choices: [
+            ["BAVH", "Bacteria, Archaea, Viruses, Human"],
+            ["FISH", "Gnathostomata Lineage (Jawed Vertebrate)" ],
+        ]
+  }
+
   library: {
         value: SE
         label: Library type

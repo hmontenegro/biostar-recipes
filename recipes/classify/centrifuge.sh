@@ -2,6 +2,8 @@
 # The table of contents for the data.
 INPUT={{reads.toc}}
 
+REFERENCE={{reference.value}}
+
 # The library type.
 LIBRARY={{library.value}}
 
@@ -11,8 +13,13 @@ FILES=files.txt
 # Create the sorted filelist.
 cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 
-# The Centrifuge index.
-INDEX=/export/refs/centrifuge/p_compressed+h+v
+# Select the database to classify against.
+if [ ${REFERENCE} == "HV" ]; then
+    # Use the Centrifuge index.
+    INDEX=/export/refs/centrifuge/p_compressed+h+v
+else
+    INDEX=/export/refs/centrifuge/p_compressed+h+v
+fi
 
 # Create the reports file.
 mkdir -p results
