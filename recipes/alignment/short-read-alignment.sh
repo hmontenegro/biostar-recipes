@@ -45,7 +45,7 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
     # Generate a random sample of each input file.
     echo "Sampling fraction=$FRACTION of data with random seed=$SEED"
-    cat ${FILES} | parallel -j $PROC "seqtk sample -2 -s $SEED {} $FRACTION >$READS/{/.}.fq"
+    cat ${FILES} | parallel -j $PROC "seqtk sample -s $SEED {} $FRACTION > $READS/{/.}.fq"
 
     # Create a new table of contents with sub-sampled data.
     ls -1 $READS/*.fq > ${FILES}
@@ -120,29 +120,21 @@ for fname in bam/*.bam; do
     samtools flagstat ${fname} >> flagstat.txt
 
     echo "-------- idxstats: $fname -------" >> idxstats.txt
-    samtools idxstats ${fname} | head -30 >> idxstats.txt
+    samtools idxstats ${fname} >> idxstats.txt
 
 done
 
-# Show the statistics on the output.
-cat flagstat.txt | head -100
+# Inform the user of the outputs.
+echo ""
+echo "Mapping statistics stored in file: flagstat.txt"
+echo "Alignment counts stored in file: idxstats.txt"
 
-# Generate IGV plots for the alignments
-# This step is optional and is used to demonstrate
-# a utility script that come with the biostar-recipes
+# Show a partial output of flagstas.txt
+echo ""
+echo "Partial output for flagstat.txt:"
+cat flagstat.txt | head -30
 
-# Make a directory for the gnome
-mkdir -p refs
-
-# This will be a link to the genome in job directory.
-LOCAL=refs/genome.fa
-
-# Link the genome to the current directory
-ln -sf $GENOME $LOCAL
-
-# Create an index for the genome
-samtools faidx $LOCAL
-
-# This module crawls the current job directory
-# and generates an IGV entry for eligible files in it.
-python -m recipes.code.igv --genome  $LOCAL --baseurl {{runtime.job_url}} > igv.xml
+# Show a partial output of flagstas.txt
+echo ""
+echo "Partial output for idstats.txt:"
+cat idxstats.txt | head -30
