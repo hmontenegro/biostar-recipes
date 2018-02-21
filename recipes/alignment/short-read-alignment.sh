@@ -126,15 +126,24 @@ done
 
 # Inform the user of the outputs.
 echo ""
-echo "Mapping statistics stored in file: flagstat.txt"
-echo "Alignment counts stored in file: idxstats.txt"
+echo "*** Main Results ***"
+echo "Mapping statistics stored in: flagstat.txt"
+echo "Alignment counts stored in: idxstats.txt"
+echo "********************"
+echo ""
 
 # Show a partial output of flagstas.txt
 echo ""
+echo "**********************"
 echo "Partial output for flagstat.txt:"
 cat flagstat.txt | head -30
+echo "..."
+echo "**********************"
 
 # Show a partial output of flagstas.txt
 echo ""
+echo "**********************"
 echo "Partial output for idstats.txt:"
 cat idxstats.txt | head -30
+echo "..."
+echo "**********************"
