@@ -30,6 +30,10 @@ analyses: [
         json: recipes/classify/centrifuge.hjson
         template: recipes/classify/centrifuge.sh
     }
+    {
+        json: recipes/quality/lamar_quality.hjson
+        template: recipes/quality/lamar_quality.sh
+    }
 
     ]
 

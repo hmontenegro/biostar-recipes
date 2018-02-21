@@ -1,0 +1,45 @@
+{
+
+  reads: {
+    value: Sequencing Run 1
+    label: Sequencing Reads
+    type: FASTQ
+    display: DROPDOWN
+    source: PROJECT
+    help: This should be a collection of FASTQ files.
+  }
+
+  samplesheet: {
+  value: export/local/run1_sampleinfo.txt
+  label: Sample sheet
+  type: TEXT
+  display: DROPDOWN
+
+
+
+  }
+
+  summarize: {
+    label: Summarize with MultiQC
+    display: CHECKBOX
+    value: true
+    help: Check this to produce a single plot with all data overlaid.
+  }
+
+  settings: {
+    name: Data pre-processing.
+    image: quality_check.png
+    summary: Performs quality trimming and primer removal.
+
+    help: '''
+
+    # Help
+
+    This recipe removes barcode and primer sequences from a paired end data collection.
+    It also trims low quality bases from reads.
+
+    Recipe produces dataset with improved quality
+    '''
+
+  }
+}
