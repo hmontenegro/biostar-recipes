@@ -26,12 +26,16 @@ FILES=${READS}/files.txt
 # Run log to redirect unwanted output.
 RUNLOG=runlog/runlog.txt
 
+# Number of processes.
+PROC=4
+
 # This directory should already exist.
 mkdir -p runlog
 
 # Generate the input file names.
 cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
+# This recipe uses the Django templating engine conditionals to render the script.
 {% if fraction.value != "1" %}
 
     # Sub-sampling step.
@@ -41,7 +45,7 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
     # Generate a random sample of each input file.
     echo "Sampling fraction=$FRACTION of data with random seed=$SEED"
-    cat ${FILES} | egrep "fastq|fq" | parallel "seqtk sample -2 -s $SEED {} $FRACTION >$READS/{/.}.fq"
+    cat ${FILES} | parallel -j $PROC "seqtk sample -2 -s $SEED {} $FRACTION >$READS/{/.}.fq"
 
     # Create a new table of contents with sub-sampled data.
     ls -1 $READS/*.fq > ${FILES}
@@ -60,10 +64,10 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
     {% if library.value == "SE" %}
         # Run bwa in single end mode.
-        cat ${FILES} | parallel "bwa mem -t 4 ${INDEX} {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -j $PROC "bwa mem ${INDEX} {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% else %}
         # Run bwa in paired end mode.
-        cat ${FILES} | parallel -N 2 "bwa mem -t 4 ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% endif %}
 
 {% endif %}
@@ -78,10 +82,10 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
     {% if library.value == "SE" %}
         # Run bowtie2 in single end mode.
-        cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -j $PROC "bowtie2 -x ${INDEX} --sensitive-local -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% else %}
         # Run bowtie2 in paired end mode.
-        cat ${FILES} | parallel "bowtie2 -x ${INDEX} --sensitive-local -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -N 2 -j $PROC "bowtie2 -x ${INDEX} --sensitive-local -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% endif %}
 
 {% endif %}
@@ -98,10 +102,10 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
     {% if library.value == "SE" %}
 
         # Run hisat2 in single end mode.
-        cat ${FILES} | parallel "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -j $PROC "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% else %}
         # Run hisat2 in paired end mode.
-        cat ${FILES} | parallel "hisat2 -x ${INDEX} -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
+        cat ${FILES} | parallel -N 2 -j $PROC "hisat2 -x ${INDEX} -1 {1} -2 {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% endif %}
 
 {% endif %}
