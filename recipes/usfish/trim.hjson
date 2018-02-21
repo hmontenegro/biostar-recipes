@@ -14,16 +14,9 @@
   label: Sample sheet
   type: TEXT
   display: DROPDOWN
+  source: PROJECT
+  help: Sample sheet.
 
-
-
-  }
-
-  summarize: {
-    label: Summarize with MultiQC
-    display: CHECKBOX
-    value: true
-    help: Check this to produce a single plot with all data overlaid.
   }
 
   settings: {

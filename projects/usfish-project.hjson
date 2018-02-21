@@ -38,8 +38,8 @@ analyses: [
 
 
     {
-        json: recipes/quality/lamar_quality.hjson
-        template: recipes/quality/lamar_quality.sh
+        json: recipes/usfish/trim.hjson
+        template: recipes/usfish/trim.sh
     }
 
     ]
