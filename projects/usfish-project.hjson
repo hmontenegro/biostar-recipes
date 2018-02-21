@@ -26,10 +26,17 @@ analyses: [
         template: recipes/quality/fastqc.sh
     }
 
-     {
+    {
         json: recipes/classify/centrifuge.hjson
         template: recipes/classify/centrifuge.sh
     }
+
+    {
+        json: recipes/alignment/short-read-alignment.hjson
+        template: recipes/alignment/short-read-alignment.sh
+    }
+
+
     {
         json: recipes/quality/lamar_quality.hjson
         template: recipes/quality/lamar_quality.sh
