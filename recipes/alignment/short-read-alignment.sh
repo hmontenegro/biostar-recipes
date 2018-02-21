@@ -36,7 +36,7 @@ mkdir -p runlog
 cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
 # This recipe uses the Django templating engine conditionals to render the script.
-{% if fraction.value != "1" %}
+{% if fraction.value != "ALL" %}
 
     # Sub-sampling step.
 
@@ -126,24 +126,24 @@ done
 
 # Inform the user of the outputs.
 echo ""
-echo "*** Main Results ***"
+echo "************* Main Results ***************"
 echo "Mapping statistics stored in: flagstat.txt"
 echo "Alignment counts stored in: idxstats.txt"
-echo "********************"
+echo "******************************************"
 echo ""
 
 # Show a partial output of flagstas.txt
-echo ""
-echo "**********************"
-echo "Partial output for flagstat.txt:"
+echo "***************************"
+echo "First lines in flagstat.txt:"
+echo "***************************"
 cat flagstat.txt | head -30
 echo "..."
-echo "**********************"
+echo ""
 
 # Show a partial output of flagstas.txt
-echo ""
-echo "**********************"
-echo "Partial output for idstats.txt:"
+echo "**************************"
+echo "First lines in idstats.txt:"
+echo "**************************"
 cat idxstats.txt | head -30
 echo "..."
-echo "**********************"
+echo ""

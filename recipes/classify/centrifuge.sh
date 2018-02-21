@@ -41,5 +41,16 @@ done
 # Reformat the file for more readibility
 cat centrifuge_report.tsv | tr "\t", "," | column -t -s , > centrifuge_report.txt
 
-# Print a report to standard output.
-cat centrifuge_report.txt | head -100
+echo ""
+echo "**************** Main Results *****************"
+echo "Classification stored in: centrifuge_report.txt"
+echo "***********************************************"
+echo ""
+
+# Print a partial report to standard output.
+echo "*************************************"
+echo "First lines in centrifuge_report.txt:"
+echo "*************************************"
+cat centrifuge_report.txt | head -20
+echo "..."
+echo ""
