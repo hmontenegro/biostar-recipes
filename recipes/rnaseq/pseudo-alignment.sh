@@ -84,6 +84,3 @@ paste tmp/*counts.txt > tmp/all.txt
 
 # Add  transcript ids to the counts.
 ls -d results/* | head -1 | parallel cat {}/abundance.tsv | cut -f 1 | paste - tmp/all.txt > combined_abundance.txt
-
-
-
