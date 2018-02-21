@@ -26,10 +26,10 @@ mkdir -p results
 # Choose the right classifier depending on the library setting.
 if [ ${LIBRARY} == "PE" ]; then
     # Paired end classification.
-    cat ${FILES} | parallel -N 2  -j 4 "centrifuge -x  $INDEX -1 {1} -2 {2} > results/{1/.}.rep"
+    cat ${FILES} | parallel -N 2  -j 2 "centrifuge -x  $INDEX -1 {1} -2 {2} > results/{1/.}.rep"
 else
     # Single end classification.
-    cat ${FILES} | parallel -j 4 "centrifuge -x  $INDEX -U {} > results/{1/.}.rep"
+    cat ${FILES} | parallel -j 2 "centrifuge -x  $INDEX -U {} > results/{1/.}.rep"
 fi
 
 # Reformat each results as a report.
@@ -51,6 +51,6 @@ echo ""
 echo "*************************************"
 echo "First lines in centrifuge_report.txt:"
 echo "*************************************"
-cat centrifuge_report.txt | head -20
+cat centrifuge_report.txt | head -30
 echo "..."
 echo ""
