@@ -49,7 +49,7 @@ TABLE=stats.txt
 
 echo -e "Sample\tTotal(read1)\tTrimmed\tMerged\tFiltered" >$TABLE
 
-sed 1d $SAMPLESHEET | while IFS='\t' read -r line || [[ -n "$line" ]]
+sed 1d $SAMPLESHEET | while IFS='\t' read -r line
 do
         sample=$(echo $line| cut -d " " -f 1)
         R1=$(echo $line| cut -d " " -f 7)
