@@ -1,29 +1,34 @@
 # Build fish specific centrifuge database.
 
 ID=7776
-TAXID=taxid.txt
+
 ACC=acc.txt
 SEQ=sequences.fa
 TAXAMAP=taxamap.txt
 TAXDIR=/export/refs/taxonomy
-INDEX=index/centrifuge
+INDEX=/export/refs/centrifuge/foo
 
 mkdir -p index
 
-taxonkit list --ids ${ID} --indent "" > ${TAXID}
+taxonkit list --ids ${ID} --indent "" | sort > targets.txt
+
+#
+taxonkit list --ids 40674 --indent "" | sort > remove.txt
+
+
+# Remove unwanted
+comm -2 -3 targets.txt remove.txt  > selected.txt
+
 
 # wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz
-# blastdbcmd -entry 'all' -db nt -outfmt '%a,%T' |tr ',' '\t'  >${TAXAMAP}
 # centrifuge-download -o $TAXDIR taxonomy
 
+gzcat nucl_gb.accession2taxid.gz | cut -f 2,3 | grep -w -f selected.txt > table.txt
 
-zcat nucl_gb.accession2taxid.gz | \
-      csvtk -t grep -f taxid -P ${TAXID} | \
-      csvtk -t cut -f gi > ${ACC}
+cat table.txt | cut -f 1 > accession.txt
 
-blastdbcmd -db nr -entry all -outfmt "%a\t%T" | \
-      csvtk -t grep -f 2 -P ${ACC} | \
-      csvtk -t cut -f 1 | \
-      blastdbcmd -db nr -entry_batch - -out ${SEQ}
+blastdbcmd -db nt -entry_batch accession.txt -out sequence.fa
 
-centrifuge-build -p 4 --conversion-table $TAXAMAP --taxonomy-tree $TAXDIR/nodes.dmp --name-table $TAXDIR/names.dmp $SEQ $INDEX >/dev/null
+centrifuge-build -p 4 --conversion-table table.txt --taxonomy-tree $TAXDIR/nodes.dmp --name-table $TAXDIR/names.dmp sequence.fa $INDEX >/dev/null
+
+
