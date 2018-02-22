@@ -23,7 +23,7 @@ mkdir -p filtered
 DATA_DIR=$(dirname $(cat $INPUT| head -1 ))
 
 # Trim forward and reverse primer and then trim by quality.
-echo " Removing primers and trimming by quality."
+echo "Removing primers and trimming by quality."
 
 cat $SAMPLESHEET | parallel -j 4  --header : --colsep '\t' bbduk.sh in1=${DATA_DIR}/{read1} in2=${DATA_DIR}/{read2} \
 out1=trimmed/{sample}_R1.fq.gz out2=trimmed/{sample}_R2.fq.gz literal={fwd_primer},{rev_primer} ktrim=l k=$KMER_LEN \
@@ -34,7 +34,7 @@ echo "Merging  paired end reads."
 ls trimmed/*.fq.gz | sed 's/_R1.fq.gz//g' | parallel -N 2 -j 4 bbmerge.sh in1={1}_R1.fq.gz in2={2} out=merged/{1/}_merged.fq.gz 2>>$RUNLOG
 
 # Remove reads with Ns.
-echo "Filtering reads with Ns."
+echo " Filtering reads with Ns."
 ls merged/*.fq.gz | sed 's/_merged.fq.gz//g' | parallel -j 4 bbduk.sh in={}_merged.fq.gz out=filtered/{/}_filtered.fq.gz maxns=0 2>>$RUNLOG
 
 #
@@ -49,7 +49,7 @@ TABLE=stats.txt
 
 echo -e "Sample\tTotal(read1)\tTrimmed\tMerged\tFiltered" >$TABLE
 
-sed 1d $SAMPLESHEET |while IFS='\t' read -r line || [[ -n "$line" ]]
+sed 1d $SAMPLESHEET | while IFS='\t' read -r line || [[ -n "$line" ]]
 do
         sample=$(echo $line| cut -d " " -f 1)
         R1=$(echo $line| cut -d " " -f 7)
