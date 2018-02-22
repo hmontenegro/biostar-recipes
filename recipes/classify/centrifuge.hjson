@@ -9,6 +9,17 @@
     display: DROPDOWN
   }
 
+  reference: {
+        value: BAVH
+        label: Reference library to use
+        help: The available classification categories
+        display: DROPDOWN
+        choices: [
+            ["BAVH", "Bacteria, Archaea, Viruses, Human"],
+            ["ALL", "All known organisms" ],
+        ]
+  }
+
   library: {
         value: SE
         label: Library type

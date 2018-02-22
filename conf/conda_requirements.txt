@@ -11,3 +11,5 @@ seqtk
 bedtools
 subread
 kallisto
+trimmomatic
+salmon

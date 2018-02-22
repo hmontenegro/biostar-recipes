@@ -63,7 +63,7 @@ data: [
     {
         name: Results: Functional Annotations.txt
         value: /export/data/giraffe/results/functional-annotations.txt
-        type: FASTA, TRANSCRIPT
+        type: TXT
         summary: Functional annotations for each gene annotation.
         text: '''
         Contains the predicted transcript sequences annotated by their closest
