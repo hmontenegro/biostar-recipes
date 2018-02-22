@@ -42,7 +42,7 @@
   }
 
   fraction: {
-      value: 1
+      value: "ALL"
       label: Sampling
       help: You may want to select smaller random subset of reads first
       display: DROPDOWN
