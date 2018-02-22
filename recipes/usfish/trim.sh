@@ -19,11 +19,9 @@ mkdir -p merged
 # Directory with reads that are filtered for Ns
 mkdir -p filtered
 
-# trim forward and reverse primer and then trim by quality.
-
+# Trim forward and reverse primer and then trim by quality.
 cat $SAMPLESHEET | parallel -j 4  --header : --colsep '\t' bbduk.sh in1={read1} in2={read2}  out1=trimmed/{sample}_R1.fq.gz out2=trimmed/{sample}_R2.fq.gz \
 literal={fwd_primer},{rev_primer} ktrim=l k=$KMER_LEN hdist=1 qtrim=r trimq=$QUALITY minlength=$MIN_LEN overwrite=true 2>>$RUNLOG
-
 
 # Merge trimmed reads.
 echo "Merging  paired end reads."
