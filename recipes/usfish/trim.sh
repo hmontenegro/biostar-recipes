@@ -22,7 +22,7 @@ mkdir -p filtered
 # Get data path.
 DATA_DIR=$(dirname $(cat $INPUT| head -1 ))
 
-# trim forward and reverse primer and then trim by quality.
+# Trim forward and reverse primer and then trim by quality.
 echo " Removing primers and trimming by quality."
 
 cat $SAMPLESHEET | parallel -j 4  --header : --colsep '\t' bbduk.sh in1=${DATA_DIR}/{read1} in2=${DATA_DIR}/{read2} \
@@ -36,5 +36,28 @@ ls trimmed/*.fq.gz | sed 's/_R1.fq.gz//g' | parallel -N 2 -j 4 bbmerge.sh in1={1
 # Remove reads with Ns.
 echo "Filtering reads with Ns."
 ls merged/*.fq.gz | sed 's/_merged.fq.gz//g' | parallel -j 4 bbduk.sh in={}_merged.fq.gz out=filtered/{/}_filtered.fq.gz maxns=0 2>>$RUNLOG
+
+#
+# --------------------------
+# Generate a stats table.
+# ---------------------------
+#
+echo "Generating a stats table."
+
+# File with basic stats.
+TABLE=stats.txt
+
+echo -e "Sample\tTotal(read1)\tTrimmed\tMerged\tFiltered" >$TABLE
+
+sed 1d $SAMPLESHEET |while IFS='\t' read -r line || [[ -n "$line" ]]
+do
+        sample=$(echo $line| cut -d " " -f 1)
+        R1=$(echo $line| cut -d " " -f 7)
+        total=$(bioawk -c fastx '{print $name}' $DATA_DIR/$R1 |wc -l)
+        trimmed=$(bioawk -c fastx '{print $name}' trimmed/${sample}_R1.fq.gz |wc -l)
+        merged=$(bioawk -c fastx '{print $name}' merged/${sample}_merged.fq.gz |wc -l)
+        filtered=$(bioawk -c fastx '{print $name}' filtered/${sample}_filtered.fq.gz |wc -l)
+        echo -e "$sample\t$total\t$trimmed\t$merged\t$filtered" >>$TABLE
+done
 
 
