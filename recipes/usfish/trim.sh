@@ -1,3 +1,5 @@
+set -ueo pipefail
+
 # Input parameters.
 
 INPUT={{reads.toc}}
@@ -31,11 +33,11 @@ hdist=1 qtrim=r trimq=$QUALITY minlength=$MIN_LEN overwrite=true 2>>$RUNLOG
 
 # Merge trimmed reads.
 echo "Merging  paired end reads."
-ls trimmed/*.fq.gz | sed 's/_R1.fq.gz//g' | parallel -N 2 -j 4 bbmerge.sh in1={1}_R1.fq.gz in2={2} out=merged/{1/}_merged.fq.gz 2>>$RUNLOG
+ls trimmed/*.fq.gz | sed 's/_R1.fq.gz//g' | parallel -N 2 -j 1 bbmerge.sh in1={1}_R1.fq.gz in2={2} out=merged/{1/}_merged.fq.gz 2>>$RUNLOG
 
 # Remove reads with Ns.
 echo " Filtering reads with Ns."
-ls merged/*.fq.gz | sed 's/_merged.fq.gz//g' | parallel -j 4 bbduk.sh in={}_merged.fq.gz out=filtered/{/}_filtered.fq.gz maxns=0 2>>$RUNLOG
+ls merged/*.fq.gz | sed 's/_merged.fq.gz//g' | parallel -j 1 bbduk.sh in={}_merged.fq.gz out=filtered/{/}_filtered.fq.gz maxns=0 2>>$RUNLOG
 
 #
 # --------------------------
