@@ -56,7 +56,7 @@ data: [
         {
             name: Sequencing Run 1
             value: /export/data/usfish/runs/run1
-            type: FASTQ
+            type: FASTQ, COLLECTION
             summary: Data for sequencing run 1
         }
 
@@ -85,7 +85,7 @@ data: [
         {
             name: Sequencing Run 2
             value: /export/data/usfish/runs/run2
-            type: FASTQ
+            type: FASTQ, COLLECTION
             summary: Data for sequencing run 2
         }
 

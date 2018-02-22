@@ -3,7 +3,7 @@
   reads: {
     value: Sequencing Run 1
     label: Sequencing Reads
-    type: FASTQ
+    type: COLLECTION
     display: DROPDOWN
     source: PROJECT
     help: This should be a collection of FASTQ files.
