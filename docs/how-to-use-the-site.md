@@ -2,36 +2,131 @@
 
 The following questions describe the recommended practices when using the site.
 
-## 1. Create a project
+## Site organization
 
-Each project has permissions associated with them. You have full (read/write) access) to projects that you create.
+All content on the site is organized into "projects".
 
-Start by creating your own project until you become more familiar with permissions.
+We call a project a collection of data, recipes and results.
 
-To create a project, click the ```Create Project``` button found at the top of your projects list.
+Projects are typically created with a specific goal in mind and have content relevant to that goal.
+
+## Site usage
+
+The Biostar Engine is built to help executing data analysis pipelines. A typical usage would be:
+
+1. Select a recipe
+2. Select inputs for the recipe
+3. Execute recipe
+4. View the results
+
+## Access rights
+
+Projects may be *public* this means everyone can see the content in them, or *private* where only the owner and people selected by the project manager can access the project.
+
+Access rights in turn come in two flavors: `READ ACCESS` and `WRITE ACCESS`. Basically this means that a user may be allowed to only read or do both read and write (modify) the content in a project.
+
+## How to tell what access rights you have?
+
+First of all, if you can see a project you have *read access* to it.
+
+Project that you have write access will have a thin green line under the project name. They will look like this:
+
+![Write access](images/write_access.png)
+
+This will help you immediately recognize what actionas are allowable in a project. For example if the green line is missing you won't be able to directly execute a recipe in that project. You would have to copy the recipe into a project that you do have write access to.
+
+## Create a project
+
+You have full (read/write/manage) access) to projects that you create. Start by creating your own project.
+
+To create a project, click the `Create Project` button found at the bottom of the `Project List` page.
 
 ![Create Project](images/create_project.png)
 
-This will open a page allowing you to name your project, optionally give it an image,  provide a description etc.
+This will open a form that allows you to name your project, optionally give it an image,  provide a description etc.
 
 You may now populate your new project with recipes, data and you may allow other users to access your project.
 
-## 2. Create recipes
+## Create a recipe
 
-The simples way to get a recipe is to by copy an existing recipes from another project.
+The simplest way to create a recipe is to copy an existing recipe from another project.
+We have a so called "Starter recipe" in the project named "How to create a recipe" you might want to use that as an example.
 
-Visit any **other** project accessible to you, select the `Recipes` tab, pick the recipe of interest, then press the `Copy Recipe` button.
+Visit a project that has recipes, select the `Recipes` tab, select the recipe of interest, then press the `Copy Recipe` button.
 
  ![Copy Recipe](images/recipe_copy.png)
 
-Now navigate back to the project that you have created and in the `Recipes` tab select the `Paste Recipe` button that is now visible to you.
+Now navigate to a project that you have created (or have write access to) then in the `Recipes` tab select the `Paste Recipe` button that is now visible to you.
 
+Voila! You have your first recipe.
 
-## 1. Add collaborators
+## Adding data into projects
+
+There are different ways to add data to a project:
+
+1. Upload data (there are limits on file size)
+2. Copy data from another project
+3. Import data produced as the result of running a recipe
+
+There are no limits of the data sizes that the Biostar Engine can handle but there are limits to what you may upload via the web interface.
+
+To get large datasets into the system we recommend a command line program described in the Biostar Engine documentation.
+
+Data may be copied and imported across projects.
+
+## Uploading data
+
+To upload data by click the ```Upload File``` button found at the top of your data list page.
+
+![Upload data](images/data_upload.png )
+
+This will open a page allowing you to name your data, give it a type, etc.
+
+There is a upload file size limit as well as a total upload limit for each user. These values depend on the particular settings of the server.
+
+## Copy data
+
+You may add data by copying data from other projects you have read access on .
+   You can copy data by following these steps:
+
+1\. Click on `Browse Files` to see the files
+
+![Upload data](images/data_browse.png )
+
+2\. Select the checkbox for the files you wish to copy the click `Copy Data`
+
+![Copy Data](images/copy_data.png)
+
+3\. Navigate to the destination and click `Paste Data`
+
+You can edit the information like name for each individual data entry, type, and description by clicking the `Edit Info` button found on the bottom of every data page.
+
+![Edit Data](images/data_info.png )
+
+## Data types
+
+Each data has one or more types associated with it. These types are used to filter for
+data with some properties when rendering the interface elements.
+
+When a recipe specifies a type such as `FASTA` only data with type `FASTA` will be shown in the dropdown menu.
+
+It is important to note that the site does not enforce the types, does not verify the formats. The types can be thought of as tags associated with files. You may choose to tag your data with custom types.
+
+More than one type may be listed (comma separated): `FASTQ, COLLECTION`
+
+The recipes in turn will apply a regular expression search on the types when filtering for the correct types.
+
+You can specifiy a data type when uploading or afterwards by clicking `Edit Info` .
+
+To change a type, you simply have to enter a string in the box labeled `Data Type`. Leaving it blank on upload will give the data a default type `DATA`.
+
+![Data Types](images/data_type.png)
+
+## Add collaborators
 
 To add collaborators , click ```Manage Access``` found on the bottom of your data list page.
 
-![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/manage_access.png "Manage Access")
+![Manage Access](images/manage_access.png)
 
 That will take you to an access page that allows you to add collaborators by searching for them.
 
@@ -46,48 +141,15 @@ Only the project creator can grant `READ ACCESS` or `WRITE ACCESS` to other user
 * `OWNER ACCESS` Given to user when creating a project. Allows them to delete/edit anything and revoke/grant access 
 
 
-## 2. Import data
 
+   
 
-* Uploading files
-   
-   You can upload data by clicking the ```Upload File``` button found at the top of your data list page. 
-   
-   ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_dash.png "Manage Access")
-   
-   This will open a page allowing you to name your data, give it a type, etc. 
-
-   There is a 25 MB file size limit and every user gets approximately 300 MB of total upload space. 
-   
-* Copy and Paste existing data ( **Recommended** )
-
-   Copy files or data from other projects you have `READ ACCESS` to and paste them with no limits on size.
-   
-   You can copy data by following these steps:
-   
-     1. Click on `Browse Files` to see the copying interface
-     
-     2. Select the files and click `Copy Data`
-     
-     ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/copy_data.png "Copy Data")
-
-   You can edit the information like name, type, and description by clicking the `Edit Info` button found on the bottom of every data page.
-   
-    ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_info.png "Edit Data")
    
    
 **Data Types**
 
 
-Data types are used to sub-select for data during analysis. You can specifiy a data type when uploading or afterwards by clicking `Edit Info` . 
 
-To change a type, you simply have to enter a string in the box labeled `Data Type`. Leaving it blank on upload will give the data a default type `DATA`.  
-
-![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_type.png "Edit Data")
-
-Data can have multiple types, all comma seperated. This denotes that data will be sub-selected for any type present in the comma seperated string.   
-
-![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/data_type2.png "Edit Data")
 
 
 ## 3. Make your own recipes
