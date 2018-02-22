@@ -12,7 +12,7 @@
   samplesheet: {
   value: run1_sampleinfo.txt
   label: Sample sheet
-  type: TEXT
+  type: SAMPLESHEET
   display: DROPDOWN
   source: PROJECT
   help: Sample sheet.
@@ -45,23 +45,21 @@
 
 
   settings: {
-    name: Data quality processing.
-    image: quality_check.png
+    name: Trim and merge reads
+    image: trim-merge.png
     summary: Performs primer removal, quality trimming and merging of paired end reads.
 
     help: '''
 
     # Help
 
-    ** Summary**
-
     This recipe removes barcode and primer sequences from a paired end data collection.
     The primer-free data is then quality trimmed and merged. Reads with Ns after merging are filtered out.
 
-    ** Input **
+    # Input
 
     This recipe requires a paired end data collection and a sample sheet.
-    The format of the sample sheet should be as shown below.
+    The format of the sample sheet is shown below.
 
     ```
     sample	sample_group	barcode	fwd_primer	                rev_primer	                target_gene read1	            read2
@@ -71,7 +69,8 @@
     S4	    Sarri	        ATCACG	AYAAGACGAGAAGACCC	        CCGGTCTGAACTCAGATCACGT	    16S	        S4_R1_001.fastq.gz	S4_R2_001.fastq.gz
 
     ```
-    ** Output **
+
+    # Output
 
     1. Trimmed paired end reads in trimmed directory.
     2. Merged reads after trimming in merged directory.
