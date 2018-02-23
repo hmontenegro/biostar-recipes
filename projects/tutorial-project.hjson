@@ -71,8 +71,7 @@ settings: {
 
     summary: '''
     This project contains simple analyses that demonstrate the process
-    of creating a **recipe**. More details in the [Recipe Tutorial.](/docs/recipe-tutorial)
-    Follow the **instructions,** investigate the **data** and **recipe code**
+    of creating a **recipe**. Follow the **instructions,** investigate the **data** and **recipe code**
     to gain a deeper understanding of how recipes work.
     '''
 
@@ -80,7 +79,7 @@ settings: {
 
     # Recipe Tutorials
 
-    Read the step by step instructions in the [Recipe Tutorial](/docs/recipe-tutorial).
+    Read the step by step instructions in the [How to write recipes](https://github.com/biostars/biostar-recipes/blob/master/docs/how-to-write-recipes.md).
 
     '''
     }

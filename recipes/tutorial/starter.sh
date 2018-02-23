@@ -1,39 +1,39 @@
 #
-# A recipe demonstrating the use of parameters.
+# A starter recipe with examples.
 #
 
 #
-# Access parameters.
+# You can fill in shell variables
 #
-echo "Instrument: {{instrument.value}}"
-echo "Protocol: {{protocol.value}}"
-echo "Cutoff: {{cutoff.value}}"
-echo "Validate: {{validate.value}}"
-echo "Read length: {{readlen.value}}"
+READLEN={{readlen.value}}
+
+echo "Read length: $READLEN"
 
 #
-# The files to be used.
+# Substitute into content
 #
-echo "Reads: {{reference.value}}"
-echo "SRR: {{accession.value}}"
+echo "Referene genome: {{reference.value}}"
 
 #
-# Make a nested directory structure
+# But you may also use Django Template constructs.
 #
-mkdir -p data/store/
+{% if instrument.value == 'pacbio' %}
+
+    echo "Yes, it is Pacific Biosciences!"
+
+{% else %}
+
+    echo "No, it is not Pacific Biosciences!"
+
+{% endif %}
 
 #
-# Create a few files.
+# Generate a table of content with all files in the job directory.
 #
-cat {{reference.value}} | grep  ">"  > data/store/sequence-names.txt
-cat {{accession.value}} > data/store/srr.txt
-
-#
-# Generate a table of contents.
-#
-find . -name '*' > contents.txt
+find . -name '*' > files.txt
 
 #
 # Print the contents to the screen
 #
-cat contents.txt
+echo "****** File List: files.txt ****"
+cat files.txt
