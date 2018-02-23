@@ -5,11 +5,13 @@
     image: hello-world.png
     help:
       '''
-      # Help
+      # More Help
 
       This recipe prints **Hello World!** to the console.
 
       Note how the console output is captured in the standard output of the results.
+
+      You may use `Markdown` in the summary and help.
       '''
   }
 }

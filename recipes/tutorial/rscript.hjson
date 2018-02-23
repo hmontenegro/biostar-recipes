@@ -8,8 +8,8 @@
   }
 
   settings: {
-    name: R Scripts as recipes
-    summary: This recipe demonstrates the use of R scripts as recipes.
+    name: R Script
+    summary: This recipe demonstrates the use of an R script as a recipe.
     image: rscript.jpg
      execute: {
             filename: "recipe.r"
