@@ -3,18 +3,23 @@
 analyses: [
 
     {
-        json: recipes/tutorial/hello1.hjson
-        template: recipes/tutorial/hello1.sh
+        json: recipes/tutorial/hello-world.hjson
+        template: recipes/tutorial/hello-world.sh
     }
 
     {
-        json: recipes/tutorial/hello2.hjson
-        template: recipes/tutorial/hello2.sh
+        json: recipes/tutorial/environment.hjson
+        template: recipes/tutorial/environment.sh
     }
 
     {
-        json: recipes/tutorial/hello3.hjson
-        template: recipes/tutorial/hello3.sh
+        json: recipes/tutorial/starter.hjson
+        template: recipes/tutorial/starter.sh
+    }
+
+    {
+        json: recipes/tutorial/interface.hjson
+        template: recipes/tutorial/interface.sh
     }
 
     {
@@ -60,7 +65,7 @@ settings: {
 
     uid: tutorial
 
-    name: How to create recipes?
+    name: Recipe Tutorials
 
     image: tutorial-project.png
 

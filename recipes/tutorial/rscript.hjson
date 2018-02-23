@@ -10,6 +10,7 @@
   settings: {
     name: R Scripts as recipes
     summary: This recipe demonstrates the use of R scripts as recipes.
+    image: rscript.jpg
      execute: {
             filename: "recipe.r"
             command: "Rscript --vanilla recipe.r"

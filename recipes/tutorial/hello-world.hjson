@@ -2,6 +2,7 @@
   settings: {
     name: Hello World
     summary: This recipe prints: Hello World!
+    image: hello-world.png
     help:
       '''
       # Help

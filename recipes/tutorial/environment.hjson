@@ -3,6 +3,7 @@
   {
     name: Environment Check
     summary: This recipe prints the bash environment used to run the script.
+    image: environment.jpg
     help:
       '''
       # Help

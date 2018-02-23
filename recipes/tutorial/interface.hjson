@@ -59,6 +59,7 @@
 
   settings: {
     name: Interface Element Demonstration
+    image: interface.jpg
     summary: This recipe demonstrates the use of different parameter types.
     help:
     '''
