@@ -47,6 +47,16 @@ analyses: [
 data: [
 
         {
+            name: Test Sequence Data 1
+            value: export/local/usfish
+            type: FASTQ, COLLECTION
+            summary: Data formed by subsetting sequencing runs
+            help: '''
+            Files containing a random subset of read from the sequencing run.
+            '''
+        }
+
+        {
             name: 1000-MiFish_S14_L001_R1_001.fastq.gz
             value: /export/data/usfish/runs/run1/1000-MiFish_S14_L001_R1_001.fastq.gz
             type: FASTQ

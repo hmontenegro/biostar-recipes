@@ -17,9 +17,8 @@ cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 if [ ${REFERENCE} == "BAVH" ]; then
     INDEX=/export/refs/centrifuge/p_compressed+h+v
 else
-    # Disabled temporiarily
-    #INDEX=/export/refs/centrifuge/nt
-    INDEX=/export/refs/centrifuge/p_compressed+h+v
+    # Custom database for taxid 7776
+    INDEX=/export/refs/centrifuge/7776
 fi
 
 # Create the reports file.
@@ -34,25 +33,20 @@ else
     cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} > results/{1/.}.rep"
 fi
 
-# Reformat each results as a report.
+# Generate an individual report for each sample
 for FNAME in results/*.rep; do
     echo "-------- Processing $FNAME -------"
     centrifuge-kreport -x $INDEX $FNAME > $FNAME.txt
 done
 
-# Reformat the file for more readibility
-cat centrifuge_report.tsv | tr "\t", "," | column -t -s , > centrifuge_report.txt
+# Generate a cumulative report as well.
+echo "-------- Generating the final report -------"
+centrifuge-kreport -x $INDEX results/*.rep > report.txt
 
 echo ""
-echo "**************** Main Results *****************"
-echo "Classification stored in: centrifuge_report.txt"
-echo "***********************************************"
-echo ""
+echo "****************************************"
+echo "Individual classification: results"
+echo "****************************************"
+echo "Cumulative classification in: report.txt"
+echo "****************************************"
 
-# Print a partial report to standard output.
-echo "*************************************"
-echo "First lines in centrifuge_report.txt:"
-echo "*************************************"
-cat centrifuge_report.txt | head -30
-echo "..."
-echo ""

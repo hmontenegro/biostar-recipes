@@ -16,7 +16,7 @@
         display: DROPDOWN
         choices: [
             ["BAVH", "Bacteria, Archaea, Viruses, Human"],
-            ["ALL", "All known organisms" ],
+            ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ],
         ]
   }
 
