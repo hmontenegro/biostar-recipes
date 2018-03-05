@@ -121,7 +121,7 @@ data: [
 
     {
         name: Transcripts from chr22 human genome.fa
-        value: export/local/rnaseq/refs/22.fa
+        value: export/local/rnaseq/refs/chr22_transcripts.fa
         type: FASTA, TRANSCRIPTS
         summary: Transcript sequences from human chromosome 22.
     }

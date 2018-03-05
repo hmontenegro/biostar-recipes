@@ -1,0 +1,33 @@
+{
+
+settings: {
+    uid: trout
+
+    name: Wisconsin Brook Trout
+
+    image: trout-project.jpg
+
+    summary: '''
+    Methodological comparison of electrofishing, qPCR and metabarcoding in Wisconsin streams
+    '''
+
+    text: '''
+    # More information
+
+    NEFC and Ashland FWCO study of eDNA and electrofishing techniques.
+    '''
+}
+
+analyses: [
+
+
+
+    ]
+
+data: [
+
+
+
+    ]
+
+}

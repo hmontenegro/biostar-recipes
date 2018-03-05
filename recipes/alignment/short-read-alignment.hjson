@@ -42,14 +42,14 @@
   }
 
   fraction: {
-      value: 1
+      value: "ALL"
       label: Sampling
       help: You may want to select smaller random subset of reads first
       display: DROPDOWN
       choices: [
-          [ 0.01, "Select 1% of all reads"],
-          [ 0.1, "Select 10% of all reads" ],
-          [ 1, "Select all reads"],
+          [ "0.01", "Select 1% of all reads"],
+          [ "0.1", "Select 10% of all reads" ],
+          [ "ALL", "Select all reads"],
       ]
     }
 

@@ -23,6 +23,7 @@
   settings: {
     name: Makefile Example
     summary: This recipe demonstrates the use of makefiles.
+    image: makefile.jpg
     execute: {
        filename: "Makefile"
        command: "make -f Makefile {{command.value}}"

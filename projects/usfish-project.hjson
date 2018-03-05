@@ -26,9 +26,20 @@ analyses: [
         template: recipes/quality/fastqc.sh
     }
 
-     {
+    {
         json: recipes/classify/centrifuge.hjson
         template: recipes/classify/centrifuge.sh
+    }
+
+    {
+        json: recipes/alignment/short-read-alignment.hjson
+        template: recipes/alignment/short-read-alignment.sh
+    }
+
+
+    {
+        json: recipes/usfish/trim-merge.hjson
+        template: recipes/usfish/trim-merge.sh
     }
 
     ]
@@ -36,16 +47,55 @@ analyses: [
 data: [
 
         {
+            name: Test Sequence Data 1
+            value: export/local/usfish
+            type: FASTQ, COLLECTION
+            summary: Data formed by subsetting sequencing runs
+            help: '''
+            Files containing a random subset of read from the sequencing run.
+            '''
+        }
+
+        {
+            name: 1000-MiFish_S14_L001_R1_001.fastq.gz
+            value: /export/data/usfish/runs/run1/1000-MiFish_S14_L001_R1_001.fastq.gz
+            type: FASTQ
+            summary: A single file from Run 1 that can be used for testing.
+        }
+
+        {
             name: Sequencing Run 1
             value: /export/data/usfish/runs/run1
-            type: FASTQ
+            type: FASTQ, COLLECTION
             summary: Data for sequencing run 1
         }
+
+    {
+            name: Sample sheet for Sequencing Run 1
+            value: /export/data/usfish/runs/run1_sampleinfo.txt
+            type: SAMPLESHEET
+            summary: Specfications for the data in Sequencing Run 1
+            help: '''
+
+            Samplesheet format example:
+
+            ```
+            sample	sample_group	barcode	fwd_primer	                rev_primer	                target_gene read1	            read2
+            S1	    MiniX	        ATCACG	GCATTYCCNCGDATRAAYAAYATRAG	ACCTCAGGGTGTCCGAARAAYCARAA	COI	        S1_R1_001.fastq.gz	S1_R2_001.fastq.gz
+            S2	    MiniX	        ATCACG	GCATTYCCNCGDATRAAYAAYATRAG	ACCTCAGGGTGTCCGAARAAYCARAA	COI	        S2_R1_001.fastq.gz	S2_R2_001.fastq.gz
+            S3	    Sarri	        ATCACG	AYAAGACGAGAAGACCC	        CCGGTCTGAACTCAGATCACGT	    16S	        S3_R1_001.fastq.gz	S3_R2_001.fastq.gz
+            S4	    Sarri	        ATCACG	AYAAGACGAGAAGACCC	        CCGGTCTGAACTCAGATCACGT	    16S	        S4_R1_001.fastq.gz	S4_R2_001.fastq.gz
+            ```
+            '''
+
+        }
+
+
 
         {
             name: Sequencing Run 2
             value: /export/data/usfish/runs/run2
-            type: FASTQ
+            type: FASTQ, COLLECTION
             summary: Data for sequencing run 2
         }
 
