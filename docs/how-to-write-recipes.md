@@ -42,7 +42,7 @@ Editing recipe code is done by clicking `View Code`.
 
    * Editing json and **sub-selecting for data types**
       
-      Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` for the interface to be  correctly generated.
+      Biostar-Engine knows to look for data if `source : PROJECT`. Furthermore, `display: DROPDOWN` needs to be set for the dropdown interface correctly show.
       
       Here are simple examples that show how to sub-select:
       
@@ -76,13 +76,13 @@ Editing recipe code is done by clicking `View Code`.
 
 ## 4. Running recipes
 
-After modifying your recipe, you can finally use it to analyze some data. To do this, choose a recipe and click on the green ```Run``` button found at the top. 
+After editing your recipe, you can finally use it to analyze some data. To do this, choose a recipe and click on the green ```Run``` button at the top of the page. 
 
-This opens the interface page that allows you to specify parameters and execute a recipe.
+This opens the interface that allows you to specify parameters and execute a recipe.
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/run_interface.png "interface")
 
-Clicking `Run` on the interface page starts a job in a `Queued` state
+Clicking `Run` on an interface page starts a job in a `Queued` state
 
 ![alt text](https://github.com/Natay/biostar-recipes/blob/master/docs/images/params.png)
 
@@ -97,21 +97,21 @@ Clicking `Run` on the interface page starts a job in a `Queued` state
 
 * Job states
 
-     `Queued`    : Job is staged to run.
+     `Queued`   | Job is staged to run.
      
-     `Spooled`   : Spooling directory has been made and script is ready to be ran.
+     `Spooled`   | Spooling directory has been made and script is ready to be ran.
    
-     `Running`   : Job script is ran using bash.
+     `Running`   | Job script is ran using bash.
    
-     `Completed` : Job is successfully completed.
+     `Completed` | Job is successfully completed.
    
-     `Error`     : Job is unsuccessfully completed.
+     `Error`     | Job is unsuccessfully completed.
    
-     `Deleted`   : Deleted job not appearing in your list but your recycle bin.
+     `Deleted`   | Deleted job not appearing in your list but your recycle bin.
    
-     `Paused`    : Job is paused from its previous state. 
+     `Paused`    | Job is paused from its previous state. 
    
-     `Restored`  : A once deleted job restored from the recycle bin. 
+     `Restored`  | A once deleted job restored from the recycle bin. 
 
 * Deleting and Editing jobs
    
