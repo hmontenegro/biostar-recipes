@@ -2,8 +2,6 @@ import os
 
 
 
-
-
 def parse_file(rep_file, store={}):
     "Parse a rep file and populate dict with contents "
 
@@ -14,10 +12,8 @@ def parse_file(rep_file, store={}):
     return
 
 
-
 def findfiles(location, collect=[], exts=(".txt",)):
     "Walk a directory and only return files with desired extension. "
-
 
     for item in os.scandir(location):
 
@@ -33,26 +29,18 @@ def findfiles(location, collect=[], exts=(".txt",)):
     return collect
 
 
-
-
 def summarize_results(data_dir, group_by):
     "Summarize result found in data_dir. Exclusively looks at .rep and .rep.txt files."
 
     store = dict()
-
-    all_files = findfiles(location=data_dir, exts=(".rep", ".rep.txt"))
+    all_files = findfiles(location=data_dir, exts=(".rep", 'rep.txt'))
 
     for fname in all_files:
-
         parse_file(rep_file=fname, store=store)
 
-
-    # Order
-
+    #TODO: implement grouping after parsing into store
 
     return
-
-
 
 
 def main():
@@ -79,7 +67,6 @@ def main():
         parse.print_help()
         print('--dir needs to be a valid directory.')
         exit()
-
 
 
 if __name__ == '__main__':
