@@ -5,7 +5,7 @@ import os
 def parse_file(rep_file, store={}):
     "Parse a rep file and populate dict with contents "
 
-    # What do the columns mean? to help when grouping
+    # is first line always a header? what do the columns mean?
 
 
     print(rep_file)
@@ -20,9 +20,9 @@ def findfiles(location, collect=[], exts=(".txt",)):
         if item.is_dir():
             findfiles(item.path, collect=collect)
         else:
-            # Check if file is in list of extensions.
+            # Check if file ext is in list of extensions.
             has_ext = True in list(map(lambda ext: item.path.endswith(ext), exts))
-            if has_ext and exts:
+            if has_ext:
                 collect.append(os.path.abspath(item.path))
 
 
@@ -54,7 +54,7 @@ def main():
     parse.add_argument('--group_by', dest='group_by', default="domain",
                        help="""Group resulting report in specific manner.""",
                        # Domain is always on the fourth column and species on the last?
-                       type=str, choices={"domain": 3, "species": 5})
+                       type=str, choices=("domain", "species"))
 
     args = parse.parse_args()
 
