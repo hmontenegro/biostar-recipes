@@ -23,12 +23,12 @@ Usage:
    
     $   python centrifuge.py --dir=data/*.txt 
                    
-                                               (fileA, fileB, ...)
-        name         |   rank-code   |  tax-id | percentage-covered | ncovered |    nassigned
+                                                 (fileA, fileB, ...)
+        name         |   rank-code   |  tax-id | percentage-covered | reads covered |   reads nassigned
                                                                                                   
-        unclassified       U           4            2.00,7.40            1,1         1,7       
-        Blochmannia        S           2            0.01                 5           0
-        Spirochaeta        S           1            0.02,.03,.035        1,4,4       1,4,8
+        unclassified       U           4            2.00,7.40            1,1            1,7       
+        Blochmannia        S           2            0.01                 5              0
+        Spirochaeta        S           1            0.02,.03,.035        1,4,4          1,4,8
     
 """
 
