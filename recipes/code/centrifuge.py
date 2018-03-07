@@ -1,12 +1,14 @@
 import os
 import sys
+import glob
 
 
 """
 
-This program is used to process files that are outputted by centrifuge-kreport.
+This program is used to process sample report files that are outputted by centrifuge-kreport.
+It groups the results according to rank code.
 
-The files are expected to have six columns:
+The input files are expected to have six columns:
 
 1. Percentage of reads covered by the clade rooted at this taxon
 2. Number of reads covered by the clade rooted at this taxon
@@ -18,38 +20,25 @@ The files are expected to have six columns:
 
 
 Usage:
+   
+    $   python centrifuge.py --dir=data/*.txt 
+                   
+                                               (fileA, fileB, ...)
+        name         |   rank-code   |  tax-id | percentage-covered | ncovered |    nassigned
+                                                                                                  
+        unclassified       U           4            2.00,7.40            1,1         1,7       
+        Blochmannia        S           2            0.01                 5           0
+        Spirochaeta        S           1            0.02,.03,.035        1,4,4       1,4,8
     
-    # Ex1. group by the rank code ( column 4 )
-    $   python centrifuge.py --dir data --group_by=rank                
-
-        2.00    1   1   U   4       unclassified
-        7.40    1   7   U   0       unclassified
-        0.70    4   3   S   14      Spirochaeta thermophila
-        0.05    3   7   S   154     Spirochaeta 
-        1.01    1   4   G   21      Candidatus Blochmannia
-        0.01    5   0   G   2       Blochmannia
-        
-    
-    # Ex2. group by 'unclassified' 
-    $   python centrifuge.py --dir data --group_by=unclassified                
-
-        2.00    1   1   U   4       unclassified
-        7.40    1   7   U   0       unclassified
-        
-
 """
 
 
-# Options provided when it comes to grouping results
-GROUPING_CHOICES = (
+# Group using the third column ( rank code ).
+GROUP_WITH = dict(rank=3)
 
-        ("percent", 0) ,
-        ("ncovered", 1),
-        ("nassigned", 2),
-        ("rank", 3),
-        ("taxid", 4),
-        ("name", 5)
-)
+# Header of output
+HEADER = "name\trank\ttaxonomy ID\tPercentage of reads\t Number of reads covered\tNumber of reads assigned"
+
 
 def clean_row(row):
     "Helps clean results of spaces and tabs."
@@ -60,69 +49,84 @@ def clean_row(row):
     return row
 
 
-def parse_file(rep_file, store={}):
-    "Parse a centrifuge-kreport output file and populate dict with contents."
+def summarize_group(rank_group):
+    "Concatenates information to flatten structure and arranges rows to match header."
 
-    idx_to_name = {y:x for x,y in GROUPING_CHOICES}
-    with open(rep_file, "r") as outfile:
+    summary = []
+    for name in rank_group:
+
+        percent = ','.join([x[0] for x in rank_group[name]])
+        ncovered = ','.join([x[1] for x in rank_group[name]])
+        nassigned = ','.join([x[2] for x in rank_group[name]])
+        # Stay constant
+        rank = rank_group[name][0][3]
+        taxid = rank_group[name][0][4]
+
+        # Match rows to header
+        summary.append(f"{name}\t{rank}\t{taxid}\t{percent}\t{ncovered}\t{nassigned}")
+
+    return summary
+
+
+def parse_file(fname, store={}):
+    "Parse file and group its contents into a store."
+
+    with open(fname, "r") as outfile:
         for row in outfile:
-            # Inner loop only lasts 6 iterations
+
+            # Inner loop only lasts 6 iterations and only groups the 'rank' column
             for idx, item in enumerate(row.split("\t")):
+                if idx == GROUP_WITH['rank']:
+                    val = f"{item.strip()}, rank"
+                    store.setdefault(val, []).append(clean_row(row.split("\t")))
 
-                # Store a string that contains an items group.
-                val = f"{item.strip()}, {idx_to_name[idx]}"
-                store.setdefault(val, []).append(clean_row(row.split("\t")))
 
-
-def summarize_results(data_dir, group_by="rank"):
+def summarize_results(results):
     "Summarize result found in data_dir by grouping them."
 
     store = dict()
-    for item in os.scandir(data_dir):
-        if item.is_file():
-            fname = os.path.abspath(item.path)
-            parse_file(rep_file=fname, store=store)
+    for item in results:
+        if os.path.isfile(item):
+            fname = os.path.abspath(item)
+            parse_file(fname=fname, store=store)
 
-    summary = []
     for x in store:
-        if group_by in x:
-            summary.extend(store[x])
-    return summary
+        name_store = {}
+        for row in store[x]:
+            name = row[-1]
+            name_store.setdefault(name, []).append(row)
+        store[x] = summarize_group(name_store)
+
+    return store
 
 
 def main():
     from argparse import ArgumentParser
 
     parse = ArgumentParser()
-    parse.add_argument('--dir', dest='indir', required=True,
-                       help="""Directory containing .rep/.rep.txt files to be parsed.""",
-                       type=str)
-    parse.add_argument('--group_by', dest='group_by', default="rank",
-                       help="""Group resulting report in specific manner.""",
+    parse.add_argument('--files', dest='files', required=True,
+                       help="""Directory containing files to be parsed.""",
                        type=str)
     parse.add_argument('--outfile', dest='outfile',
                        help="""Output file to write summary to.""",
                        type=str)
     args = parse.parse_args()
-    summary = []
 
     if len(sys.argv) == 1:
         sys.argv.append('-h')
 
-    if os.path.isdir(args.indir):
-        summary = summarize_results(data_dir=args.indir, group_by=args.group_by)
-    else:
-        parse.print_help()
-        print('--dir needs to be a valid directory.')
-        exit()
+    files = glob.glob(args.files)
+    summary = summarize_results(results=files)
 
     if not args.outfile:
-        for row in summary:
-            print('\t'.join(row))
+        print(HEADER)
+        for rank in summary:
+            print('\n'.join(summary[rank]))
     else:
         with open(args.outfile, "w") as outfile:
-            for row in summary:
-                outfile.write('\t'.join(row) + "\n")
+            outfile.write(HEADER + "\n")
+            for rank in summary:
+                outfile.write('\n'.join(summary[rank]) + "\n")
 
 if __name__ == '__main__':
 
