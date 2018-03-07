@@ -1,5 +1,5 @@
 import os
-
+import sys
 
 
 """
@@ -22,9 +22,7 @@ Usage:
     python centrifuge.py --dir data --group_by=rank --output report.txt    # Writes results to a file
     python centrifuge.py --dir data --group_by=rank                        # Outputs to screen
 
-
-
-Sample Output -- files grouped by the rank code ( column 4 ):
+Sample Output -- grouped by the rank code ( column 4 ):
 
     2.00    1   1   U   4   unclassified
     7.40    1   7   U   0   unclassified
@@ -40,7 +38,7 @@ Sample Output -- files grouped by the rank code ( column 4 ):
 # Options provided when it comes to grouping results
 GROUPING_CHOICES = (
 
-        ("percent_reads", 0) ,
+        ("percent", 0) ,
         ("ncovered", 1),
         ("nassigned", 2),
         ("rank", 3),
@@ -49,6 +47,7 @@ GROUPING_CHOICES = (
 )
 
 def clean_row(row):
+    "Helps clean results of spaces and tabs."
 
     # Mutates the list
     for i,v in enumerate(row):
@@ -70,11 +69,10 @@ def parse_file(rep_file, store={}):
                 store.setdefault(val, []).append(clean_row(row.split("\t")))
 
 
-def summarize_results(data_dir, group_by):
-    "Summarize result found in data_dir."
+def summarize_results(data_dir, group_by="rank"):
+    "Summarize result found in data_dir by grouping them."
 
     store = dict()
-
     for item in os.scandir(data_dir):
         if item.is_file():
             fname = os.path.abspath(item.path)
@@ -84,12 +82,10 @@ def summarize_results(data_dir, group_by):
     for x in store:
         if group_by in x:
             summary.extend(store[x])
-
     return summary
 
 
 def main():
-    import sys
     from argparse import ArgumentParser
 
     parse = ArgumentParser()
@@ -98,11 +94,10 @@ def main():
                        type=str)
     parse.add_argument('--group_by', dest='group_by', default="rank",
                        help="""Group resulting report in specific manner.""",
-                       type=str, choices=dict(GROUPING_CHOICES))
+                       type=str)
     parse.add_argument('--outfile', dest='outfile',
                        help="""Output file to write summary to.""",
                        type=str)
-
     args = parse.parse_args()
     summary = []
 
@@ -126,7 +121,6 @@ def main():
 
 if __name__ == '__main__':
 
-    import sys
 
     try:
         main()
