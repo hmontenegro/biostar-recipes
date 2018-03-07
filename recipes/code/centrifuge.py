@@ -21,7 +21,7 @@ The input files are expected to have six columns:
 
 Usage:
     
-    $   python centrifuge.py --dir=data/*.txt 
+    $   python centrifuge.py --files=data/*.txt 
                    
                                                   (fileA, fileB, ...)
         rank-code |  tax-id  |      name        |   percentage-covered  |  reads covered |   reads nassigned
