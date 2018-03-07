@@ -24,12 +24,12 @@ Usage:
 
 Sample Output -- grouped by the rank code ( column 4 ):
 
-    2.00    1   1   U   4   unclassified
-    7.40    1   7   U   0   unclassified
-    0.70    4   3   S   14 Spirochaeta thermophila
-    0.05    3   7   S   154 Spirochaeta 
-    1.01    1   4   G   21   Candidatus Blochmannia
-    0.01    5   0   G   2   Blochmannia
+    2.00    1   1   U   4       unclassified
+    7.40    1   7   U   0       unclassified
+    0.70    4   3   S   14      Spirochaeta thermophila
+    0.05    3   7   S   154     Spirochaeta 
+    1.01    1   4   G   21      Candidatus Blochmannia
+    0.01    5   0   G   2       Blochmannia
     
 
 """
