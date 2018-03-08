@@ -20,15 +20,15 @@ The input files are expected to have six columns:
 
 
 Usage:
-   
-    $   python centrifuge.py --dir=data/*.txt 
+    
+    $   python centrifuge.py --files=data/*.txt 
                    
-                                                 (fileA, fileB, ...)
-        name         |   rank-code   |  tax-id | percentage-covered | reads covered |   reads nassigned
+                                                  (fileA, fileB, ...)
+        rank-code |  tax-id  |      name        |   percentage-covered  |  reads covered |   reads nassigned
                                                                                                   
-        unclassified       U           4            2.00,7.40            1,1            1,7       
-        Blochmannia        S           2            0.01                 5              0
-        Spirochaeta        S           1            0.02,.03,.035        1,4,4          1,4,8
+        U               0      unclassified        2.00,7.40              1,1              1,7       
+        S          314295      Hominoidea          0.01                   5                0
+        S          314293      Simiiformes         0.02,.03,.035          1,4,4            1,4,8
     
 """
 
@@ -37,7 +37,7 @@ Usage:
 GROUP_WITH = dict(rank=3)
 
 # Header of output
-HEADER = "name\trank\ttaxonomy ID\tPercentage of reads\t Number of reads covered\tNumber of reads assigned"
+HEADER = "rank\ttaxonomy ID\tname\tPercentage of reads\t Number of reads covered\tNumber of reads assigned"
 
 
 def clean_row(row):
@@ -50,7 +50,7 @@ def clean_row(row):
 
 
 def summarize_group(rank_group):
-    "Concatenates information to flatten structure and arranges rows to match header."
+    "Summarize a rank group by flattening."
 
     summary = []
     for name in rank_group:
@@ -63,7 +63,7 @@ def summarize_group(rank_group):
         taxid = rank_group[name][0][4]
 
         # Match rows to header
-        summary.append(f"{name}\t{rank}\t{taxid}\t{percent}\t{ncovered}\t{nassigned}")
+        summary.append(f"{rank}\t{taxid}\t{name}\t{percent}\t{ncovered}\t{nassigned}")
 
     return summary
 
@@ -71,14 +71,13 @@ def summarize_group(rank_group):
 def parse_file(fname, store={}):
     "Parse file and group its contents into a store."
 
-    with open(fname, "r") as outfile:
-        for row in outfile:
+    with open(fname, "r") as infile:
+        for row in infile:
 
             # Inner loop only lasts 6 iterations and only groups the 'rank' column
             for idx, item in enumerate(row.split("\t")):
                 if idx == GROUP_WITH['rank']:
-                    val = f"{item.strip()}, rank"
-                    store.setdefault(val, []).append(clean_row(row.split("\t")))
+                    store.setdefault(item.strip(), []).append(clean_row(row.split("\t")))
 
 
 def summarize_results(results):
@@ -93,7 +92,7 @@ def summarize_results(results):
     for x in store:
         name_store = {}
         for row in store[x]:
-            name = row[-1]
+            name = row[-1].strip()
             name_store.setdefault(name, []).append(row)
         store[x] = summarize_group(name_store)
 
