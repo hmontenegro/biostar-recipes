@@ -50,7 +50,7 @@ def clean_row(row):
 
 
 def summarize_group(rank_group):
-    "Concatenates information to flatten structure and arranges rows to match header."
+    "Summarize a rank group by flattening."
 
     summary = []
     for name in rank_group:
