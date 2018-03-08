@@ -119,13 +119,13 @@ def main():
 
     if not args.outfile:
         print(HEADER)
-        for rank in summary:
-            print('\n'.join(summary[rank]))
+        for rank, values in summary.items():
+            print('\n'.join(values))
     else:
         with open(args.outfile, "w") as outfile:
             outfile.write(HEADER + "\n")
-            for rank in summary:
-                outfile.write('\n'.join(summary[rank]) + "\n")
+            for rank, values in summary.items():
+                outfile.write('\n'.join(values) + "\n")
 
 if __name__ == '__main__':
 
