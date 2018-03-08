@@ -71,14 +71,13 @@ def summarize_group(rank_group):
 def parse_file(fname, store={}):
     "Parse file and group its contents into a store."
 
-    with open(fname, "r") as outfile:
-        for row in outfile:
+    with open(fname, "r") as infile:
+        for row in infile:
 
             # Inner loop only lasts 6 iterations and only groups the 'rank' column
             for idx, item in enumerate(row.split("\t")):
                 if idx == GROUP_WITH['rank']:
-                    val = f"{item.strip()}, rank"
-                    store.setdefault(val, []).append(clean_row(row.split("\t")))
+                    store.setdefault(item.strip(), []).append(clean_row(row.split("\t")))
 
 
 def summarize_results(results):
@@ -93,7 +92,7 @@ def summarize_results(results):
     for x in store:
         name_store = {}
         for row in store[x]:
-            name = row[-1]
+            name = row[-1].strip()
             name_store.setdefault(name, []).append(row)
         store[x] = summarize_group(name_store)
 
