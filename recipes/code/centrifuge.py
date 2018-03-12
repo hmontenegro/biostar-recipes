@@ -34,11 +34,15 @@ Usage:
 
 
 # Group using the third column ( rank code ).
-GROUP_WITH = dict(rank=3)
+GROUP_WITH = dict(rank=2)
 
-# Header of output
-HEADER = "rank\ttaxonomy ID\tname\tPercentage of reads\t Number of reads covered\tNumber of reads assigned"
 
+
+def generate_header(files):
+
+    header = ["name", "taxID", 'taxRank'] + [os.path.basename(p) for p in files]
+
+    return header
 
 def clean_row(row):
     "Helps clean results of spaces and tabs."
@@ -52,18 +56,19 @@ def clean_row(row):
 def summarize_group(rank_group):
     "Summarize a rank group by flattening."
 
+    # Take the index of file in header ( exclude the three name, per, rank)
+
+    # dict of index to header name
     summary = []
     for name in rank_group:
 
-        percent = ','.join([x[0] for x in rank_group[name]])
-        ncovered = ','.join([x[1] for x in rank_group[name]])
-        nassigned = ','.join([x[2] for x in rank_group[name]])
+        percent = '\t'.join([x[-1] for x in rank_group[name]])
         # Stay constant
-        rank = rank_group[name][0][3]
-        taxid = rank_group[name][0][4]
+        rank = rank_group[name][0][2]
+        taxid = rank_group[name][0][1]
 
         # Match rows to header
-        summary.append(f"{rank}\t{taxid}\t{name}\t{percent}\t{ncovered}\t{nassigned}")
+        summary.append(f"{name}\t{taxid}\t{rank}\t{percent}")
 
     return summary
 
@@ -77,11 +82,13 @@ def parse_file(fname, store={}):
             # Inner loop only lasts 6 iterations and only groups the 'rank' column
             for idx, item in enumerate(row.split("\t")):
                 if idx == GROUP_WITH['rank']:
+
                     store.setdefault(item.strip(), []).append(clean_row(row.split("\t")))
 
 
 def summarize_results(results):
     "Summarize result found in data_dir by grouping them."
+
 
     store = dict()
     for item in results:
@@ -92,12 +99,12 @@ def summarize_results(results):
     for x in store:
         name_store = {}
         for row in store[x]:
-            name = row[-1].strip()
-            name_store.setdefault(name, []).append(row)
+            if row[0] != 'name':
+                name = row[0].strip()
+                name_store.setdefault(name, []).append(row)
         store[x] = summarize_group(name_store)
 
     return store
-
 
 def main():
     from argparse import ArgumentParser
@@ -118,14 +125,16 @@ def main():
     summary = summarize_results(results=files)
 
     if not args.outfile:
-        print(HEADER)
+        print('\t'.join(generate_header(files=files)))
         for rank, values in summary.items():
-            print('\n'.join(values))
+            if values:
+                print('\n'.join(values))
     else:
         with open(args.outfile, "w") as outfile:
-            outfile.write(HEADER + "\n")
+            outfile.write('\t'.join(generate_header(files=files)))
             for rank, values in summary.items():
-                outfile.write('\n'.join(values) + "\n")
+                if values:
+                    outfile.write('\n'.join(values) + "\n")
 
 if __name__ == '__main__':
 
