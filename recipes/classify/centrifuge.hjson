@@ -1,7 +1,7 @@
 {
   reads:
   {
-    value: Single End Reads.fq
+    value: FASTQ Data Collection
     label: Sequencing Data Directory
     help: Multiple paired-end sequencing reads.
     source: PROJECT
@@ -21,7 +21,7 @@
   }
 
   library: {
-        value: SE
+        value: PE
         label: Library type
         help: See the help for file naming requirement.
         display: RADIO

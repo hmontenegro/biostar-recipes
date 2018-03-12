@@ -8,7 +8,7 @@ REFERENCE={{reference.value}}
 LIBRARY={{library.value}}
 
 # The sorted file list.
-FILES=files.txt
+FILES=runlog/files.txt
 
 # Create the sorted filelist.
 cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
@@ -27,26 +27,21 @@ mkdir -p results
 # Choose the right classifier depending on the library setting.
 if [ ${LIBRARY} == "PE" ]; then
     # Paired end classification.
-    cat ${FILES} | parallel -N 2  -j 1 "centrifuge -x  $INDEX -1 {1} -2 {2} > results/{1/.}.rep"
+    cat ${FILES} | parallel -N 2  -j 1 "centrifuge -x  $INDEX -1 {1} -2 {2} -S results/{1/.}.rep --report-file  results/{1/.}.tsv"
 else
     # Single end classification.
-    cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} > results/{1/.}.rep"
+    cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} -S results/{1/.}.rep --report-file results/{1/.}.tsv"
 fi
 
-# Generate an individual report for each sample
-for FNAME in results/*.rep; do
-    echo "-------- Processing $FNAME -------"
-    centrifuge-kreport -x $INDEX $FNAME > $FNAME.txt
-done
+# Generate an individual kraken report for each sample
+ls -1 results/*.rep | parallel -j 1 "centrifuge-kreport -x $INDEX {} > results/{1/.}.txt"
 
 # Generate a cumulative report as well.
-echo "-------- Generating the final report -------"
-centrifuge-kreport -x $INDEX results/*.rep > report.txt
+#echo "-------- Generating the final report -------"
+#centrifuge-kreport -x $INDEX results/*.rep > full_report.txt
 
-echo ""
-echo "****************************************"
-echo "Individual classification: results"
-echo "****************************************"
-echo "Cumulative classification in: report.txt"
-echo "****************************************"
+# Generate the reformatted report
+#python -m recipes.code.centrifuge --files=results/*.txt > report2.txt
+
+
 
