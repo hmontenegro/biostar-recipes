@@ -21,7 +21,7 @@
   }
 
   library: {
-        value: PE
+        value: SE
         label: Library type
         help: See the help for file naming requirement.
         display: RADIO

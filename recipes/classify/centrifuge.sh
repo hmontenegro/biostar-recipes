@@ -36,12 +36,8 @@ fi
 # Generate an individual kraken report for each sample
 ls -1 results/*.rep | parallel -j 1 "centrifuge-kreport -x $INDEX {} > results/{1/.}.txt"
 
-# Generate a cumulative report as well.
-#echo "-------- Generating the final report -------"
-#centrifuge-kreport -x $INDEX results/*.rep > full_report.txt
-
-# Generate the reformatted report
-#python -m recipes.code.centrifuge --files=results/*.txt > report2.txt
+# Generate a combined reformatted.
+python -m recipes.code.centrifuge --files=results/*.tsv > classification.txt
 
 
 
