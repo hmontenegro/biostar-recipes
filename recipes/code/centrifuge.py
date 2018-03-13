@@ -1,43 +1,40 @@
+"""
+
+This program is used to process .tsv report files that are outputted by centrifuge-kreport.
+It groups the results according to rank code and shows the abundance for each file.
+
+The input files are expected to have this header:
+
+    name	taxID	taxRank	genomeSize	numReads	numUniqueReads	abundance
+
+Usage:
+    
+    $   python centrifuge.py --files=data/*.tsv
+
+    name	                    taxID	taxRank	    SRR1972972_1.tsv	SRR1972972_2.tsv    ... 
+    Azorhizobium caulinodans	7	    species	    0.0	                0.0                 
+    Cellulomonas gilvus	        11	    species	    -                   0.0
+    Pelobacter carbinolicus	    19	    species	    0.0                 -
+    ...
+                   
+"""
+
 import os
 import sys
 import glob
 
 
-"""
-
-This program is used to process sample report files that are outputted by centrifuge-kreport.
-It groups the results according to rank code.
-
-The input files are expected to have six columns:
-
-1. Percentage of reads covered by the clade rooted at this taxon
-2. Number of reads covered by the clade rooted at this taxon
-3. Number of reads assigned directly to this taxon
-4. A rank code, indicating (U)nclassified, (D)omain, (K)ingdom, 
-    (P)hylum, (C)lass, (O)rder, (F)amily, (G)enus, or (S)pecies. All other ranks are simply '-'.
-5. NCBI taxonomy ID
-6. indented scientific name
-
-
-Usage:
-    
-    $   python centrifuge.py --files=data/*.txt 
-                   
-                                                  (fileA, fileB, ...)
-        rank-code |  tax-id  |      name        |   percentage-covered  |  reads covered |   reads nassigned
-                                                                                                  
-        U               0      unclassified        2.00,7.40              1,1              1,7       
-        S          314295      Hominoidea          0.01                   5                0
-        S          314293      Simiiformes         0.02,.03,.035          1,4,4            1,4,8
-    
-"""
-
 
 # Group using the third column ( rank code ).
-GROUP_WITH = dict(rank=3)
+GROUP_WITH = dict(rank=2)
 
-# Header of output
-HEADER = "rank\ttaxonomy ID\tname\tPercentage of reads\t Number of reads covered\tNumber of reads assigned"
+
+
+def generate_header(files):
+
+    header = ["name", "taxID", 'taxRank'] + [os.path.basename(p) for p in files]
+
+    return header
 
 
 def clean_row(row):
@@ -49,21 +46,29 @@ def clean_row(row):
     return row
 
 
-def summarize_group(rank_group):
+def summarize_group(rank_group, file_columns):
     "Summarize a rank group by flattening."
 
     summary = []
+    col_to_idx = {x:y for y,x in enumerate(file_columns)}
+
     for name in rank_group:
 
-        percent = ','.join([x[0] for x in rank_group[name]])
-        ncovered = ','.join([x[1] for x in rank_group[name]])
-        nassigned = ','.join([x[2] for x in rank_group[name]])
+        # Start off with empty values and substitute
+        # every column that has a value
+        percents = ["-" for _ in range(len(file_columns))]
+        current = [x[-1] for x in rank_group[name]]
+        for p in current:
+            percent, col = p.split('\t')[0], p.split('\t')[1]
+            percents[col_to_idx[col]] = percent
+
+        percents = '\t'.join(percents)
         # Stay constant
-        rank = rank_group[name][0][3]
-        taxid = rank_group[name][0][4]
+        rank = rank_group[name][0][2]
+        taxid = rank_group[name][0][1]
 
         # Match rows to header
-        summary.append(f"{rank}\t{taxid}\t{name}\t{percent}\t{ncovered}\t{nassigned}")
+        summary.append(f"{name}\t{taxid}\t{rank}\t{percents}")
 
     return summary
 
@@ -77,11 +82,17 @@ def parse_file(fname, store={}):
             # Inner loop only lasts 6 iterations and only groups the 'rank' column
             for idx, item in enumerate(row.split("\t")):
                 if idx == GROUP_WITH['rank']:
-                    store.setdefault(item.strip(), []).append(clean_row(row.split("\t")))
+                    # Append the fname to later put value in correct column
+                    row = clean_row(row.split("\t"))
+                    percent = [row.pop(-1) + "\t" + os.path.basename(fname)]
+                    store.setdefault(item.strip(), []).append(row + percent)
 
 
 def summarize_results(results):
     "Summarize result found in data_dir by grouping them."
+
+
+    header = generate_header(files=results)
 
     store = dict()
     for item in results:
@@ -92,9 +103,12 @@ def summarize_results(results):
     for x in store:
         name_store = {}
         for row in store[x]:
-            name = row[-1].strip()
-            name_store.setdefault(name, []).append(row)
-        store[x] = summarize_group(name_store)
+            # Skip the header that was parsed out of file
+            if row[0] != 'name':
+                name = row[0].strip()
+                name_store.setdefault(name, []).append(row)
+
+        store[x] = summarize_group(name_store, file_columns=header[3:])
 
     return store
 
@@ -118,14 +132,16 @@ def main():
     summary = summarize_results(results=files)
 
     if not args.outfile:
-        print(HEADER)
-        for rank in summary:
-            print('\n'.join(summary[rank]))
+        print('\t'.join(generate_header(files=files)))
+        for rank, values in summary.items():
+            if values:
+                print('\n'.join(values))
     else:
         with open(args.outfile, "w") as outfile:
-            outfile.write(HEADER + "\n")
-            for rank in summary:
-                outfile.write('\n'.join(summary[rank]) + "\n")
+            outfile.write('\t'.join(generate_header(files=files)))
+            for rank, values in summary.items():
+                if values:
+                    outfile.write('\n'.join(values) + "\n")
 
 if __name__ == '__main__':
 
