@@ -92,6 +92,14 @@ data: [
     }
 
     {
+        name: Fish Metabarcode Collection
+        value: export/local/usfish/
+        type: FASTQ
+        summary: This collections contains fish metabarcode data.
+
+    }
+
+    {
         name: ADH partial region.fa
         value: export/local/augustus/adh.fa
         type: FASTA

@@ -16,9 +16,16 @@ cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 # Select the database to classify against.
 if [ ${REFERENCE} == "BAVH" ]; then
     INDEX=/export/refs/centrifuge/p_compressed+h+v
-else
+fi
+
+if [ ${REFERENCE} == "JAW" ]; then
     # Custom database for taxid 7776
     INDEX=/export/refs/centrifuge/7776
+fi
+
+if [ ${REFERENCE} == "FISH" ]; then
+    # Custom database for taxid 7776
+    INDEX=/export/refs/centrifuge/fishdb
 fi
 
 # Create the reports file.

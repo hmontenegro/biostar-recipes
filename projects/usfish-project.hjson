@@ -47,6 +47,18 @@ analyses: [
 data: [
 
         {
+
+            name: Fish Sequences
+            value: export/local/usfish/fishdb.fa
+            type: FASTA
+            summary: Fish sequences
+            help: '''
+            Fish sequences.
+            '''
+
+        }
+
+        {
             name: Test Sequence Data 1
             value: export/local/usfish
             type: FASTQ, COLLECTION

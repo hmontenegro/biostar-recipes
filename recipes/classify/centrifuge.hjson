@@ -1,7 +1,8 @@
 {
   reads:
+
   {
-    value: FASTQ Data Collection
+    value: Fish Metabarcode Collection
     label: Sequencing Data Directory
     help: Multiple paired-end sequencing reads.
     source: PROJECT
@@ -10,11 +11,12 @@
   }
 
   reference: {
-        value: BAVH
+        value: FISH
         label: Reference library to use
         help: The available classification categories
         display: DROPDOWN
         choices: [
+            ["FISH", "Custom Fish Database"],
             ["BAVH", "Bacteria, Archaea, Viruses, Human"],
             ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ],
         ]
