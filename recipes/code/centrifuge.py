@@ -22,6 +22,9 @@ Usage:
 import os
 import sys
 import glob
+from numpy import arange
+import matplotlib.pyplot as plt
+
 
 
 HEADER = dict(name=0, taxID=1, taxRank=2, genomeSize=3,
@@ -43,7 +46,21 @@ def compute_sum(values):
         return 1
 
 
-def plot(data, outfile):
+def plot(data, outfile, header, width=0.35, opacity=0.8, summarize=False):
+
+    objects = {}
+    for rank in data:
+        for row in data[rank]:
+            name = row.split('\t')[0].strip()
+            if name != header[0] and rank not in header:
+                objects.setdefault(name, []).append(row)
+
+    print(objects)
+
+    1/0
+    #y_pos = arange(len(objects))
+
+
 
     return
 
@@ -150,6 +167,7 @@ def main():
     parse.add_argument('--summarize', dest='summarize', default='abundance',
                        help="""Column to combine across all samples and put in summary report.""",
                        type=str, choices=HEADER)
+
     args = parse.parse_args()
     if len(sys.argv) == 1:
         sys.argv.append('-h')
@@ -168,8 +186,11 @@ def main():
             for rank, values in summary.items():
                 if values:
                     outfile.write('\n'.join(values) + "\n")
-    if args.plot:
-        plot(data=summary, outfile=args.prefix + '.png')
+
+    # Can not plot columns that aren't numerical.
+    if args.plot and args.summarize not in ('taxID', 'name', 'taxRank'):
+        plot(data=summary, outfile=args.prefix + '.png', summarize=args.summarize,
+             header=generate_header(files))
 
 
 if __name__ == '__main__':
