@@ -48,8 +48,7 @@ def clean_row(row):
 
 def summarize_group(rank_group, file_columns):
     "Summarize a rank group by flattening."
-
-    # dict of index to header name
+    
     summary = []
     col_to_idx = {x:y for y,x in enumerate(file_columns)}
 
