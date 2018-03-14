@@ -23,73 +23,55 @@ import csv
 import os
 import sys
 
+import pandas as pd
 
-def plot(data, outfile, header, title='Title', width=0.35, opacity=0.8):
-    import matplotlib.pyplot as plt
 
-    objects = {}
-    for row in data:
-        name = row.split('\t')[0].strip()
-        row = row.split('\t')[3:]
-        objects.setdefault(name, []).append(row)
+def colnames(fnames):
+    names = [os.path.basename(fname) for fname in fnames]
+    names = [fname.split(".")[0] for fname in names]
+    return names
 
-    y_pos = arange(len(objects))
-    ax, fig = plt.subplot(), plt.gcf()
 
-    for idx, x_val in enumerate(objects.items()):
-        # TODO: needs to match y_pos shape
-        d = [float(x) for y in x_val[1] for x in y]
-        print(d, y_pos, len(d), len(y_pos), x_val)
-        # Shift to accommodate more than one bar
-        # max number of bars = len (colors) = 7
-        # if color > 0:
-        y_pos = y_pos + width
-        plt.barh(y_pos + width, d, width,
-                 alpha=opacity,
-                 # Label and color need to come from filename.
-                 # color=colors[color],
-                 # label=n if not EASYMAP.get(n) else EASYMAP[n],
-                 align='center')
+def plot(df, args):
+    import matplotlib.pylab as plt
+    import numpy as np
 
-    plt.yticks(y_pos + width, objects)
-    # plt.xlabel(f'{x_label}', weight='bold')
-    plt.title(f'{title}', fontsize=10, weight='bold')
-    handles, labels = ax.get_legend_handles_labels()
-    plt.legend(handles, labels, loc='right', bbox_to_anchor=(0.15, -0.1),
-               prop={'size': 8})
-    plt.tight_layout()
-    # fig.set_size_inches(9, 5.5)
+
+    plt.title(f'FOO', fontsize=10, weight='bold')
+    data = get_subset(df, 'S')
+    values = data['1000-MiFish_R1']
+    labels = data['name']
+    ypos = np.arange(len(values))
+
+
+
+    fig, ax = plt.subplots()
+    ax.barh(ypos, values)
+    ax.set_yticklabels(labels)
+
+
+    plt.yticks(np.arange(len(labels)))
+
+
+
     plt.show()
-    # plt.savefig(outfile)
-    print(f"Plot saved to :{os.path.abspath(outfile)}")
-    print(objects)
-    print(objects)
-    1 / 0
+
 
     return
 
 
-# We have to hardcode since the files does not have headers
-# percent clade_count taxon_count rank_code taxid nameTAXIDX = INPUT_HDRS['taxid']
+def get_subset(df, rank=''):
+    indices = df['rank'] == rank
+    subset = df[indices] if rank else df
+    return subset
 
-def print_table(table, files, rank='', header=False):
-    '''
-    Prints table at a certain rank
-    '''
-    basenames = [os.path.basename(fname) for fname in files]
-    basenames = [os.path.splitext(fname)[0] for fname in basenames]
-    outheader = [ "Name", "taxid", "rank" ]  + basenames
-
-    if header:
-        print("\t".join(outheader))
-
-    # Filter by ranks if required
-    cond2 = lambda row: (row[2]) == rank
-    table = list(filter(cond2, table)) if rank else table
-
-    for row in table:
-        row = map(str, row)
-        print("\t".join(row))
+# Prints a dataframe at a rank.
+def print_data(df, rank=''):
+    ranks = rank or 'SGFCD'
+    for rank in ranks:
+        subset = get_subset(df, rank)
+        print(subset)
+        print('-' * 80)
 
 def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     "Summarize result found in data_dir by grouping them."
@@ -127,20 +109,13 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
 
     # Sort by reverse of the abundance.
     compare = lambda row: (row[2], sum(row[3:]))
-    table = sorted(table, key=compare, reverse=True)
+    table = sorted(table, key=compare, reverse=False)
 
-    if rank:
-        # Print selected rank
-        print_table(table, files=files, rank=rank, header=True)
-    else:
-        # Print all ranks
-        print_table(table, files=files, rank='S', header=True)
-        print_table(table, files=files, rank='G')
-        print_table(table, files=files, rank='F')
-        print_table(table, files=files, rank='C')
-        print_table(table, files=files, rank='D')
+    # Make a panda dataframe
+    columns = ["name", "taxid", "rank"] + colnames(files)
+    df = pd.DataFrame(table, columns=columns)
 
-    return table
+    return df
 
 
 def main():
@@ -168,20 +143,18 @@ def main():
                         type=str)
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
+        sys.argv.extend(['--plot', 'data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
 
     args = parser.parse_args()
 
-    results = tabulate(files=args.files, rank=args.rank,
-                       cutoff=args.cutoff)
+    df = tabulate(files=args.files, rank=args.rank,
+                     cutoff=args.cutoff)
 
-    '''
+    # Print the data to screen.
+    print_data(df)
+
     if args.plot:
-        for rank, values in summary.items():
-            # Generate a plot for each rank
-            plot(data=values, title=f'{rank}',outfile=args.prefix + '.png',
-                 header=generate_header(files))
-    '''
+        plot(df=df, args=args)
 
 
 if __name__ == '__main__':
