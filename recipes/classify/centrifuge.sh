@@ -44,7 +44,7 @@ fi
 ls -1 results/*.rep | parallel -j 1 "centrifuge-kreport -x $INDEX {} > results/{1/.}.txt"
 
 # Generate a combined reformatted.
-python -m recipes.code.centrifuge --files=results/*.tsv | tr "\t", "," | column -t -s , > classification.txt
+python -m recipes.code.centrifuge results/*.txt | tr "\t", "," | column -t -s , > classification.txt
 
 
 
