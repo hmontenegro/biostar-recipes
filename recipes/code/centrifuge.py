@@ -46,21 +46,47 @@ def compute_sum(values):
         return 1
 
 
-def plot(data, outfile, header, width=0.35, opacity=0.8, summarize=False):
+def plot(data, outfile, header, title='Title', width=0.35, opacity=0.8):
+
 
     objects = {}
-    for rank in data:
-        for row in data[rank]:
-            name = row.split('\t')[0].strip()
-            if name != header[0] and rank not in header:
-                objects.setdefault(name, []).append(row)
+    for row in data:
+        name = row.split('\t')[0].strip()
+        row = row.split('\t')[3:]
+        objects.setdefault(name, []).append(row)
 
+    y_pos = arange(len(objects))
+    ax, fig = plt.subplot(), plt.gcf()
+
+    for idx, x_val in enumerate(objects.items()):
+        #TODO: needs to match y_pos shape
+        d = [float(x) for y in x_val[1] for x in y]
+        print(d, y_pos, len(d), len(y_pos), x_val)
+        # Shift to accommodate more than one bar
+        # max number of bars = len (colors) = 7
+        #if color > 0:
+        y_pos = y_pos + width
+        plt.barh(y_pos + width, d, width,
+                alpha=opacity,
+                 # Label and color need to come from filename.
+                #color=colors[color],
+                #label=n if not EASYMAP.get(n) else EASYMAP[n],
+                align = 'center')
+
+    plt.yticks(y_pos + width, objects)
+    #plt.xlabel(f'{x_label}', weight='bold')
+    plt.title(f'{title}', fontsize=10, weight='bold')
+    handles, labels = ax.get_legend_handles_labels()
+    plt.legend(handles, labels, loc='right', bbox_to_anchor=(0.15, -0.1),
+                  prop={'size': 8})
+    plt.tight_layout()
+    #fig.set_size_inches(9, 5.5)
+    plt.show()
+    #plt.savefig(outfile)
+    print(f"Plot saved to :{os.path.abspath(outfile)}")
     print(objects)
-
+    print(objects)
     1/0
-    #y_pos = arange(len(objects))
-
-
 
     return
 
@@ -82,9 +108,8 @@ def summarize_group(rank_group, file_columns, col_idx=-1, drop_zeros=False):
             value, col = p.split('\t')[0], p.split('\t')[1]
             # Substitute the '-' in correct index with 'percent'
             values[col_to_idx[col]] = value
-
-        vals = compute_sum(values=values)
-        if drop_zeros and not vals:
+        is_zero = not compute_sum(values=values)
+        if drop_zeros and is_zero:
             continue
         rank = rank_group[name][0][2].split('\t')[0]
         taxid = rank_group[name][0][1].split('\t')[0]
@@ -166,7 +191,7 @@ def main():
                        type=str)
     parse.add_argument('--summarize', dest='summarize', default='abundance',
                        help="""Column to combine across all samples and put in summary report.""",
-                       type=str, choices=HEADER)
+                       type=str,choices=("genomeSize", "numReads" ,"numUniqueReads","abundance"))
 
     args = parse.parse_args()
     if len(sys.argv) == 1:
@@ -179,18 +204,19 @@ def main():
         print('\t'.join(generate_header(files=files)))
         for rank, values in summary.items():
             if values:
-                print('\n'.join(values))
+                #print('\n'.join(values))
+                pass
     else:
         with open(args.outfile, "w") as outfile:
             outfile.write('\t'.join(generate_header(files=files)))
             for rank, values in summary.items():
                 if values:
                     outfile.write('\n'.join(values) + "\n")
-
-    # Can not plot columns that aren't numerical.
-    if args.plot and args.summarize not in ('taxID', 'name', 'taxRank'):
-        plot(data=summary, outfile=args.prefix + '.png', summarize=args.summarize,
-             header=generate_header(files))
+    if args.plot:
+        for rank, values in summary.items():
+            # Generate a plot for each rank
+            plot(data=values, title=f'{rank}',outfile=args.prefix + '.png',
+                 header=generate_header(files))
 
 
 if __name__ == '__main__':
