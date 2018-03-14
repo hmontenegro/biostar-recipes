@@ -36,17 +36,21 @@ def plot(df, args):
     import matplotlib.pylab as plt
     import numpy as np
 
+    # Set plotting parameters.
     plt.rcParams.update({'figure.autolayout': True})
-    plt.figure(figsize=(10, 5), dpi=100)
+    plt.figure(figsize=(20, 10), dpi=100)
 
+    # Subst to species.
     data = get_subset(df, 'S')
-    values = data['1000-MiFish_R1']
-    labels = data['name']
-
-    ypos = np.arange(len(values))
 
     # How many columns to plot.
-    rnum, cnum = df.shape
+    rnum, cnum = data.shape
+
+    # Different sort needed for horizontal plot.
+    #data = data.sort_values(by=df.columns[3])
+
+    # The tick positions.
+    ypos = np.arange(rnum)
 
     # The total width for bars.
     space = 0.3
@@ -60,19 +64,21 @@ def plot(df, args):
     # Shift the bar to center
     shift = (n - 1) * width / 2
 
+    # Generate a barplot for each column past the third.
     for i in range(n):
         label = df.columns[3 + i]
-        print (label)
         values = data[label]
-        print (values)
         npos = ypos + i * width - shift
         plt.barh(npos, values, width, label=label)
 
+    # Finish up the plot.
     plt.legend()
+    labels = data['name']
     plt.yticks(range(len(labels)), labels)
     plt.title(f'Read Classification')
     plt.xlabel("Percent reads")
     plt.savefig(f'{args.prefix}.png')
+    print ("saved plot")
     #plt.show()
 
 
@@ -81,13 +87,18 @@ def get_subset(df, rank=''):
     subset = df[indices] if rank else df
     return subset
 
+
 # Prints a dataframe at a rank.
 def print_data(df, rank=''):
+    rankmap = dict(S="Species", G="Genus", F='Family', C='Class', D='Domain')
     ranks = rank or 'SGFCD'
+    pd.set_option('display.expand_frame_repr', False)
     for rank in ranks:
         subset = get_subset(df, rank)
-        print(subset)
-        print('-' * 80)
+        label = rankmap.get(rank, 'Unknown')
+        print(f'###\n### Rank: {label}\n###')
+        print(subset.to_csv(index=False))
+
 
 def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     "Summarize result found in data_dir by grouping them."
@@ -125,12 +136,11 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
 
     # Sort by reverse of the abundance.
     compare = lambda row: (row[2], sum(row[3:]))
-    table = sorted(table, key=compare, reverse=False)
+    table = sorted(table, key=compare, reverse=True)
 
     # Make a panda dataframe
     columns = ["name", "taxid", "rank"] + colnames(files)
     df = pd.DataFrame(table, columns=columns)
-
     return df
 
 
@@ -164,14 +174,13 @@ def main():
     args = parser.parse_args()
 
     df = tabulate(files=args.files, rank=args.rank,
-                     cutoff=args.cutoff)
+                  cutoff=args.cutoff)
 
     # Print the data to screen.
     print_data(df)
 
     if args.plot:
         plot(df=df, args=args)
-
 
 if __name__ == '__main__':
     main()
