@@ -116,8 +116,6 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     for key, fields in allkeys.items():
         collect = list(reversed(fields[3:]))
         for data in storage:
-            # The first three elements are needed
-            # add the first fields if needed
             value = data.get(key, [0])[0]
             value = float(value)
             collect.append(value)
