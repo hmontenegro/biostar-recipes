@@ -1,0 +1,176 @@
+  0.00	0	0	U	0	unclassified
+ 95.39	9636	0	-	1	root
+ 95.39	9636	0	-	131567	  cellular organisms
+ 95.39	9636	0	D	2759	    Eukaryota
+ 95.39	9636	0	-	33154	      Opisthokonta
+ 95.39	9636	0	K	33208	        Metazoa
+ 95.39	9636	0	-	6072	          Eumetazoa
+ 95.39	9636	0	-	33213	            Bilateria
+ 95.39	9636	0	-	33511	              Deuterostomia
+ 95.39	9636	0	P	7711	                Chordata
+ 95.39	9636	0	-	89593	                  Craniata
+ 95.39	9636	0	-	7742	                    Vertebrata
+ 95.37	9634	0	-	7776	                      Gnathostomata
+ 95.37	9634	0	-	117570	                        Teleostomi
+ 95.37	9634	0	-	117571	                          Euteleostomi
+ 95.37	9634	0	-	7898	                            Actinopterygii
+ 95.37	9634	20	C	186623	                              Actinopteri
+ 82.01	8284	0	-	41665	                                Neopterygii
+ 51.43	5195	0	-	32443	                                  Teleostei
+ 51.43	5195	0	-	1489341	                                    Osteoglossocephalai
+ 51.43	5195	0	-	186625	                                      Clupeocephala
+ 31.57	3189	0	-	1489388	                                        Euteleosteomorpha
+ 31.16	3147	0	-	123365	                                          Neoteleostei
+ 31.16	3147	0	-	123366	                                            Eurypterygia
+ 31.16	3147	0	-	123367	                                              Ctenosquamata
+ 31.16	3147	0	-	123368	                                                Acanthomorphata
+ 31.16	3147	0	-	123369	                                                  Euacanthomorphacea
+ 31.16	3147	0	-	1489872	                                                    Percomorphaceae
+ 15.03	1517	0	-	1489922	                                                      Eupercaria
+ 14.98	1513	0	O	1489940	                                                        Centrarchiformes
+ 14.98	1513	0	-	1545897	                                                          Centrarchoidei
+ 14.98	1513	0	F	8180	                                                            Centrarchidae
+ 14.09	1423	0	G	13105	                                                              Lepomis
+ 14.08	1422	1422	S	13106	                                                                Lepomis macrochirus
+  0.01	1	1	S	270329	                                                                Lepomis gibbosus
+  0.88	89	0	G	27705	                                                              Micropterus
+  0.88	88	58	S	27706	                                                                Micropterus salmoides
+  0.30	30	30	-	489037	                                                                  Micropterus salmoides salmoides
+  0.00	0	0	G	8181	                                                              Pomoxis
+  0.00	0	0	S	8182	                                                                Pomoxis nigromaculatus
+  0.05	4	0	O	8111	                                                        Perciformes
+  0.03	3	0	-	8112	                                                          Percoidei
+  0.03	3	0	F	8165	                                                            Percidae
+  0.01	1	0	-	641307	                                                              Percinae
+  0.01	1	0	G	8166	                                                                Perca
+  0.01	1	1	S	8167	                                                                  Perca flavescens
+  0.01	1	0	-	698016	                                                              Etheostomatinae
+  0.01	1	0	G	54318	                                                                Etheostoma
+  0.01	1	0	-	909708	                                                                  Boleosoma
+  0.01	1	1	S	54337	                                                                    Etheostoma nigrum
+  0.00	0	0	-	641308	                                                              Luciopercinae
+  0.00	0	0	G	283033	                                                                Sander
+  0.00	0	0	S	283036	                                                                  Sander vitreus
+  0.01	1	0	-	8100	                                                          Cottioidei
+  0.01	0	0	-	1490021	                                                            Cottales
+  0.01	0	0	F	8092	                                                              Cottidae
+  0.01	0	0	G	8098	                                                                Cottus
+  0.00	0	0	S	147208	                                                                  Cottus bairdii
+  0.00	0	0	S	147210	                                                                  Cottus cognatus
+  0.00	0	0	-	1490020	                                                            Gasterosteales
+  0.00	0	0	F	69291	                                                              Gasterosteidae
+  0.00	0	0	G	240155	                                                                Culaea
+  0.00	0	0	S	240156	                                                                  Culaea inconstans
+ 10.70	1080	0	-	1489908	                                                      Ovalentaria
+ 10.70	1080	0	-	1489913	                                                        Atherinomorphae
+ 10.70	1080	0	O	28738	                                                          Cyprinodontiformes
+ 10.70	1080	0	-	8087	                                                            Cyprinodontoidei
+ 10.70	1080	0	F	28756	                                                              Fundulidae
+ 10.70	1080	0	G	8077	                                                                Fundulus
+ 10.70	1080	1080	S	54267	                                                                  Fundulus diaphanus
+  5.42	547	0	-	1489892	                                                      Anabantaria
+  5.42	547	0	O	1489900	                                                        Anabantiformes
+  5.42	547	0	-	50374	                                                          Channoidei
+  5.42	547	0	F	30910	                                                            Channidae
+  5.42	547	0	G	33789	                                                              Channa
+  5.42	547	547	S	215402	                                                                Channa argus
+  0.01	1	0	-	1489875	                                                      Gobiaria
+  0.01	1	0	O	1489878	                                                        Gobiiformes
+  0.01	1	0	-	8219	                                                          Gobioidei
+  0.01	1	0	F	8220	                                                            Gobiidae
+  0.01	1	0	-	670798	                                                              Benthophilinae
+  0.01	1	0	-	670801	                                                                Neogobiini
+  0.01	1	0	G	47307	                                                                  Neogobius
+  0.01	1	1	S	47308	                                                                    Neogobius melanostomus
+  0.36	35	0	-	41705	                                          Protacanthopterygii
+  0.27	26	0	O	8006	                                            Salmoniformes
+  0.27	26	0	F	8015	                                              Salmonidae
+  0.26	26	0	-	504568	                                                Salmoninae
+  0.15	14	0	G	8028	                                                  Salmo
+  0.15	14	14	S	8032	                                                    Salmo trutta
+  0.08	7	0	G	8033	                                                  Salvelinus
+  0.06	5	5	S	8038	                                                    Salvelinus fontinalis
+  0.02	1	1	S	8040	                                                    Salvelinus namaycush
+  0.04	3	0	G	8016	                                                  Oncorhynchus
+  0.02	2	2	S	8022	                                                    Oncorhynchus mykiss
+  0.01	0	0	S	8019	                                                    Oncorhynchus kisutch
+  0.00	0	0	-	504567	                                                Coregoninae
+  0.00	0	0	G	36182	                                                  Prosopium
+  0.09	9	0	O	8007	                                            Esociformes
+  0.05	5	0	F	8008	                                              Esocidae
+  0.05	5	0	G	8009	                                                Esox
+  0.05	5	5	S	184451	                                                  Esox niger
+  0.03	3	0	F	30950	                                              Umbridae
+  0.03	3	0	G	75932	                                                Umbra
+  0.03	3	3	S	75935	                                                  Umbra limi
+  0.06	6	0	-	1489798	                                          Stomiatii
+  0.06	6	0	O	41711	                                            Osmeriformes
+  0.06	6	0	F	8012	                                              Osmeridae
+  0.06	6	0	-	182230	                                                Osmerinae
+  0.06	6	0	G	8013	                                                  Osmerus
+  0.06	6	6	S	8014	                                                    Osmerus mordax
+ 19.85	2005	0	-	186634	                                        Otomorpha
+ 12.99	1312	0	-	282425	                                          Clupei
+ 12.99	1312	0	O	32446	                                            Clupeiformes
+ 12.99	1312	0	-	1489460	                                              Clupeoidei
+ 12.99	1312	0	F	55118	                                                Clupeidae
+ 12.99	1312	0	-	55119	                                                  Alosinae
+ 12.99	1312	0	G	34772	                                                    Alosa
+ 12.99	1312	1312	S	34774	                                                      Alosa pseudoharengus
+  6.86	693	0	-	32519	                                          Ostariophysi
+  6.86	693	0	-	186626	                                            Otophysi
+  3.87	391	0	-	186628	                                              Characiphysae
+  3.87	391	0	O	7995	                                                Siluriformes
+  3.87	391	0	-	1489793	                                                  Siluroidei
+  3.87	391	0	F	7996	                                                    Ictaluridae
+  3.87	391	0	G	50384	                                                      Ameiurus
+  3.49	352	352	S	27778	                                                        Ameiurus nebulosus
+  0.39	38	38	S	219545	                                                        Ameiurus melas
+  2.99	302	0	-	186627	                                              Cypriniphysae
+  2.99	302	0	O	7952	                                                Cypriniformes
+  2.87	290	0	-	30725	                                                  Cobitoidea
+  2.87	290	0	F	7968	                                                    Catostomidae
+  2.87	289	0	G	7969	                                                      Catostomus
+  2.86	289	289	S	7971	                                                        Catostomus commersonii
+  0.01	0	0	G	117934	                                                      Moxostoma
+  0.00	0	0	S	154817	                                                        Moxostoma anisurum
+  0.11	11	0	-	30727	                                                  Cyprinoidea
+  0.11	11	0	F	7953	                                                    Cyprinidae
+  0.03	2	0	G	67555	                                                      Rhinichthys
+  0.01	1	1	S	340988	                                                        Rhinichthys cataractae
+  0.01	1	1	S	407093	                                                        Rhinichthys obtusus
+  0.02	2	0	G	28799	                                                      Notemigonus
+  0.02	2	2	S	28800	                                                        Notemigonus crysoleucas
+  0.02	2	0	G	67557	                                                      Semotilus
+  0.02	2	2	S	67558	                                                        Semotilus atromaculatus
+  0.02	1	0	G	51137	                                                      Pimephales
+  0.02	1	1	S	90988	                                                        Pimephales promelas
+  0.01	1	0	G	1046118	                                                      Chrosomus
+  0.01	1	1	S	42663	                                                        Chrosomus eos
+  0.01	0	0	G	33535	                                                      Luxilus
+  0.01	0	0	S	33539	                                                        Luxilus cornutus
+  0.00	0	0	G	67546	                                                      Margariscus
+  0.00	0	0	S	67547	                                                        Margariscus margarita
+ 30.58	3088	0	-	1489100	                                  Holostei
+ 21.66	2187	0	O	7914	                                    Semionotiformes
+ 21.66	2187	0	F	7915	                                      Lepisosteidae
+ 21.66	2187	0	G	7916	                                        Lepisosteus
+ 21.66	2187	2187	S	34771	                                          Lepisosteus osseus
+  8.92	901	0	O	7921	                                    Amiiformes
+  8.92	901	0	F	7922	                                      Amiidae
+  8.92	901	0	G	7923	                                        Amia
+  8.92	901	901	S	7924	                                          Amia calva
+ 13.16	1329	0	-	32440	                                Chondrostei
+ 13.16	1329	0	O	7899	                                  Acipenseriformes
+ 13.16	1329	0	-	186622	                                    Acipenseroidei
+ 13.16	1329	0	F	7900	                                      Acipenseridae
+ 13.16	1329	0	-	124129	                                        Acipenserinae
+ 13.16	1329	0	-	124130	                                          Acipenserini
+ 13.16	1329	0	G	7901	                                            Acipenser
+ 13.16	1329	1329	S	41871	                                              Acipenser fulvescens
+  0.02	2	0	-	1476529	                      Cyclostomata
+  0.02	2	0	-	117569	                        Hyperoartia
+  0.02	2	0	O	7745	                          Petromyzontiformes
+  0.02	2	0	F	7746	                            Petromyzontidae
+  0.02	2	0	G	7772	                              Ichthyomyzon
+  0.02	2	2	S	245073	                                Ichthyomyzon fossor
