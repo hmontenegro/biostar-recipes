@@ -41,12 +41,12 @@ def generate_header(files):
 def compute_sum(values):
 
     try:
-         return sum(float(x) for x in filter(lambda x: x not in ('-', '0', '0.0'), values))
+         return sum(float(x) for x in filter(lambda x: x not in ('0', '0.0'), values))
     except ValueError:
         return 1
 
 
-def plot(data, outfile, header, title='Title', width=0.35, opacity=0.8):
+def plot(data, outfile, header, title='Title', width=0.62, opacity=0.8):
 
 
     objects = {}
@@ -55,37 +55,35 @@ def plot(data, outfile, header, title='Title', width=0.35, opacity=0.8):
         row = row.split('\t')[3:]
         objects.setdefault(name, []).append(row)
 
-    y_pos = arange(len(objects))
+    y_pos = arange(0, len(objects) * 3, 3)
     ax, fig = plt.subplot(), plt.gcf()
+    x_vals = [x[1][0] for x in objects.items()]
+    X = {}
+    for multi in x_vals:
+        for idx,x in enumerate(multi):
+            X.setdefault(idx, []).append(float(x))
 
-    for idx, x_val in enumerate(objects.items()):
-        #TODO: needs to match y_pos shape
-        d = [float(x) for y in x_val[1] for x in y]
-        print(d, y_pos, len(d), len(y_pos), x_val)
-        # Shift to accommodate more than one bar
-        # max number of bars = len (colors) = 7
-        #if color > 0:
+    for idx, x_val in X.items():
         y_pos = y_pos + width
-        plt.barh(y_pos + width, d, width,
+        plt.barh(y_pos + width, x_val, width,
                 alpha=opacity,
                  # Label and color need to come from filename.
-                #color=colors[color],
                 #label=n if not EASYMAP.get(n) else EASYMAP[n],
-                align = 'center')
+                align = 'edge')
 
     plt.yticks(y_pos + width, objects)
     #plt.xlabel(f'{x_label}', weight='bold')
     plt.title(f'{title}', fontsize=10, weight='bold')
     handles, labels = ax.get_legend_handles_labels()
-    plt.legend(handles, labels, loc='right', bbox_to_anchor=(0.15, -0.1),
-                  prop={'size': 8})
+    #plt.legend(handles, labels, loc='right', bbox_to_anchor=(0.15, -0.1),
+    #              prop={'size': 8})
     plt.tight_layout()
-    #fig.set_size_inches(9, 5.5)
+
+    fig.set_size_inches(12, 12)
     plt.show()
     #plt.savefig(outfile)
     print(f"Plot saved to :{os.path.abspath(outfile)}")
-    print(objects)
-    print(objects)
+
     1/0
 
     return
@@ -101,7 +99,7 @@ def summarize_group(rank_group, file_columns, col_idx=-1, drop_zeros=False):
     for name in rank_group:
         # Start off with empty values and substitute
         # every index that has a value
-        values = ["-" for _ in range(len(file_columns))]
+        values = ["0" for _ in range(len(file_columns))]
         current = [x[col_idx] for x in rank_group[name]]
         for p in current:
             # Variable 'col' is the column name value belongs to
@@ -162,7 +160,7 @@ def summarize_results(results, filter_by='', drop_zeros=False, summarize='abunda
         store[rank] = summarize_group(name_store, file_columns=header[3:],
                                       col_idx=summ_column, drop_zeros=drop_zeros)
     if filter_by:
-        return dict(filter_by=store.get(filter_by, []))
+        return {f'{filter_by}':store.get(filter_by, [])}
 
     return store
 
@@ -189,7 +187,7 @@ def main():
     parse.add_argument('--prefix', dest='prefix', default='plot',
                        help="""Prefix to the plot name.""",
                        type=str)
-    parse.add_argument('--summarize', dest='summarize', default='abundance',
+    parse.add_argument('--columns', dest='summarize', default='numReads',
                        help="""Column to combine across all samples and put in summary report.""",
                        type=str,choices=("genomeSize", "numReads" ,"numUniqueReads","abundance"))
 
@@ -215,8 +213,9 @@ def main():
     if args.plot:
         for rank, values in summary.items():
             # Generate a plot for each rank
-            plot(data=values, title=f'{rank}',outfile=args.prefix + '.png',
-                 header=generate_header(files))
+            if values:
+                plot(data=values, title=f'{rank}',outfile=args.prefix + '.png',
+                     header=generate_header(files))
 
 
 if __name__ == '__main__':
