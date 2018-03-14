@@ -36,28 +36,44 @@ def plot(df, args):
     import matplotlib.pylab as plt
     import numpy as np
 
+    plt.rcParams.update({'figure.autolayout': True})
+    plt.figure(figsize=(10, 5), dpi=100)
 
-    plt.title(f'FOO', fontsize=10, weight='bold')
     data = get_subset(df, 'S')
     values = data['1000-MiFish_R1']
     labels = data['name']
+
     ypos = np.arange(len(values))
 
+    # How many columns to plot.
+    rnum, cnum = df.shape
 
+    # The total width for bars.
+    space = 0.3
 
-    fig, ax = plt.subplots()
-    ax.barh(ypos, values)
-    ax.set_yticklabels(labels)
+    # How many bars will there be.
+    n = cnum - 3
 
+    # Width of one bar.
+    width = (1 - space) / n
 
-    plt.yticks(np.arange(len(labels)))
+    # Shift the bar to center
+    shift = (n - 1) * width / 2
 
+    for i in range(n):
+        label = df.columns[3 + i]
+        print (label)
+        values = data[label]
+        print (values)
+        npos = ypos + i * width - shift
+        plt.barh(npos, values, width, label=label)
 
-
-    plt.show()
-
-
-    return
+    plt.legend()
+    plt.yticks(range(len(labels)), labels)
+    plt.title(f'Read Classification')
+    plt.xlabel("Percent reads")
+    plt.savefig(f'{args.prefix}.png')
+    #plt.show()
 
 
 def get_subset(df, rank=''):
