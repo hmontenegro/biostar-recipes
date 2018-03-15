@@ -25,6 +25,7 @@ import sys
 
 import pandas as pd
 
+OFFLINE = True
 
 def colnames(fnames):
     names = [os.path.basename(fname) for fname in fnames]
@@ -33,8 +34,13 @@ def colnames(fnames):
 
 
 def plot(df, args):
+    import matplotlib
     import matplotlib.pylab as plt
     import numpy as np
+
+    if OFFLINE:
+        # Turn off interactive display.
+        matplotlib.use('Agg')
 
     # Set plotting parameters.
     plt.rcParams.update({'figure.autolayout': True})
@@ -78,7 +84,10 @@ def plot(df, args):
     plt.title(f'Read Classification')
     plt.xlabel("Percent reads")
     plt.savefig(f'{args.plot}')
-    # plt.show()
+
+    if not OFFLINE:
+        # Pop a window in non-offline mode.
+        plt.show()
 
 
 def get_subset(df, rank=''):
