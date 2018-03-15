@@ -92,7 +92,7 @@ data: [
     }
 
     {
-        name: Fish Metabarcode Collection
+        name: Fish Metabarcode Example
         value: export/local/usfish/
         type: FASTQ
         summary: This collections contains fish metabarcode data.

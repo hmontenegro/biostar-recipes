@@ -21,12 +21,21 @@ settings: {
 analyses: [
 
 
+    {
+        json: recipes/classify/centrifuge.hjson
+        template: recipes/classify/centrifuge.sh
+    }
 
     ]
 
 data: [
 
-
+    {
+        name: Fish Metabarcode Example
+        value: export/local/usfish/
+        type: FASTQ
+        summary: This collections contains sample data from fish sequencing runs.
+    }
 
     ]
 

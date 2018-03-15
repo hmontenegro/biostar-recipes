@@ -2,7 +2,7 @@
   reads:
 
   {
-    value: Fish Metabarcode Collection
+    value: Fish Metabarcode Example
     label: Sequencing Data Directory
     help: Multiple paired-end sequencing reads.
     source: PROJECT
@@ -16,9 +16,10 @@
         help: The available classification categories
         display: DROPDOWN
         choices: [
-            ["FISH", "Custom Fish Database"],
-            ["BAVH", "Bacteria, Archaea, Viruses, Human"],
-            ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ],
+            ["FISH", "Fish Database"]
+            ["BAVH", "Bacteria, Archaea, Viruses, Human"]
+            ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ]
+            ["NT", "NCBI Refseq database " ]
         ]
   }
 
@@ -33,11 +34,20 @@
         ]
   }
 
+   cutoff: {
+        value: 1
+        label: Cutoff
+        help: The minimal sum for each row in the final classification.
+        display: INTEGER
+        range: [0, 10000]
+
+  }
+
   settings:
   {
     name: Taxonomic Classification
     image: centrifuge.jpg
-    summary: Classify short reads against Bacteria, Archaea, Viruses, Human DNA.
+    summary: Classify short reads against different databases.
     help:
       '''
 
@@ -46,45 +56,43 @@
       Centrifuge is a microbial classification software that enables rapid, accurate,
       and sensitive labeling of reads and quantification of species.
 
-      This recipe will execute the Centrifuge software and classify against Bacteria, Archaea, Viruses, Human
-      datasets. The output of the tool are
+      This recipe will execute the Centrifuge software and classify against various databases.
 
-      The resulting datasets are text reports listing each species that that was found in the sample:
+      The resulting datasets are text reports listing the percent abundance for each species
+      that that was found in the sample:
 
       ```
-       0.00	   0	   0	U	     0	unclassified
-      92.25	8186	   0	-	     1	root
-      53.68	4764	   0	-	 28384	  other sequences
-      53.68	4764	   0	-	 81077	    artificial sequences
-      53.68	4764	4764	S	 32630	      synthetic construct
-      26.65	2364	   0	D	 10239	  Viruses
-      26.65	2364	   0	-	439488	    ssRNA viruses
-      26.65	2364	   0	-	 35301	      ssRNA negative-strand viruses
-      26.65	2364	   0	O	 11157	        Mononegavirales
-      26.65	2364	   0	F	 11266	          Filoviridae
-      26.65	2364	   0	G	186536	            Ebolavirus
-      26.63	2363	2363	S	186538	              Zaire ebolavirus
-       0.01	   1	   1	S	186541	              Tai Forest ebolavirus
-      11.92	1057	   0	-	131567	  cellular organisms
-      11.11	 986	   0	D	     2	    Bacteria
-      9.48	 841	   0	P	  1224	      Proteobacteria
-      4.98	 442	   0	C	 28211	        Alphaproteobacteria
-      4.54	 402	   0	O	   356	          Rhizobiales
-      3.36	 298	   0	F	 41294	            Bradyrhizobiaceae
-      3.23	 286	   0	G	   374	              Bradyrhizobium
-      2.99	 265	 265	S	288000	                Bradyrhizobium sp. BTAi1
-      0.07	   6	   6	S	1355477	                Bradyrhizobium diazoefficiens
-      0.03	   3	   3	S	    375	                Bradyrhizobium japonicum
-      0.03	   3	   3	S	 114615	                Bradyrhizobium sp. ORS 278
-      0.03	   3	   3	S	 335659	                Bradyrhizobium sp. S23321
+      ###
+      ### Rank: Species
+      ###
+      name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+      Lepisosteus osseus      34771   S     21.48           0.07
+      Cottus bairdii          147208  S     0.02            15.73
+      Cottus cognatus         147210  S     0.02            15.73
+      Lepomis macrochirus     13106   S     13.94           0.01
+      Acipenser fulvescens    41871   S     13.01           0.04
+      Alosa pseudoharengus    34774   S     12.81           0.04
+      Fundulus diaphanus      54267   S     10.49           0.01
+      Amia calva              7924    S     8.88            0.14
+      Oncorhynchus kisutch    8019    S     0.01            8.24
+      Channa argus            215402  S     5.58            2.66
+      Ameiurus nebulosus      27778   S     3.58            0.09
+      ...
       ```
 
-      Tools website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
+      A different section is generated at each taxonomic rank.
+
+      A visualization of the data above is also generated.
+
+      Tool website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
 
       ## Requirements
 
       For paired end reads, naming should be such that after sorting replicates group together.
 
+      ### Runtime
+
+      Substantially longer runtimes are to be expected when running classificatons againts the NT database.
       '''
   }
 }
