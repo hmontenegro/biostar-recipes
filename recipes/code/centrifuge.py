@@ -47,7 +47,7 @@ def plot(df, args):
     rnum, cnum = data.shape
 
     # Different sort needed for horizontal plot.
-    #data = data.sort_values(by=df.columns[3])
+    # data = data.sort_values(by=df.columns[3])
 
     # The tick positions.
     ypos = np.arange(rnum)
@@ -77,9 +77,8 @@ def plot(df, args):
     plt.yticks(range(len(labels)), labels)
     plt.title(f'Read Classification')
     plt.xlabel("Percent reads")
-    plt.savefig(f'{args.prefix}.png')
-    print ("saved plot")
-    #plt.show()
+    plt.savefig(f'{args.plot}')
+    # plt.show()
 
 
 def get_subset(df, rank=''):
@@ -141,6 +140,7 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     # Make a panda dataframe
     columns = ["name", "taxid", "rank"] + colnames(files)
     df = pd.DataFrame(table, columns=columns)
+
     return df
 
 
@@ -160,16 +160,12 @@ def main():
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
                         type=int)
 
-    parser.add_argument('--plot', dest='plot', default=False,
-                        help="Produce a bar plot for each rank in summary report.",
-                        action='store_true')
-
-    parser.add_argument('--prefix', dest='prefix', default='plot',
-                        help="Prefix to the plot name.",
+    parser.add_argument('--plot', dest='plot', default='plot',
+                        help="Plot name. The extension will determine the plot filetype (.png, .pdf)",
                         type=str)
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['--plot', 'data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
+        sys.argv.extend(['--plot', 'plot.png', 'data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
 
     args = parser.parse_args()
 
@@ -181,6 +177,7 @@ def main():
 
     if args.plot:
         plot(df=df, args=args)
+
 
 if __name__ == '__main__':
     main()
