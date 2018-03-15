@@ -35,12 +35,13 @@ def colnames(fnames):
 
 def plot(df, args):
     import matplotlib
-    import matplotlib.pylab as plt
-    import numpy as np
 
     if OFFLINE:
         # Turn off interactive display.
         matplotlib.use('Agg')
+
+    import matplotlib.pylab as plt
+    import numpy as np
 
     # Set plotting parameters.
     plt.rcParams.update({'figure.autolayout': True})
