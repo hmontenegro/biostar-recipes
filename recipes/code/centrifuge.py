@@ -2,21 +2,6 @@
 
 This program is used to process .tsv report files that are outputted by centrifuge-kreport.
 It groups the results according to rank code and shows the abundance for each file.
-
-The input files are expected to have this header:
-
-    name	taxID	taxRank	genomeSize	numReads	numUniqueReads	abundance
-
-Usage:
-    
-    $   python centrifuge.py data/*.tsv
-
-    name	                    taxID	taxRank	    SRR1972972_1.tsv	SRR1972972_2.tsv    ... 
-    Azorhizobium caulinodans	7	    species	    0.0	                0.0                 
-    Cellulomonas gilvus	        11	    species	    -                   0.0
-    Pelobacter carbinolicus	    19	    species	    0.0                 -
-    ...
-                   
 """
 
 import csv
@@ -25,8 +10,6 @@ import sys
 
 import pandas as pd
 
-OFFLINE = True
-
 def colnames(fnames):
     names = [os.path.basename(fname) for fname in fnames]
     names = [fname.split(".")[0] for fname in names]
@@ -34,62 +17,16 @@ def colnames(fnames):
 
 
 def plot(df, args):
-    import matplotlib
-
-    if OFFLINE:
-        # Turn off interactive display.
-        matplotlib.use('Agg')
-
-    import matplotlib.pylab as plt
-    import numpy as np
-
-    # Set plotting parameters.
-    plt.rcParams.update({'figure.autolayout': True})
-    plt.figure(figsize=(20, 10), dpi=100)
+    from recipes.code import plotter
 
     # Subst to species.
     data = get_subset(df, 'S')
 
-    # How many columns to plot.
-    rnum, cnum = data.shape
+    # Plot the dataframe as horizontal bars.
+    plotter.horizontal_bars(data=data, fname=args.plot)
 
-    # Different sort needed for horizontal plot.
-    # data = data.sort_values(by=df.columns[3])
-
-    # The tick positions.
-    ypos = np.arange(rnum)
-
-    # The total width for bars.
-    space = 0.3
-
-    # How many bars will there be.
-    n = cnum - 3
-
-    # Width of one bar.
-    width = (1 - space) / n
-
-    # Shift the bar to center
-    shift = (n - 1) * width / 2
-
-    # Generate a barplot for each column past the third.
-    for i in range(n):
-        label = df.columns[3 + i]
-        values = data[label]
-        npos = ypos + i * width - shift
-        plt.barh(npos, values, width, label=label)
-
-    # Finish up the plot.
-    plt.legend()
-    labels = data['name']
-    plt.yticks(range(len(labels)), labels)
-    plt.title(f'Read Classification')
-    plt.xlabel("Percent reads")
-    plt.savefig(f'{args.plot}')
-
-    if not OFFLINE:
-        # Pop a window in non-offline mode.
-        plt.show()
-
+    # Plot a heatmap
+    plotter.heatmap(data=data, fname="heatmap.png")
 
 def get_subset(df, rank=''):
     indices = df['rank'] == rank
