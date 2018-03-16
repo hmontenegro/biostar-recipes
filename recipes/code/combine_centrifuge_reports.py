@@ -25,9 +25,6 @@ def plot(df, args):
     # Subst to species.
     data = get_subset(df, 'S')
 
-    # Plot the dataframe as horizontal bars.
-    plotter.horizontal_bars(data=data, fname=args.plot)
-
     # Plot a heatmap
     plotter.heatmap(data=data, fname="heatmap.png")
 

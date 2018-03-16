@@ -45,7 +45,7 @@
 
   settings:
   {
-    name: Taxonomic Classification
+    name: Classify sequences using Centrifuge
     image: centrifuge.jpg
     summary: Classify short reads against different databases.
     help:

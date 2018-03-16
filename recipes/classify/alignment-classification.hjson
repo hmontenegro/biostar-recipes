@@ -1,0 +1,91 @@
+{
+
+  reads: {
+    value: Fish Metabarcode Example
+    label: Sequencing Data Directory
+    help: Multiple paired-end sequencing reads.
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+
+  library: {
+        value: PE
+        label: Library layout
+        help: See the help for file naming requirement for Paired end setup.
+        display: RADIO
+        choices: [
+            ["SE", "Single end"],
+            ["PE", "Paired end" ],
+        ]
+  }
+
+  genome: {
+    value: Ebola Genome.fa
+    label: Reference genome
+    help: The reference genome
+    source: PROJECT
+    type: FASTA
+    display: DROPDOWN
+  }
+
+
+  fraction: {
+      value: "ALL"
+      label: Sampling
+      help: You may want to select smaller random subset of reads first
+      display: DROPDOWN
+      choices: [
+          [ "0.01", "Select 1% of all reads"],
+          [ "0.1", "Select 10% of all reads" ],
+          [ "ALL", "Select all reads"],
+      ]
+    }
+
+  cutoff: {
+        value: 1
+        label: Cutoff
+        help: The minimal sum for each row in the final classification.
+        display: FLOAT
+        range: [0, 10000]
+
+  }
+
+  threads: {
+    value: 2
+  }
+
+  settings: {
+    name: Classify sequences using BWA alignments
+    image: alignment-classification.png
+    summary: Aligns short reads with bwa
+    help:
+      '''
+
+      # Help
+
+      This recipe aligns sequencing reads to a reference genome.
+
+      Produces a heatmap of the aligned sequences relative to the various sequences in the file.
+
+      There is the option to subselect  1 percent or 10 percent of the sequencing reads.
+
+      # Parameters
+
+      1. Input data collection in FASTQ format.
+      2. Reference genome sequences in FASTA format.
+
+      # Requirements
+
+      For paired end reads, naming should be such that after sorting replicates group together.
+
+      # Results
+
+      1. Aligned bam files in the `bam` folder.
+      2. Combined alignment statistics `idxstats.txt` files.
+      3. Heatmap visualization of the results.
+      '''
+  }
+
+
+}

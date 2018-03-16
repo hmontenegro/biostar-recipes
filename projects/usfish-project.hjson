@@ -32,10 +32,9 @@ analyses: [
     }
 
     {
-        json: recipes/alignment/short-read-alignment.hjson
-        template: recipes/alignment/short-read-alignment.sh
+         json: recipes/classify/alignment-classification.hjson
+        template: recipes/classify/alignment-classification.sh
     }
-
 
     {
         json: recipes/usfish/trim-merge.hjson
