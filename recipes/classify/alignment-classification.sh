@@ -7,9 +7,8 @@ LIBRARY={{library.value}}
 FRACTION={{fraction.value}}
 CUTOFF={{cutoff.value}}
 
-# The first time around users must wait until this index is created
-# before starting another job that uses this same index.
-INDEX_DIR={{runtime.local_root}}/indices
+# Create the index 
+INDEX_DIR=index
 mkdir -p ${INDEX_DIR}
 INDEX=${INDEX_DIR}/{{genome.uid}}
 
@@ -52,14 +51,8 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
 {% endif %}
 
-{# Generate script depending on the  aligner #}
-
-
-# Build the BWA index if needed.
-if [ ! -f "$INDEX.bwt" ]; then
-    echo "Building the bwa index."
-    bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
-fi
+echo "Building the bwa index."
+bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
 
 {% if library.value == "SE" %}
     # Run bwa in single end mode.
@@ -68,8 +61,6 @@ fi
     # Run bwa in paired end mode.
     cat ${FILES} | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
 {% endif %}
-
-
 
 # Generate the indices
 ls -1 bam/*.bam | parallel samtools index {}
