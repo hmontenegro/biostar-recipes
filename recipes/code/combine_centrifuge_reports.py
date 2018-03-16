@@ -11,6 +11,7 @@ import os
 import sys
 
 import pandas as pd
+from recipes.code import utils
 
 def colnames(fnames):
     names = [os.path.basename(fname) for fname in fnames]
@@ -89,6 +90,10 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     # Make a panda dataframe
     columns = ["name", "taxid", "rank"] + colnames(files)
     df = pd.DataFrame(table, columns=columns)
+
+    # Attempt to fill in common names at species level:
+    fname = "/export/refs/alias/fishalias.txt"
+    df = utils.alias(df=df, fname=fname, left='name', right='sciname', column='name')
 
     return df
 
