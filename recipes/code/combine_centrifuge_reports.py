@@ -1,7 +1,9 @@
 """
 
-This program is used to process .tsv report files that are outputted by centrifuge-kreport.
-It groups the results according to rank code and shows the abundance for each file.
+This program is used to process .tsv report files that creatred via centrifuge-kreport.
+
+It groups the results according to rank code and produces the abundance for each file.
+
 """
 
 import csv
@@ -103,9 +105,9 @@ def main():
                         help="Filter summary report to a taxonomic rank default.",
                         type=str, default='')
 
-    parser.add_argument('--cutoff', dest='cutoff', default=1,
+    parser.add_argument('--cutoff', dest='cutoff', default=0.1,
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
-                        type=int)
+                        type=float)
 
     parser.add_argument('--plot', dest='plot', default='plot',
                         help="Plot name. The extension will determine the plot filetype (.png, .pdf)",

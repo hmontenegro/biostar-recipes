@@ -28,7 +28,7 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
 
     names = list(data.columns)
     label = names[labidx]
-    names = [ label  ] + names[colidx:]
+    names = [ label ] + names[colidx:]
 
     # A simpler dataframe with only labels and values
     for name in names:

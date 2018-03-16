@@ -100,7 +100,6 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
     fi
 
     {% if library.value == "SE" %}
-
         # Run hisat2 in single end mode.
         cat ${FILES} | parallel -j $PROC "hisat2 -x ${INDEX} -U {1} 2>> $RUNLOG | samtools sort > bam/{1/.}.bam"
     {% else %}
@@ -112,38 +111,18 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
 # Generate the indices
 ls -1 bam/*.bam | parallel samtools index {}
+echo "BAM files created in the 'bam' directory."
+
+# Create a results directory
+mkdir -p results
 
 # Generate alignment statistics.
-for fname in bam/*.bam; do
+ls -1 bam/*bam | parallel "samtools flagstat {} > results/{/.}.flagstat.txt"
+echo "Flagstats created in the 'results' directory."
 
-    echo "-------- flagstat: $fname -------" >> flagstat.txt
-    samtools flagstat ${fname} >> flagstat.txt
+ls -1 bam/*bam | parallel "samtools idxstats {} > results/{/.}.idxstats.txt"
+echo "Index stats created in the 'results' directory."
 
-    echo "-------- idxstats: $fname -------" >> idxstats.txt
-    samtools idxstats ${fname} >> idxstats.txt
-
-done
-
-# Inform the user of the outputs.
-echo ""
-echo "************* Main Results ***************"
-echo "Mapping statistics stored in: flagstat.txt"
-echo "Alignment counts stored in: idxstats.txt"
-echo "******************************************"
-echo ""
-
-# Show a partial output of flagstas.txt
-echo "***************************"
-echo "First lines in flagstat.txt:"
-echo "***************************"
-cat flagstat.txt | head -30
-echo "..."
-echo ""
-
-# Show a partial output of flagstas.txt
-echo "**************************"
-echo "First lines in idstats.txt:"
-echo "**************************"
-cat idxstats.txt | head -30
-echo "..."
-echo ""
+# Create a combined report of all index stats.
+echo "Index statistics in the 'idxstats.txt file"
+python -m recipes.code.combine_samtools_idxstats results/*idxstats*t | column -t -s , > idxstats.txt

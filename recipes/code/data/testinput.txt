@@ -1,0 +1,58 @@
+###
+### Rank: Species
+###
+name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+Lepisosteus osseus      34771   S     21.48           0.07
+Cottus bairdii          147208  S     0.02            15.73
+Cottus cognatus         147210  S     0.02            15.73
+Lepomis macrochirus     13106   S     13.94           0.01
+Acipenser fulvescens    41871   S     13.01           0.04
+Alosa pseudoharengus    34774   S     12.81           0.04
+Fundulus diaphanus      54267   S     10.49           0.01
+Amia calva              7924    S     8.88            0.14
+Oncorhynchus kisutch    8019    S     0.01            8.24
+Channa argus            215402  S     5.58            2.66
+Ameiurus nebulosus      27778   S     3.58            0.09
+Catostomus commersonii  7971    S     2.9             0.72
+Oncorhynchus mykiss     8022    S     0.02            3.53
+###
+### Rank: Genus
+###
+name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+Cottus                  8098    G     0.19            31.47
+Lepisosteus             7916    G     21.48           0.07
+Lepomis                 13105   G     13.97           0.37
+Acipenser               7901    G     13.01           0.04
+Alosa                   34772   G     12.81           0.04
+Oncorhynchus            8016    G     0.04            11.8
+Fundulus                8077    G     10.49           0.01
+Amia                    7923    G     8.88            0.14
+Channa                  33789   G     5.58            2.66
+Ameiurus                50384   G     3.79            0.17
+Catostomus              7969    G     2.9             0.74
+###
+### Rank: Family
+###
+name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+Cottidae                8092    F     0.19            31.47
+Lepisosteidae           7915    F     21.48           0.07
+Centrarchidae           8180    F     14.35           0.4
+Salmonidae              8015    F     0.32            13.6
+Acipenseridae           7900    F     13.01           0.04
+Clupeidae               55118   F     12.81           0.04
+Fundulidae              28756   F     10.49           0.01
+Amiidae                 7922    F     8.88            0.14
+Channidae               30910   F     5.58            2.66
+Ictaluridae             7996    F     3.79            0.17
+Catostomidae            7968    F     2.94            0.83
+Cyprinidae              7953    F     0.1             1.17
+###
+### Rank: Class
+###
+name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+Actinopteri             186623  C     94.53           60.74
+###
+### Rank: Domain
+###
+name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+Eukaryota               2759    D     94.53           60.74
