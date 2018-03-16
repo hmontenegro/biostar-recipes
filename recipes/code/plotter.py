@@ -22,7 +22,7 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
     # Based on: https://stackoverflow.com/questions/14391959/heatmap-in-matplotlib-with-pcolor
 
     plt.rcParams.update({'figure.autolayout': True})
-    plt.figure(figsize=(20, 10), dpi=100)
+    #plt.figure(figsize=(10, 5))
 
     df = pd.DataFrame()
 
@@ -39,7 +39,7 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
     # Normalize around one
     df = (df - df.mean()) / (df.max() - df.min())
 
-    fig, ax = plt.subplots(figsize=(20, 10))
+    fig, ax = plt.subplots(figsize=(16, 8))
 
     heatmap = ax.pcolor(df, cmap=plt.cm.Blues, alpha=0.8)
 
