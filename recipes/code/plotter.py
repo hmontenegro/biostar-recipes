@@ -1,7 +1,6 @@
 """
 Plotter for different types of data
 """
-import os
 import matplotlib
 
 # Offline mode.
@@ -15,20 +14,20 @@ import matplotlib.pylab as plt
 import numpy as np
 import pandas as pd
 
+
 # colidx is the column where the data starts.
 # labidx is the column index for the labels
 def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
-
     # Based on: https://stackoverflow.com/questions/14391959/heatmap-in-matplotlib-with-pcolor
 
     plt.rcParams.update({'figure.autolayout': True})
-    #plt.figure(figsize=(10, 5))
+    # plt.figure(figsize=(10, 5))
 
     df = pd.DataFrame()
 
     names = list(data.columns)
     label = names[labidx]
-    names = [ label ] + names[colidx:]
+    names = [label] + names[colidx:]
 
     # A simpler dataframe with only labels and values
     for name in names:
@@ -36,25 +35,32 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
 
     df = df.set_index(label)
 
-    #df = (df - df.mean()) / (df.max() - df.min())
+    # df = (df - df.mean()) / (df.max() - df.min())
 
     # Transform the scale to log.
-    df = np.log(df+1)
+    df = np.log(df + 1)
 
-    fig, ax = plt.subplots(figsize=(12, 6))
+    # The size of the data frame.
+    rnum, cnum = df.shape
+
+    # The size of the plot will grow with the row numbers.
+    vsize = 4 + 10/rnum
+    fig, ax = plt.subplots(figsize=(12, vsize))
 
     heatmap = ax.pcolor(df, cmap=plt.cm.Blues, alpha=0.8)
-
-    rnum, cnum = df.shape
 
     # put the major ticks at the middle of each cell
     ax.set_yticks(np.arange(rnum) + 0.5, minor=False)
     ax.set_xticks(np.arange(cnum) + 0.5, minor=False)
 
-    #ax.invert_yaxis()
+    # ax.invert_yaxis()
     ax.xaxis.tick_top()
 
+    # Get the vertical labels.
     labels = list(df.columns)
+
+    # Simplify label names.
+    labels = [label.split("_")[0] for label in labels]
     ax.set_xticklabels(labels, minor=False)
     ax.set_yticklabels(df.index, minor=False)
 
@@ -77,7 +83,6 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
     if HAS_DISPLAY:
         # Pop a window in non-offline mode.
         plt.show()
-
 
 
 # colidx is the column where the data starts.
