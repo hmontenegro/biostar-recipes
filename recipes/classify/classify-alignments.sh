@@ -6,23 +6,24 @@ GENOME={{genome.value}}
 LIBRARY={{library.value}}
 CUTOFF={{cutoff.value}}
 
-# This is the location of the index directory.
-INDEX_DIR=indices
-mkdir -p ${INDEX_DIR}
-INDEX=${INDEX_DIR}/{{genome.uid}}
+# This directory holds all intermediary results.
+mkdir -p results
 
-# This directory will store the alignment.
-mkdir -p bam
-
-# Directory with sub-sampled data.
-READS=reads
-mkdir -p $READS
-
-# The name of the input files.
-FILES=${READS}/files.txt
+# This is the location of the bwa index.
+mkdir -p results/index
+INDEX=results/index/genome
 
 # Run log to redirect unwanted output.
 RUNLOG=runlog/runlog.txt
+
+# Wipe the runlog in case the job is rerun.
+echo "" >$RUNLOG
+
+# Build the bwa index."
+bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
+
+# The name of the input files.
+FILES=results/files.txt
 
 # Number of processes.
 PROC=4
@@ -33,40 +34,42 @@ mkdir -p runlog
 # Generate the input file names.
 cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
-# Build the BWA index if needed.
-if [ ! -f "$INDEX.bwt" ]; then
-    echo "Building the bwa index."
-    bwa index -p ${INDEX} ${GENOME} >> $RUNLOG 2>&1
-fi
 
-# Run quality trimming.
-cat ${FILES} |  parallel -N 2 -j 1 bbduk.sh -Xmx4g maq=20 qtrim=r trimq=15 in1={1} in2={2} out1=${READS}/corrected_{1/} out2=${READS}/corrected_{2/}  overwrite=t
+# Error correct the sequences.
+mkdir -p results/corrected
+cat ${FILES} | parallel -N 2 -j 1 tadpole.sh in1={1} in2={2} out1=results/corrected/{1/} out2=results/corrected/{2/}  mode=correct k=50 overwrite=t 2>>$RUNLOG
 
-# Merge paired end reads.
-echo "Merge paired end reads."
-ls -1 ${READS}/corrected_* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t trimq=20 minoverlap=150 in1={1} in2={2} out=${READS}/merged_{1/} 2>>$RUNLOG
+# Trim sequences by quality.
+mkdir -p results/trimmed
+ls -1 results/corrected/* |  parallel -N 2 -j 1 bbduk.sh -Xmx4g maq=20 qtrim=r trimq=15 in1={1} in2={2} out1=results/trimmed/{1/} out2=results/trimmed/{2/}  overwrite=t 2>>$RUNLOG
 
-# Run bwa in single end on the merged data.
-ls -1 ${READS}/merged_corrected_* | parallel -j $PROC "bwa mem ${INDEX} {1} 2>> $RUNLOG | samtools view -h -q 1 | samtools sort > bam/{1/.}.bam"
+# Merge trimmed reads.
+mkdir -p results/merged
+ls -1 results/trimmed/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t trimq=20 minoverlap=150 in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
 
 # Read stats after merging
-echo "Read statistics after merging."
-seqkit stat ${READS}/*.fq.gz
+echo "--- Corrected --- "
+seqkit stat results/corrected/*
+echo "--- Trimmed --- "
+seqkit stat results/trimmed/*
+echo "--- Merged --"
+seqkit stat results/merged/*
 
-# Generate the indices
-ls -1 bam/*.bam | parallel samtools index {}
-echo "BAM files created in the 'bam' directory."
+# Remove the unused results
+rm -rf results/corrected results/trimmed
+
+# Run bwa on the merged results.
+mkdir -p results/bam
+ls -1 results/merged/* | parallel -j $PROC "bwa mem ${INDEX} {1} 2>> $RUNLOG | samtools view -h -q 1 | samtools sort > results/bam/{1/.}.bam"
+ls -1 results/bam/*.bam | parallel samtools index {}
 
 # Create a results directory
-mkdir -p results
+mkdir -p results/counts
 
 # Generate alignment statistics.
-ls -1 bam/*bam | parallel "samtools flagstat {} > results/{/}.flagstat.txt"
-echo "Flagstats created in the 'results' directory."
-
-ls -1 bam/*bam | parallel "samtools idxstats {} > results/{/}.idxstats.txt"
-echo "Index stats created in the 'results' directory."
+ls -1 results/bam/*bam | parallel "samtools flagstat {} > results/counts/{/}.flagstat.txt"
+ls -1 results/bam/*bam | parallel "samtools idxstats {} > results/counts/{/}.idxstats.txt"
 
 # Create a combined report of all index stats.
-echo "Index statistics in the 'idxstats.txt file"
-python -m recipes.code.combine_samtools_idxstats --cutoff $CUTOFF results/*idxstats*t | column -t -s , > idxstats.txt
+echo "Final results in the 'idxstats.txt file"
+python -m recipes.code.combine_samtools_idxstats --cutoff $CUTOFF results/counts/*idxstats*t | column -t -s , > idxstats.txt
