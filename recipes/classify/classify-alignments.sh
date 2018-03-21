@@ -34,7 +34,6 @@ mkdir -p runlog
 # Generate the input file names.
 cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 
-
 # Error correct the sequences.
 mkdir -p results/corrected
 cat ${FILES} | parallel -N 2 -j 1 tadpole.sh in1={1} in2={2} out1=results/corrected/{1/} out2=results/corrected/{2/}  mode=correct k=50 overwrite=t 2>>$RUNLOG
