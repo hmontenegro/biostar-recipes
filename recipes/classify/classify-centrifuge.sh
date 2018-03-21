@@ -11,6 +11,10 @@ LIBRARY={{library.value}}
 # The sum of each row needs to be above this value.
 CUTOFF={{cutoff.value}}
 
+
+# The minimal hit length for classification.
+HITLEN={{hitlen.value}}
+
 # The sorted file list.
 FILES=runlog/files.txt
 
@@ -44,10 +48,10 @@ echo "Individual reports saved into the results folder"
 # Choose the right classifier depending on the library setting.
 if [ ${LIBRARY} == "PE" ]; then
     # Paired end classification.
-    cat ${FILES} | parallel -N 2  -j 1 "centrifuge -x  $INDEX -1 {1} -2 {2} -S results/{1/.}.rep --report-file  results/{1/.}.tsv"
+    cat ${FILES} | parallel -N 2  -j 1 "centrifuge -x  $INDEX -1 {1} -2 {2} --min-hitlen $HITLEN -S results/{1/.}.rep --report-file  results/{1/.}.tsv"
 else
     # Single end classification.
-    cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} -S results/{1/.}.rep --report-file results/{1/.}.tsv"
+    cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} --min-hitlen $HITLEN -S results/{1/.}.rep --report-file results/{1/.}.tsv"
 fi
 
 

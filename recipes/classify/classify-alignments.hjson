@@ -9,38 +9,14 @@
     display: DROPDOWN
   }
 
-  library: {
-        value: PE
-        label: Library layout
-        help: See the help for file naming requirement for Paired end setup.
-        display: RADIO
-        choices: [
-            ["SE", "Single end"],
-            ["PE", "Paired end" ],
-        ]
-  }
-
   genome: {
-    value: Ebola Genome.fa
+    value: Fish Database
     label: Reference genome
     help: The reference genome
     source: PROJECT
     type: FASTA
     display: DROPDOWN
   }
-
-
-  fraction: {
-      value: "ALL"
-      label: Sampling
-      help: You may want to select smaller random subset of reads first
-      display: DROPDOWN
-      choices: [
-          [ "0.01", "Select 1% of all reads"],
-          [ "0.1", "Select 10% of all reads" ],
-          [ "ALL", "Select all reads"],
-      ]
-    }
 
   cutoff: {
         value: 1
@@ -57,7 +33,7 @@
 
   settings: {
     name: Classify sequences using BWA alignments
-    image: alignment-classification.png
+    image: classify-alignments.png
     summary: Aligns short reads with bwa
     help:
       '''
@@ -65,6 +41,10 @@
       # Help
 
       This recipe aligns sequencing reads to a reference genome.
+
+      The input data must be overlapping paired end sequences.
+
+      The method will overlap reads in the paired end file.
 
       Produces a heatmap of the aligned sequences relative to the various sequences in the file.
 

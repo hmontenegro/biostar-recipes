@@ -34,6 +34,15 @@
         ]
   }
 
+  hitlen: {
+        value: 150
+        label: Hit Length
+        help: The minimum length of the match to accept the classification.
+        display: INTEGER
+        range: [20, 500]
+
+  }
+
    cutoff: {
         value: 1
         label: Cutoff
@@ -46,7 +55,7 @@
   settings:
   {
     name: Classify sequences using Centrifuge
-    image: centrifuge.jpg
+    image: classify-centrifuge.jpg
     summary: Classify short reads against different databases.
     help:
       '''

@@ -27,13 +27,13 @@ analyses: [
     }
 
     {
-        json: recipes/classify/centrifuge.hjson
-        template: recipes/classify/centrifuge.sh
+        json: recipes/classify/classify-centrifuge.hjson
+        template: recipes/classify/classify-centrifuge.sh
     }
 
     {
-         json: recipes/classify/alignment-classification.hjson
-        template: recipes/classify/alignment-classification.sh
+        json: recipes/classify/classify-alignments.hjson
+        template: recipes/classify/classify-alignments.sh
     }
 
     {
