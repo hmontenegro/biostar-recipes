@@ -34,21 +34,26 @@
   settings: {
     name: Classify sequences using alignments
     image: classify-alignments.png
-    summary: Aligns short reads with bwa
+    summary: Classifies overlapping reads with bwa.
     help:
       '''
 
       # Help
 
-      This recipe aligns sequencing reads to a reference genome.
+      This recipe aligns sequencing reads to a reference genome. The input data should be overlapping paired end sequences.
+      The recipe makes use of tools from the BBMap software package then and aligns the processed reads
+      via the BWA short read aligner. Consult the code of the recipe for the exact parameters applied in each step.
 
-      The input data must be overlapping paired end sequences.
+      The following protocol is followed:
 
-      The method will overlap reads in the paired end file.
+      1. Error correction with `tadpole.sh`
+      2. Quality trimming with `bbduk.sh`
+      3. Merge overlapping reads with `bbmerge.sh`
+      4. Aligns merged reads with the `bwa` aligner.
+      5. Filters alignment for unique hits.
+      6. Generates a summary table with the percent hit to each sequences across each sample.
 
       Produces a heatmap of the aligned sequences relative to the various sequences in the file.
-
-      There is the option to subselect  1 percent or 10 percent of the sequencing reads.
 
       # Parameters
 
@@ -61,9 +66,9 @@
 
       # Results
 
-      1. Aligned bam files in the `bam` folder.
-      2. Combined alignment statistics `idxstats.txt` files.
-      3. Heatmap visualization of the results.
+      1. Aligned bam files in the `results/bam` folder.
+      2. Combined alignment statistics `results/counts/` folder.
+      3. Combined report and heatmap visualization.
       '''
   }
 
