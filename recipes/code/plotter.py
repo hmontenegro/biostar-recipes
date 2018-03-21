@@ -36,10 +36,12 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
 
     df = df.set_index(label)
 
-    # Normalize around one
-    df = (df - df.mean()) / (df.max() - df.min())
+    #df = (df - df.mean()) / (df.max() - df.min())
 
-    fig, ax = plt.subplots(figsize=(16, 8))
+    # Transform the scale to log.
+    df = np.log(df+1)
+
+    fig, ax = plt.subplots(figsize=(12, 6))
 
     heatmap = ax.pcolor(df, cmap=plt.cm.Blues, alpha=0.8)
 

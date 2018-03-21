@@ -87,7 +87,7 @@ def main():
                         type=float)
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['data/1000-MiFish_R1.fq.idxstats.txt', 'data/1000-MiFish_R2.fq.idxstats.txt'])
+        sys.argv.extend([ 'data/1.idxstats.txt', 'data/2.idxstats.txt'])
 
     args = parser.parse_args()
 

@@ -56,7 +56,7 @@ echo "--- Merged --"
 seqkit stat results/merged/*
 
 # Remove the unused results
-rm -rf results/corrected results/trimmed
+# rm -rf results/corrected results/trimmed
 
 # Run bwa on the merged results.
 mkdir -p results/bam

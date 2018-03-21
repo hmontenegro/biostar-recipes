@@ -32,7 +32,7 @@
   }
 
   settings: {
-    name: Classify sequences using BWA alignments
+    name: Classify sequences using alignments
     image: classify-alignments.png
     summary: Aligns short reads with bwa
     help:
