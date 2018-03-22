@@ -1,4 +1,4 @@
-set -uex
+#set -uex
 
 # Obtain the parameters.
 INPUT={{reads.toc}}
