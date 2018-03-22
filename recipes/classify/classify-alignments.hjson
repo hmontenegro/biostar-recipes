@@ -1,11 +1,20 @@
 {
 
   reads: {
-    value: Fish Metabarcode Example
+    value: Fish Metabarcode Testdata
     label: Sequencing Data Directory
     help: Multiple paired-end sequencing reads.
     source: PROJECT
     type: FASTQ
+    display: DROPDOWN
+  }
+
+  sheet: {
+    value: Samplesheet for Fish Metabarcode Testdata
+    label: Sample description
+    help: The sample sheet that describes the data
+    source: PROJECT
+    type: CSV
     display: DROPDOWN
   }
 
@@ -18,18 +27,18 @@
     display: DROPDOWN
   }
 
-  sheet: {
-    value: Fish Metabarcode Samplesheet
-    label: Sample description
-    help: The sample sheet that describes the data
-    source: PROJECT
-    type: CSV
-    display: DROPDOWN
+  minlen: {
+        value: 180
+        label: Minimum length
+        help: The minimal alignment length of the merged reads
+        display: FLOAT
+        range: [0, 10000]
+
   }
 
   cutoff: {
         value: 1
-        label: Cutoff
+        label: Report cutoff
         help: The minimal sum for each row in the final classification.
         display: FLOAT
         range: [0, 10000]
@@ -56,11 +65,11 @@
       The following protocol is followed:
 
       1. Error correction with `tadpole.sh`
-      2. Quality trimming with `bbduk.sh`
-      3. Merge overlapping reads with `bbmerge.sh`
-      4. Aligns merged reads with the `bwa` aligner.
-      5. Filters alignment for unique hits.
-      6. Generates a summary table with the percent hit to each sequences across each sample.
+      2. Filtering reads with `cutadapt` to keep only pairs that contains the primers at their 5' end
+      3. Merging overlapping reads with `bbmerge.sh`
+      4. Aligning merged reads with the `bwa` aligner.
+      5. Filtering the alignments for unique, primary hits that are over a minimal length.
+      6. Generating a summary table with the percent hit to each sequences across each sample.
 
       Produces a heatmap of the aligned sequences relative to the various sequences in the file.
 
@@ -68,10 +77,12 @@
 
       1. Input data collection in FASTQ format.
       2. Reference genome sequences in FASTA format.
+      3. A sample sheet in CSV format that describes the primers for each sample.
 
       # Requirements
 
-      For paired end reads, naming should be such that after sorting replicates group together.
+      For paired end reads, naming should be such that after sorting by filename the pairs follow one another
+      with the first in pair coming first.
 
       # Results
 

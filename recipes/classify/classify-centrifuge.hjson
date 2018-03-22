@@ -2,7 +2,7 @@
   reads:
 
   {
-    value: Fish Metabarcode Example
+    value: Fish Metabarcode Testdata
     label: Sequencing Data Directory
     help: Multiple paired-end sequencing reads.
     source: PROJECT
@@ -36,7 +36,7 @@
 
   hitlen: {
         value: 150
-        label: Hit Length
+        label: Minimum Length
         help: The minimum length of the match to accept the classification.
         display: INTEGER
         range: [20, 500]
@@ -45,7 +45,7 @@
 
    cutoff: {
         value: 1
-        label: Cutoff
+        label: Report cutoff
         help: The minimal sum for each row in the final classification.
         display: FLOAT
         range: [0, 10000]

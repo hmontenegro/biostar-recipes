@@ -61,8 +61,6 @@ fi
 ls -1 results/*.rep | parallel -j 1 "centrifuge-kreport -x $INDEX {} > results/{1/.}.txt 2>> $RUNLOG"
 
 # Generate a combined reformatted.
-echo "Combined report: classification.txt"
-echo "Combined plot: classification.png"
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
 
 

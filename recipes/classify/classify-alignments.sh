@@ -7,7 +7,7 @@ LIBRARY={{library.value}}
 CUTOFF={{cutoff.value}}
 SHEET={{sheet.value}}
 
-MINOVERLAP=150
+MINLEN={{minlen.value}}
 
 rm -rf results
 
@@ -54,7 +54,7 @@ cat results/trimming.sh | bash
 
 # Merge corrected, filtered reads.
 mkdir -p results/merged
-ls -1 results/filtered/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t minoverlap=$MINOVERLAP in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
+ls -1 results/filtered/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t minoverlap=$MINLEN in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
 
 # Read stats after merging
 echo "--- Corrected --- "
@@ -68,12 +68,13 @@ seqkit stat results/merged/*
 # rm -rf results/corrected results/trimmed
 mkdir -p results/bam
 
+# These steps are not strictly necessary but are here for troubleshootig for now.
 cat ${FILES} | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/original-{1/.}.bam"
 ls -1 results/corrected/* | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/corrected-{1/.}.bam"
 ls -1 results/filtered/* | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/filtered-{1/.}.bam"
 
-# TODO: filter reads with alignments that match the expected
-ls -1 results/merged/* | parallel -j $PROC "bwa mem ${INDEX} {} 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen 180 | samtools sort > results/bam/merged-{/.}.bam"
+# Generate the merged alignment.
+ls -1 results/merged/* | parallel -j $PROC "bwa mem ${INDEX} {} 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen $MINLEN | samtools sort > results/bam/merged-{/.}.bam"
 
 # Generate the indices
 ls -1 results/bam/*.bam | parallel samtools index {}

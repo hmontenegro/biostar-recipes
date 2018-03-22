@@ -46,17 +46,17 @@ data: [
     }
 
     {
-        name: Fish Metabarcode Example
+        name: Fish Metabarcode Testdata
         value: export/local/usfish/
         type: FASTQ
         summary: This collections contains sample data from fish sequencing runs.
     }
 
     {
-        name: Sequencing Run 1
-        value: /export/data/usfish/runs/run1
-        type: FASTQ, COLLECTION
-        summary: Data for sequencing run 1
+        name: Samplesheet for Fish Metabarcode Testdata
+        value: export/local/usfish/sample-sheet.csv
+        type: CSV
+        summary: This file contains information on the metabarcode data.
     }
 
 
@@ -66,6 +66,17 @@ data: [
         type: FASTQ, COLLECTION
         summary: Data for sequencing run 2
     }
+
+    {
+        name: Sample sheet for Sequencing Run 2
+        value: /export/data/usfish/runs/run2-sample-sheet.csv
+        type: CSV
+        summary: Sample description for Sequencing Run 2
+        help: '''
+        This file is in a format agreed to when developing the recipe. It contains a number of columns
+        that describe the samples names, barcodes, primers and file names.
+        '''
+     }
 
     ]
 
