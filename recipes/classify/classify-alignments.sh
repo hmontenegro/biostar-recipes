@@ -5,6 +5,11 @@ INPUT={{reads.toc}}
 GENOME={{genome.value}}
 LIBRARY={{library.value}}
 CUTOFF={{cutoff.value}}
+SHEET={{sheet.value}}
+
+MINOVERLAP=150
+
+rm -rf results
 
 # This directory holds all intermediary results.
 mkdir -p results
@@ -38,36 +43,47 @@ cat ${INPUT} | sort | egrep "fastq|fq" > ${FILES}
 mkdir -p results/corrected
 cat ${FILES} | parallel -N 2 -j 1 tadpole.sh in1={1} in2={2} out1=results/corrected/{1/} out2=results/corrected/{2/}  mode=correct k=50 overwrite=t 2>>$RUNLOG
 
-# Trim sequences by quality.
-mkdir -p results/trimmed
-ls -1 results/corrected/* |  parallel -N 2 -j 1 bbduk.sh -Xmx4g maq=20 qtrim=r trimq=15 in1={1} in2={2} out1=results/trimmed/{1/} out2=results/trimmed/{2/}  overwrite=t 2>>$RUNLOG
+# Filter by adapter sequences. This must be performed by the information in a sample sheet.
+mkdir -p results/filtered
 
-# Merge trimmed reads.
+# Save the trimming commands to a script for reference.
+python -m recipes.code.sample_sheet_trimmer --inpdir results/corrected --outdir results/filtered ${SHEET} > results/trimming.sh
+
+# Run the trimming commands
+cat results/trimming.sh | bash
+
+# Merge corrected, filtered reads.
 mkdir -p results/merged
-ls -1 results/trimmed/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t trimq=20 minoverlap=150 in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
+ls -1 results/filtered/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t minoverlap=$MINOVERLAP in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
 
 # Read stats after merging
 echo "--- Corrected --- "
 seqkit stat results/corrected/*
-echo "--- Trimmed --- "
-seqkit stat results/trimmed/*
+echo "--- Filtered --- "
+seqkit stat results/filtered/*
 echo "--- Merged --"
 seqkit stat results/merged/*
 
-# Remove the unused results
+# Generate the alignments for each data
 # rm -rf results/corrected results/trimmed
-
-# Run bwa on the merged results.
 mkdir -p results/bam
-ls -1 results/merged/* | parallel -j $PROC "bwa mem ${INDEX} {1} 2>> $RUNLOG | samtools view -h -q 1 | samtools sort > results/bam/{1/.}.bam"
+
+cat ${FILES} | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/original-{1/.}.bam"
+ls -1 results/corrected/* | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/corrected-{1/.}.bam"
+ls -1 results/filtered/* | parallel -N 2 -j $PROC "bwa mem ${INDEX} {1} {2} 2>> $RUNLOG | samtools sort > results/bam/filtered-{1/.}.bam"
+
+# TODO: filter reads with alignments that match the expected
+ls -1 results/merged/* | parallel -j $PROC "bwa mem ${INDEX} {} 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen 180 | samtools sort > results/bam/merged-{/.}.bam"
+
+# Generate the indices
 ls -1 results/bam/*.bam | parallel samtools index {}
 
 # Create a results directory
 mkdir -p results/counts
 
 # Generate alignment statistics.
-ls -1 results/bam/*bam | parallel "samtools flagstat {} > results/counts/{/}.flagstat.txt"
-ls -1 results/bam/*bam | parallel "samtools idxstats {} > results/counts/{/}.idxstats.txt"
+ls -1 results/bam/merged-*.bam | parallel "samtools flagstat {} > results/counts/{/}.flagstat.txt"
+ls -1 results/bam/merged-*.bam | parallel "samtools idxstats {} > results/counts/{/}.idxstats.txt"
 
 # Create a combined report of all index stats.
 echo "Final results in the 'idxstats.txt file"

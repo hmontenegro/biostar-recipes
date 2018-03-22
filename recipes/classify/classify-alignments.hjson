@@ -18,6 +18,15 @@
     display: DROPDOWN
   }
 
+  sheet: {
+    value: Fish Metabarcode Samplesheet
+    label: Sample description
+    help: The sample sheet that describes the data
+    source: PROJECT
+    type: CSV
+    display: DROPDOWN
+  }
+
   cutoff: {
         value: 1
         label: Cutoff
