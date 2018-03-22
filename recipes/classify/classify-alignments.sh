@@ -1,4 +1,4 @@
-#set -uex
+set -ue
 
 # Obtain the parameters.
 INPUT={{reads.toc}}
@@ -53,8 +53,12 @@ python -m recipes.code.sample_sheet_trimmer --inpdir results/corrected --outdir 
 cat results/trimming.sh | bash
 
 # Merge corrected, filtered reads.
+
+# Exists with an error code under some circumstances. Why?
+set +ue
 mkdir -p results/merged
 ls -1 results/filtered/* | parallel -N 2 -j 1 bbmerge.sh ultrastrict=t minoverlap=$MINLEN in1={1} in2={2} out=results/merged/{1/} 2>>$RUNLOG
+set -ue
 
 # Read stats after merging
 echo "--- Corrected --- "
