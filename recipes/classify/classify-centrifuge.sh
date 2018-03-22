@@ -1,4 +1,4 @@
-set -ue
+set -u
 
 # The table of contents for the data.
 INPUT={{reads.toc}}

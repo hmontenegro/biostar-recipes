@@ -86,8 +86,12 @@ def main():
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
                         type=float)
 
+    parser.add_argument('--show', dest='show', default=False, action="store_true",
+                        help="Show the plot in in a GUI window.",
+                        )
+
     if len(sys.argv) == 1:
-        sys.argv.extend([ 'data/1.idxstats.txt', 'data/2.idxstats.txt'])
+        sys.argv.extend([ '--show', 'data/1.idxstats.txt', 'data/2.idxstats.txt'])
 
     args = parser.parse_args()
 

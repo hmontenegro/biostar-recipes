@@ -111,12 +111,11 @@ def main():
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
                         type=float)
 
-    parser.add_argument('--plot', dest='plot', default='plot',
-                        help="Plot name. The extension will determine the plot filetype (.png, .pdf)",
-                        type=str)
+    parser.add_argument('--show', dest='show', default=False, action="store_true",
+                        help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['--plot', 'plot.png', 'data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
+        sys.argv.extend(['--show', 'data/centrifuge-1.txt', 'data/centrifuge-2.txt'])
 
     args = parser.parse_args()
 
@@ -126,8 +125,7 @@ def main():
     # Print the data to screen.
     print_data(df)
 
-    if args.plot:
-        plot(df=df, args=args)
+    plot(df=df, args=args)
 
 
 if __name__ == '__main__':

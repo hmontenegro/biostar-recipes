@@ -1,10 +1,11 @@
 """
 Plotter for different types of data
 """
+import sys
 import matplotlib
 
-# Offline mode.
-HAS_DISPLAY = False
+# Pop a window
+HAS_DISPLAY = '--show' in sys.argv
 
 if not HAS_DISPLAY:
     # Turn off interactive display.
@@ -44,8 +45,9 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
     rnum, cnum = df.shape
 
     # The size of the plot will grow with the row numbers.
-    vsize = 4 + 10/rnum
-    fig, ax = plt.subplots(figsize=(12, vsize))
+    hsize = 4 + cnum/3
+    vsize = 4 + rnum/10
+    fig, ax = plt.subplots(figsize=(hsize, vsize))
 
     heatmap = ax.pcolor(df, cmap=plt.cm.Blues, alpha=0.8)
 
