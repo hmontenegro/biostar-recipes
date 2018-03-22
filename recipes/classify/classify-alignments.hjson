@@ -50,6 +50,7 @@
   }
 
   settings: {
+    uid: classify-alignments
     name: Classify sequences using alignments
     image: classify-alignments.png
     summary: Classifies overlapping reads with bwa.
