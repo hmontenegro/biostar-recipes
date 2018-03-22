@@ -54,7 +54,6 @@
 
   settings:
   {
-    uid: classify-centrifuge
     name: Classify sequences using motifs
     image: classify-centrifuge.jpg
     summary: Classify short reads with a k-mer based approach using the Centrifuge software.
