@@ -32,7 +32,7 @@
         ]
   }
 
- 
+
   hitlen: {
         value: 150
         label: Minimum Length

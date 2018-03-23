@@ -1,11 +1,10 @@
-set -uex
+set -ue
 
 # The input directory for the data
 DDIR=$(dirname {{reads.value}})
 
 # The reference directory to classify against.
 REFERENCE={{reference.value}}
-
 
 # The sum of each row needs to be above this value.
 CUTOFF={{cutoff.value}}
@@ -40,7 +39,10 @@ if [ ${REFERENCE} == "NT" ]; then
 fi
 
 # All results go into this folder.
+rm -rf results
 mkdir -p results
+
+echo "" > $RUNLOG
 
 # How many parallel processes to allow.
 PROC=2
@@ -48,8 +50,11 @@ PROC=2
 # Perform the classification.
 cat ${SHEET} | parallel --header : --colsep , -j $PROC  "centrifuge -x  $INDEX -1 $DDIR/{read1} -2 $DDIR/{read2} --min-hitlen $HITLEN -S results/{sample}.rep --report-file  results/{sample}.tsv 2>> $RUNLOG"
 
+set +e
 # Generate an individual kraken style reports for each sample
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "centrifuge-kreport -x $INDEX results/{sample}.rep > results/{sample}.txt 2>> $RUNLOG"
+# This will raise an error on no hits, hence we turn of error checking.
+ls -1 results/*.rep | parallel -j $PROC "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
+set -e
 
 # Generate a combined reformatted.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
