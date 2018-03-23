@@ -10,6 +10,15 @@
     display: DROPDOWN
   }
 
+  sheet: {
+    value: Samplesheet for Fish Metabarcode Testdata
+    label: Sample description
+    help: The sample sheet that describes the data
+    source: PROJECT
+    type: CSV
+    display: DROPDOWN
+  }
+
   reference: {
         value: FISH
         label: Reference library to use
@@ -23,15 +32,7 @@
         ]
   }
 
-  sheet: {
-    value: Samplesheet for Fish Metabarcode Testdata
-    label: Sample description
-    help: The sample sheet that describes the data
-    source: PROJECT
-    type: CSV
-    display: DROPDOWN
-  }
-
+ 
   hitlen: {
         value: 150
         label: Minimum Length
