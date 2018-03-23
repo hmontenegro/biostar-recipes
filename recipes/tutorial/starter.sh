@@ -37,3 +37,7 @@ find . -name '*' > files.txt
 #
 echo "****** File List: files.txt ****"
 cat files.txt
+
+# Make a nested directory
+mkdir -p foo/bar
+find . -name '*' > foo/bar/all.txt
