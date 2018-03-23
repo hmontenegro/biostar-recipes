@@ -61,6 +61,25 @@ data: [
 
 
     {
+        name: Sequencing Run 1
+        value: /export/data/usfish/runs/run1
+        type: FASTQ, COLLECTION
+        summary: Data for sequencing run 1
+    }
+
+    {
+        name: Sample sheet for Sequencing Run 1
+        value: /export/data/usfish/runs/run1-sample-sheet.csv
+        type: CSV
+        summary: Specfications for the data in Sequencing Run 1
+        help: '''
+        This file is in a format agreed to when developing the recipe. It contains a number of columns
+        that describe the samples names, barcodes, primers and file names.
+        '''
+
+    }
+
+    {
         name: Sequencing Run 2
         value: /export/data/usfish/runs/run2
         type: FASTQ, COLLECTION

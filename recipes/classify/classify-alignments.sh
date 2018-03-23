@@ -75,9 +75,9 @@ BDIR=results/bam
 mkdir -p $BDIR
 
 # These steps are optional and needed only when investigating/debugging.
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $DDIR/{1} $DDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $CDIR/{1} $CDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $FDIR/{1} $FDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $DDIR/{read1} $DDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $CDIR/{read1} $CDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $FDIR/{read1} $FDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
 
 # Generate the merged alignment that will be used.
 cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $MDIR/{sample}.fq 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen $MINLEN | samtools sort > $BDIR/{sample}.bam"
