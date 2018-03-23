@@ -68,16 +68,17 @@ seqkit stat $FDIR/*
 echo "--- Merged --"
 seqkit stat $MDIR/*
 
-# Generate the alignments for each data
-# rm -rf $CDIR $FDIR
-
+# The alignments will be stored here.
 BDIR=results/bam
 mkdir -p $BDIR
 
+# Generate the alignments for each data
 # These steps are optional and needed only when investigating/debugging.
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $DDIR/{read1} $DDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $CDIR/{read1} $CDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $FDIR/{read1} $FDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
+
+#cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $DDIR/{read1} $DDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
+#cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $CDIR/{read1} $CDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
+#cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $FDIR/{read1} $FDIR/{read2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
+rm -rf $CDIR $FDIR
 
 # Generate the merged alignment that will be used.
 cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $MDIR/{sample}.fq 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen $MINLEN | samtools sort > $BDIR/{sample}.bam"

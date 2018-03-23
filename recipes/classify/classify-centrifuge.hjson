@@ -23,15 +23,13 @@
         ]
   }
 
-  library: {
-        value: PE
-        label: Library type
-        help: See the help for file naming requirement.
-        display: RADIO
-        choices: [
-            ["SE", "Single end"],
-            ["PE", "Paired end" ],
-        ]
+  sheet: {
+    value: Samplesheet for Fish Metabarcode Testdata
+    label: Sample description
+    help: The sample sheet that describes the data
+    source: PROJECT
+    type: CSV
+    display: DROPDOWN
   }
 
   hitlen: {
@@ -56,7 +54,7 @@
   {
     name: Classify sequences using motifs
     image: classify-centrifuge.jpg
-    summary: Classify short reads with a k-mer based approach using the Centrifuge software.
+    summary: Classify paired end reads with a k-mer based approach using the Centrifuge software.
     help:
       '''
 

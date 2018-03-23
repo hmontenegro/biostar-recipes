@@ -1,12 +1,11 @@
-set -u
+set -uex
 
-# The table of contents for the data.
-INPUT={{reads.toc}}
+# The input directory for the data
+DDIR=$(dirname {{reads.value}})
 
+# The reference directory to classify against.
 REFERENCE={{reference.value}}
 
-# The library type.
-LIBRARY={{library.value}}
 
 # The sum of each row needs to be above this value.
 CUTOFF={{cutoff.value}}
@@ -14,14 +13,11 @@ CUTOFF={{cutoff.value}}
 # The minimal hit length for classification.
 HITLEN={{hitlen.value}}
 
-# The sorted file list.
-FILES=runlog/files.txt
+# The input sample sheet
+SHEET={{sheet.value}}
 
 # Output generated while running the tool.
 RUNLOG=runlog/runlog.txt
-
-# Create the sorted filelist.
-cat ${INPUT}| egrep "fastq|fq" | sort > $FILES
 
 # Select the database to classify against.
 if [ ${REFERENCE} == "BAVH" ]; then
@@ -43,22 +39,17 @@ if [ ${REFERENCE} == "NT" ]; then
     INDEX=/export/refs/centrifuge/nt
 fi
 
-# Create the reports file.
+# All results go into this folder.
 mkdir -p results
 
-echo "Individual reports saved into the results folder"
-# Choose the right classifier depending on the library setting.
-if [ ${LIBRARY} == "PE" ]; then
-    # Paired end classification.
-    cat ${FILES} | parallel -N 2  -j 1 "centrifuge -x  $INDEX -1 {1} -2 {2} --min-hitlen $HITLEN -S results/{1/.}.rep --report-file  results/{1/.}.tsv 2>> $RUNLOG"
-else
-    # Single end classification.
-    cat ${FILES} | parallel -j 1 "centrifuge -x  $INDEX -U {} --min-hitlen $HITLEN -S results/{1/.}.rep --report-file results/{1/.}.tsv 2>> $RUNLOG"
-fi
+# How many parallel processes to allow.
+PROC=2
 
+# Perform the classification.
+cat ${SHEET} | parallel --header : --colsep , -j $PROC  "centrifuge -x  $INDEX -1 $DDIR/{read1} -2 $DDIR/{read2} --min-hitlen $HITLEN -S results/{sample}.rep --report-file  results/{sample}.tsv 2>> $RUNLOG"
 
-# Generate an individual kraken report for each sample
-ls -1 results/*.rep | parallel -j 1 "centrifuge-kreport -x $INDEX {} > results/{1/.}.txt 2>> $RUNLOG"
+# Generate an individual kraken style reports for each sample
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "centrifuge-kreport -x $INDEX results/{sample}.rep > results/{sample}.txt 2>> $RUNLOG"
 
 # Generate a combined reformatted.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
