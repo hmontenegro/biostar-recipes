@@ -25,7 +25,7 @@ mkdir -p results
 mkdir -p results/index
 INDEX=results/index/genome
 
-# Number of processes.
+# Number of simultaneous processes.
 PROC=4
 
 # Run log to redirect unwanted output.
@@ -46,19 +46,19 @@ mkdir -p runlog
 # Error correct the sequences.
 CDIR=results/corrected
 mkdir -p $CDIR
-cat ${SHEET} | parallel --header : --colsep , -j 2 tadpole.sh in1=$DDIR/{read1} in2=$DDIR/{read2} out1=$CDIR/{read1} out2=$CDIR/{read2}  mode=correct k=50 overwrite=t 2>>$RUNLOG
+cat ${SHEET} | parallel --header : --colsep , -j $PROC tadpole.sh in1=$DDIR/{read1} in2=$DDIR/{read2} out1=$CDIR/{read1} out2=$CDIR/{read2}  mode=correct k=50 overwrite=t 2>>$RUNLOG
 
 # Use cutadapt to filter out those read that DO NOT contain the primers
 FDIR=results/filtered
 mkdir -p $FDIR
-cat ${SHEET} | parallel --header : --colsep , -j 2 cutadapt --quiet -g ^{barcode}{fwd_primer} -G ^{barcode}{rev_primer} --pair-filter both --no-trim --discard-untrimmed $CDIR/{read1} $CDIR/{read2} -o $FDIR/{read1} -p $FDIR/{read2}
+cat ${SHEET} | parallel --header : --colsep , -j $PROC cutadapt --quiet -g ^{barcode}{fwd_primer} -G ^{barcode}{rev_primer} --pair-filter both --no-trim --discard-untrimmed $CDIR/{read1} $CDIR/{read2} -o $FDIR/{read1} -p $FDIR/{read2}
 
 echo "" > $RUNLOG
 
 # Merge corrected, filtered reads. The 7th column is the sample name plus extension.
 MDIR=results/merged
 mkdir -p $MDIR
-cat ${SHEET} | parallel --header : --colsep , -j 2 bbmerge.sh ultrastrict=t minoverlap=$MINLEN in1=$FDIR/{read1} in2=$FDIR/{read2} out=$MDIR/{sample}.fq 2>>$RUNLOG
+cat ${SHEET} | parallel --header : --colsep , -j $PROC bbmerge.sh ultrastrict=t minoverlap=$MINLEN in1=$FDIR/{read1} in2=$FDIR/{read2} out=$MDIR/{sample}.fq 2>>$RUNLOG
 
 # Read stats after merging
 echo "--- Corrected --- "
@@ -75,12 +75,12 @@ BDIR=results/bam
 mkdir -p $BDIR
 
 # These steps are optional and needed only when investigating/debugging.
-cat ${SHEET} | parallel --header : --colsep , -j 2 "bwa mem ${INDEX} $DDIR/{1} $DDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j 2 "bwa mem ${INDEX} $CDIR/{1} $CDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
-cat ${SHEET} | parallel --header : --colsep , -j 2 "bwa mem ${INDEX} $FDIR/{1} $FDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $DDIR/{1} $DDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/original-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $CDIR/{1} $CDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/corrected-{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $FDIR/{1} $FDIR/{2} 2>> $RUNLOG | samtools sort > $BDIR/filtered-{sample}.bam"
 
 # Generate the merged alignment that will be used.
-cat ${SHEET} | parallel --header : --colsep , -j 2 "bwa mem ${INDEX} $MDIR/{sample}.fq 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen $MINLEN | samtools sort > $BDIR/{sample}.bam"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "bwa mem ${INDEX} $MDIR/{sample}.fq 2>> $RUNLOG | samtools view -h -q 1 -F 2304 | python -m recipes.code.bamfilter --minlen $MINLEN | samtools sort > $BDIR/{sample}.bam"
 
 # Generate the indices for all BAM files.
 ls -1 $BDIR/*.bam | parallel samtools index {}
@@ -89,8 +89,8 @@ ls -1 $BDIR/*.bam | parallel samtools index {}
 mkdir -p results/counts
 
 # Generate alignment statistics.
-cat ${SHEET} | parallel --header : --colsep , "samtools flagstat $BDIR/{sample}.bam > results/counts/{sample}.flagstat.txt"
-cat ${SHEET} | parallel --header : --colsep , "samtools idxstats $BDIR/{sample}.bam > results/counts/{sample}.idxstats.txt"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "samtools flagstat $BDIR/{sample}.bam > results/counts/{sample}.flagstat.txt"
+cat ${SHEET} | parallel --header : --colsep , -j $PROC "samtools idxstats $BDIR/{sample}.bam > results/counts/{sample}.idxstats.txt"
 
 # Create a combined report of all index stats.
 echo "Final results in the 'idxstats.txt file"
