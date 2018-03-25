@@ -113,7 +113,7 @@ dist.seqs(fasta=final.fasta, output=lt, processors=2)
 #
 # Then create a phylogenic tree
 #
-#clearcut(phylip=final.phylip.dist)
+clearcut(phylip=final.phylip.dist)
 
 #
 # Moving the final results into the output folder

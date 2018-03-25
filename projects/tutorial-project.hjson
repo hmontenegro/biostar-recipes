@@ -53,10 +53,10 @@ data: [
     }
 
     {
-        name: Data directory
+        name: File Collection
         value: recipes/tutorial/collection
-        summary: An entire folder may be represented as a single data entry.
-        text: This collection contains multiple files. The data view lists the content of the directory.
+        summary: Multiple files and folders may be represented as a single data entry.
+        text: This collection contains multiple files and folders. The data view lists the content of the directory.
     }
 
 ]

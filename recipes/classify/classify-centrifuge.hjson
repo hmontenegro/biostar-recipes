@@ -1,0 +1,106 @@
+{
+  reads:
+
+  {
+    value: Fish Metabarcode Testdata
+    label: Sequencing Data Directory
+    help: Multiple paired-end sequencing reads.
+    source: PROJECT
+    type: FASTQ
+    display: DROPDOWN
+  }
+
+  sheet: {
+    value: Samplesheet for Fish Metabarcode Testdata
+    label: Sample description
+    help: The sample sheet that describes the data
+    source: PROJECT
+    type: CSV
+    display: DROPDOWN
+  }
+
+  reference: {
+        value: FISH
+        label: Reference library to use
+        help: The available classification categories
+        display: DROPDOWN
+        choices: [
+            ["FISH", "Fish Database"]
+            ["BAVH", "Bacteria, Archaea, Viruses, Human"]
+            ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ]
+            ["NT", "NCBI Refseq database " ]
+        ]
+  }
+
+
+  hitlen: {
+        value: 150
+        label: Minimum Length
+        help: The minimum length of the match to accept the classification.
+        display: INTEGER
+        range: [20, 500]
+
+  }
+
+   cutoff: {
+        value: 1
+        label: Report cutoff
+        help: The minimal sum for each row in the final classification.
+        display: FLOAT
+        range: [0, 10000]
+
+  }
+
+  settings:
+  {
+    name: Classify sequences using motifs
+    image: classify-centrifuge.jpg
+    summary: Classify paired end reads with a k-mer based approach using the Centrifuge software.
+    help:
+      '''
+
+      # Help
+
+      Centrifuge is a microbial classification software that enables rapid, accurate,
+      and sensitive labeling of reads and quantification of species.
+
+      This recipe will execute the Centrifuge software and classify against various databases.
+
+      The resulting datasets are text reports listing the percent abundance for each species
+      that that was found in the sample:
+
+      ```
+      ###
+      ### Rank: Species
+      ###
+      name                    taxid   rank  1000-MiFish_R1  WI-10_S10_L001_R1
+      Lepisosteus osseus      34771   S     21.48           0.07
+      Cottus bairdii          147208  S     0.02            15.73
+      Cottus cognatus         147210  S     0.02            15.73
+      Lepomis macrochirus     13106   S     13.94           0.01
+      Acipenser fulvescens    41871   S     13.01           0.04
+      Alosa pseudoharengus    34774   S     12.81           0.04
+      Fundulus diaphanus      54267   S     10.49           0.01
+      Amia calva              7924    S     8.88            0.14
+      Oncorhynchus kisutch    8019    S     0.01            8.24
+      Channa argus            215402  S     5.58            2.66
+      Ameiurus nebulosus      27778   S     3.58            0.09
+      ...
+      ```
+
+      A different section is generated at each taxonomic rank.
+
+      A visualization of the data above is also generated.
+
+      Tool website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
+
+      ## Requirements
+
+      For paired end reads, naming should be such that after sorting replicates group together.
+
+      ### Runtime
+
+      Substantially longer runtimes are to be expected when running classificatons againts the NT database.
+      '''
+  }
+}

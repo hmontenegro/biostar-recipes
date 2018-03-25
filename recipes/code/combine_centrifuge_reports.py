@@ -1,18 +1,6 @@
-
 """
-This program is used to process .tsv report files that are outputted by centrifuge-kreport.
-It groups the results according to rank code and shows the abundance for each file.
-The input files are expected to have this header:
-    name	taxID	taxRank	genomeSize	numReads	numUniqueReads	abundance
-Usage:
-    
-    $   python centrifuge.py data/*.tsv
-    name	                    taxID	taxRank	    SRR1972972_1.tsv	SRR1972972_2.tsv    ... 
-    Azorhizobium caulinodans	7	    species	    0.0	                0.0                 
-    Cellulomonas gilvus	        11	    species	    -                   0.0
-    Pelobacter carbinolicus	    19	    species	    0.0                 -
-    ...
-                   
+This program is used to process .tsv report files that creatred via centrifuge-kreport.
+It groups the results according to rank code and produces the abundance for each file.
 """
 
 import csv
@@ -20,7 +8,7 @@ import os
 import sys
 
 import pandas as pd
-
+from recipes.code import utils
 
 def colnames(fnames):
     names = [os.path.basename(fname) for fname in fnames]
@@ -29,44 +17,31 @@ def colnames(fnames):
 
 
 def plot(df, args):
-    import matplotlib.pylab as plt
-    import numpy as np
+    from recipes.code import plotter
 
-
-    plt.title(f'FOO', fontsize=10, weight='bold')
+    # Subst to species.
     data = get_subset(df, 'S')
-    values = data['1000-MiFish_R1']
-    labels = data['name']
-    ypos = np.arange(len(values))
 
-
-    fig, ax = plt.subplots()
-    ax.barh(ypos, values)
-    ax.set_yticklabels(labels)
-
-
-    plt.yticks(np.arange(len(labels)))
-
-
-
-    plt.show()
-
-
-    return
-
+    # Plot a heatmap
+    plotter.heatmap(data=data, fname="heatmap.png")
 
 def get_subset(df, rank=''):
     indices = df['rank'] == rank
     subset = df[indices] if rank else df
     return subset
 
+
 # Prints a dataframe at a rank.
 def print_data(df, rank=''):
+    rankmap = dict(S="Species", G="Genus", F='Family', C='Class', D='Domain')
     ranks = rank or 'SGFCD'
+    pd.set_option('display.expand_frame_repr', False)
     for rank in ranks:
         subset = get_subset(df, rank)
-        print(subset)
-        print('-' * 80)
+        label = rankmap.get(rank, 'Unknown')
+        print(f'###\n### Rank: {label}\n###')
+        print(subset.to_csv(index=False))
+
 
 def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     "Summarize result found in data_dir by grouping them."
@@ -104,11 +79,15 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
 
     # Sort by reverse of the abundance.
     compare = lambda row: (row[2], sum(row[3:]))
-    table = sorted(table, key=compare, reverse=False)
+    table = sorted(table, key=compare, reverse=True)
 
     # Make a panda dataframe
     columns = ["name", "taxid", "rank"] + colnames(files)
     df = pd.DataFrame(table, columns=columns)
+
+    # Attempt to fill in common names at species level:
+    fname = "/export/refs/alias/fishalias.txt"
+    df = utils.alias(df=df, fname=fname, left='name', right='sciname', column='name')
 
     return df
 
@@ -125,31 +104,25 @@ def main():
                         help="Filter summary report to a taxonomic rank default.",
                         type=str, default='')
 
-    parser.add_argument('--cutoff', dest='cutoff', default=1,
+    parser.add_argument('--cutoff', dest='cutoff', default=0.1,
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
-                        type=int)
+                        type=float)
 
-    parser.add_argument('--plot', dest='plot', default=False,
-                        help="Produce a bar plot for each rank in summary report.",
-                        action='store_true')
-
-    parser.add_argument('--prefix', dest='prefix', default='plot',
-                        help="Prefix to the plot name.",
-                        type=str)
+    parser.add_argument('--show', dest='show', default=False, action="store_true",
+                        help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['--plot', 'data/1000-MiFish_R1.fq.txt', 'data/1000-MiFish_R2.fq.txt'])
+        sys.argv.extend(['--show', 'data/centrifuge-1.txt', 'data/centrifuge-2.txt'])
 
     args = parser.parse_args()
 
     df = tabulate(files=args.files, rank=args.rank,
-                     cutoff=args.cutoff)
+                  cutoff=args.cutoff)
 
     # Print the data to screen.
     print_data(df)
 
-    if args.plot:
-        plot(df=df, args=args)
+    plot(df=df, args=args)
 
 
 if __name__ == '__main__':

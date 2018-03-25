@@ -52,8 +52,13 @@ analyses: [
     }
 
     {
-        json: recipes/classify/centrifuge.hjson
-        template: recipes/classify/centrifuge.sh
+        json: recipes/classify/classify-centrifuge.hjson
+        template: recipes/classify/classify-centrifuge.sh
+    }
+
+    {
+        json: recipes/classify/classify-alignments.hjson
+        template: recipes/classify/classify-alignments.sh
     }
 
     {
@@ -92,12 +97,30 @@ data: [
     }
 
     {
-        name: Fish Metabarcode Collection
+        name: Fish Metabarcode Testdata
         value: export/local/usfish/
         type: FASTQ
         summary: This collections contains fish metabarcode data.
 
     }
+
+    {
+        name: Samplesheet for Fish Metabarcode Testdata
+        value: export/local/usfish/sample-sheet.csv
+        type: CSV
+        summary: This file contains information on the metabarcode data.
+
+    }
+
+    {
+        name: Fish Database
+        value: export/local/usfish/fishdb.fa
+        type: FASTA
+        summary: This collections contains fish sequences.
+
+    }
+
+
 
     {
         name: ADH partial region.fa
