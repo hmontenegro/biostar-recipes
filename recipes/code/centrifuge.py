@@ -40,7 +40,6 @@ def plot(df, args):
     ypos = np.arange(len(values))
 
 
-
     fig, ax = plt.subplots()
     ax.barh(ypos, values)
     ax.set_yticklabels(labels)
