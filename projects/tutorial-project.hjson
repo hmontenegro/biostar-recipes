@@ -3,6 +3,11 @@
 analyses: [
 
     {
+        json: recipes/tutorial/first.hjson
+        template: recipes/tutorial/first.sh
+    }
+
+    {
         json: recipes/tutorial/hello-world.hjson
         template: recipes/tutorial/hello-world.sh
     }
