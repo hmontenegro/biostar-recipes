@@ -29,10 +29,10 @@ def randomize_and_count(data, niter=10, subset=10):
     return mean_unique
 
 
-def generate_plot(files, niter=10, plot=False, outfile=None, show=False):
+def generate_plot(files, niter=10, outfile=None, show=False):
 
 
-    curves = dict()
+    data = dict()
 
     # Take 10, 20, 30 ... 100% of the data.
     subsets = range(10, 110, 10)
@@ -47,18 +47,26 @@ def generate_plot(files, niter=10, plot=False, outfile=None, show=False):
 
             unique_taxids = randomize_and_count(data=column, niter=niter, subset=s)
 
-            curves.setdefault(s, []).append(unique_taxids)
+            data.setdefault(s, []).append(unique_taxids)
 
     legend = [os.path.basename(fname) for fname in files]
 
-    for curve in curves:
+    curves = dict()
 
-        plt.plot(curve, curves[curve])
+    for subset, unique_taxids in data.items():
+        for idx in range(len(unique_taxids)):
+            curves.setdefault(idx, []).append(unique_taxids[idx])
 
+    for curve, label in zip(curves, legend):
+        plt.plot(list(data.keys()), curves[curve], label=label)
+
+    plt.ylabel("Number of unique reads")
+    plt.xlabel("Percentage of data sampled")
+    if show:
+        plt.legend()
         plt.show()
-        1/0
 
-
+    outfile = '.' or outfile
 
 
     return curves
@@ -87,7 +95,7 @@ def main():
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['--h'])
+        sys.argv.extend(['data/WI-15.rep', 'data/WI-15(copy).rep', '--show', '--niter=70'])
 
     args = parser.parse_args()
 
