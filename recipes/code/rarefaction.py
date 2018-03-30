@@ -1,5 +1,7 @@
 import sys
+import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from random import shuffle
 
 
@@ -27,24 +29,13 @@ def randomize_and_count(data, niter=10, subset=10):
     return mean_unique
 
 
-
-
-def rarefactor_plot(data, show=False, outfile=None):
-
-    print(data)
-
-
-    return
-
-
-
-
-
-def generate_curves(files, niter=10, subset=10, show=True):
+def generate_plot(files, niter=10, plot=False, outfile=None, show=False):
 
 
     curves = dict()
-    subsets = range(10, 110, subset)
+
+    # Take 10, 20, 30 ... 100% of the data.
+    subsets = range(10, 110, 10)
 
     for fname in files:
 
@@ -52,9 +43,23 @@ def generate_curves(files, niter=10, subset=10, show=True):
 
         for s in subsets:
 
-            unique_taxids = randomize_and_count(data=df["taxID"].tolist(), niter=niter, subset=s)
+            column = df["taxID"].tolist()
+
+            unique_taxids = randomize_and_count(data=column, niter=niter, subset=s)
 
             curves.setdefault(s, []).append(unique_taxids)
+
+    legend = [os.path.basename(fname) for fname in files]
+
+    for curve in curves:
+
+        plt.plot(curve, curves[curve])
+
+        plt.show()
+        1/0
+
+
+
 
     return curves
 
@@ -86,9 +91,7 @@ def main():
 
     args = parser.parse_args()
 
-    curves = generate_curves(files=args.files, niter=args.niter, subset=args.subset)
-
-    rarefactor_plot(data=curves, show=args.show, outfile=args.outfile)
+    generate_plot(files=args.files, show=args.show, outfile=args.outfile, niter=args.niter)
 
 
 if __name__ == '__main__':
