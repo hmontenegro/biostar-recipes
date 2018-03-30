@@ -55,8 +55,10 @@ def generate_plot(files, niter=10, outfile=None, show=False):
             curves.setdefault(idx, []).append(unique_taxids[idx])
 
     for curve, label in zip(curves, legend):
+
         plt.plot(list(data.keys()), curves[curve], label=label)
 
+    plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
     plt.ylabel("Number of unique reads")
     plt.xlabel("Percentage of data sampled")
     if show:
