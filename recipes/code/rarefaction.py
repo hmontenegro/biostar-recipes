@@ -40,17 +40,14 @@ def generate_plot(files, niter=10, outfile=None, show=False):
     for fname in files:
 
         df = pd.DataFrame.from_csv(fname, sep='\t', header=0)
+        column = df["taxID"].tolist()
 
         for s in subsets:
 
-            column = df["taxID"].tolist()
-
             unique_taxids = randomize_and_count(data=column, niter=niter, subset=s)
-
             data.setdefault(s, []).append(unique_taxids)
 
     legend = [os.path.basename(fname) for fname in files]
-
     curves = dict()
 
     for subset, unique_taxids in data.items():
