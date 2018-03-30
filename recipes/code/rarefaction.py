@@ -92,7 +92,7 @@ def main():
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['data/WI-15.rep', 'data/WI-15(copy).rep', '--show', '--niter=70'])
+        sys.argv.extend(['data/WI-29.rep', 'data/WI-29 ( copy ).rep', '--show', '--niter=100'])
 
     args = parser.parse_args()
 
