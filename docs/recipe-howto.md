@@ -1,30 +1,30 @@
-# Bioinformatics Recipes
+# Bioinformatics Recipe Howto
 
 ## What is a bioinformatics recipe?
 
 A recipe is a collection of commands with a graphical user interface.
 
-It may be a bash script, an R script, a series of mothur instructions. Basically any list of commands that can be executed in an environment.
+A recipe may be a bash script, an R script, a series of mothur instructions. Basically any list of commands that can be executed in an environment.
 
 ## What is a purpose of a recipe?
 
-It allows reuse. It allows other people to run commands that you have written. When executed a recipe creates a full record of a data analysis run.
+Recipes allow other people to run scripts that you have written. When executed a recipe creates a full record of a data analysis run.
 
-## Is recipe a single software tool?
+## Are recipes single software tools?
 
-Typically no. It is a series of actions that produce one full analysis.
+Typically no. A recipe is a series of actions that produce a full data analysis.
 
-## Is a recipe a pipeline a workflow engine?
+## Are recipe workflow engines?
 
-No. Make, snakemake, and other workflow engines could be used inside a recipe.
+No. `Make`, `snakemake`, and other workflow engines would be used inside a recipe.
 
-## Is a recipe like a pipeline?
+## Is a recipe a "pipeline"?
 
-Yes. It may be thought of as a web enabled pipeline execution environment.
+Yes. A recipe may be thought of as a web enabled pipeline execution environment.
 
 ## Can command <...> be turned into a recipe?
 
-Yes, if it can be invoked from the command line.
+Yes, if that command can be invoked from the command line.
 
 ## Can I copy and modify a recipe?
 
@@ -36,9 +36,9 @@ Yes. Once you copy a recipe it becomes yours. Your version may diverge from the 
 
 ## If I modify a recipe will my previous results be altered?
 
-No. A result has a snapshot of the recipe as it existed at the time the run was initiated.
+No. A result has a snapshot of the recipe as it existed at the time the run was initiated. If you alter a recipe you would need to re-run the analysis.
 
-## What is a recipe built from?
+## What are recipes built from?
 
 A recipe is built out of two files:
 
@@ -47,9 +47,7 @@ A recipe is built out of two files:
 
 ## What is the GUI spec?
 
-It is a file in JSON (Javascript Object Notation).
-
-It represents a so called "dictionary" of data.
+The GUI spec is a file in JSON (Javascript Object Notation). The GUI spec represents is data in  "dictionary" format.
 
 ## What is the minimal GUI spec?
 
@@ -57,7 +55,7 @@ The minimal GUI spec for a tool
 
     {}
 
-An empty dictionary. When we want to specify more information we add fields to this dictionary.
+This corresponds to an empty dictionary. When we want to specify more information we add fields to this dictionary.
 
 ## What is the minimal script?
 
@@ -96,7 +94,7 @@ Add the parameter as a key to the recipe:
         }
     }
 
-This will generate an interface element called
+The file above will generate an interface element called
 
 ![Cutoff](images/cutoff-parameter.png "Cutoff Parameter")
 

@@ -1,26 +1,33 @@
-import sys
 import os
-import pandas as pd
+import sys
+from itertools import *
+from random import shuffle, choice, choices
+import cProfile
+
 import matplotlib.pyplot as plt
-from random import shuffle
+import pandas as pd
 
+def pick(data, size):
+    shuffle(data)
+    subset = data[:size]
+    return subset
 
+def pick(data, size):
 
+    subset = choices(data, k=size)
+    return subset
 
 
 def randomize_and_count(data, niter=10, subset=10):
-
     percent = float(subset / 100.0)
 
-    sample_size = len(data) * percent
+    sample_size = int(len(data) * percent)
 
     nunique = []
 
     for n in range(niter):
 
-        shuffle(data)
-
-        subset = data[:int(sample_size)]
+        subset = pick(data, sample_size)
 
         nunique.append(len(set(subset)))
 
@@ -30,12 +37,10 @@ def randomize_and_count(data, niter=10, subset=10):
 
 
 def generate_plot(files, niter=10, outfile=None, show=False):
-
-
     data = dict()
 
     # Take 10, 20, 30 ... 100% of the data.
-    subsets = range(10, 110, 10)
+    subsets = chain(range(1, 20), range(20, 110, 10))
 
     for fname in files:
 
@@ -43,7 +48,6 @@ def generate_plot(files, niter=10, outfile=None, show=False):
         column = df["taxID"].tolist()
 
         for s in subsets:
-
             unique_taxids = randomize_and_count(data=column, niter=niter, subset=s)
             data.setdefault(s, []).append(unique_taxids)
 
@@ -55,21 +59,19 @@ def generate_plot(files, niter=10, outfile=None, show=False):
             curves.setdefault(idx, []).append(unique_taxids[idx])
 
     for curve, label in zip(curves, legend):
-
         plt.plot(list(data.keys()), curves[curve], label=label)
 
     plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
     plt.ylabel("Number of unique reads")
     plt.xlabel("Percentage of data sampled")
+    plt.ylim((0, 20))
     if show:
         plt.legend()
         plt.show()
 
     outfile = '.' or outfile
 
-
     return curves
-
 
 
 def main():
@@ -94,7 +96,7 @@ def main():
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['data/WI-29.rep', 'data/WI-29 ( copy ).rep', '--show', '--niter=100'])
+        sys.argv.extend(['data/WI-00.rep', '--show', '--niter=100'])
 
     args = parser.parse_args()
 
@@ -103,12 +105,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
-
-
