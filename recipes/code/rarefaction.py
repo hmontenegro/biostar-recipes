@@ -1,24 +1,19 @@
-import os
 import sys
-from itertools import *
-from random import shuffle, choice, choices
-import cProfile
-
-import matplotlib.pyplot as plt
+import os
 import pandas as pd
+import matplotlib.pyplot as plt
+from random import shuffle
 
-def pick(data, size):
-    shuffle(data)
-    subset = data[:size]
-    return subset
 
-def pick(data, size):
+def join(*args):
+    return os.path.abspath(os.path.join(*args))
 
-    subset = choices(data, k=size)
-    return subset
+
+DATA_DIR = join(os.path.dirname(__file__), "data")
 
 
 def randomize_and_count(data, niter=10, subset=10):
+
     percent = float(subset / 100.0)
 
     sample_size = int(len(data) * percent)
@@ -27,7 +22,9 @@ def randomize_and_count(data, niter=10, subset=10):
 
     for n in range(niter):
 
-        subset = pick(data, sample_size)
+        shuffle(data)
+
+        subset = data[:sample_size]
 
         nunique.append(len(set(subset)))
 
@@ -37,10 +34,13 @@ def randomize_and_count(data, niter=10, subset=10):
 
 
 def generate_plot(files, niter=10, outfile=None, show=False):
+
     data = dict()
 
     # Take 10, 20, 30 ... 100% of the data.
-    subsets = chain(range(1, 20), range(20, 110, 10))
+    # note: chaining does not work with multiple files
+    #subsets = chain(range(1, 30), range(20, 110, 10))
+    subsets = list(range(1, 30)) + list(range(30, 110, 10))
 
     for fname in files:
 
@@ -59,19 +59,23 @@ def generate_plot(files, niter=10, outfile=None, show=False):
             curves.setdefault(idx, []).append(unique_taxids[idx])
 
     for curve, label in zip(curves, legend):
+
         plt.plot(list(data.keys()), curves[curve], label=label)
 
     plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
-    plt.ylabel("Number of unique reads")
+    plt.ylabel("Number of unique species ")
     plt.xlabel("Percentage of data sampled")
-    plt.ylim((0, 20))
+    plt.ylim(ymin=0)
+
+    outfile = join(DATA_DIR, "plot.png" or outfile)
+    plt.legend()
+    plt.savefig(outfile)
+
     if show:
-        plt.legend()
         plt.show()
 
-    outfile = '.' or outfile
-
     return curves
+
 
 
 def main():
@@ -96,7 +100,7 @@ def main():
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['data/WI-00.rep', '--show', '--niter=100'])
+        sys.argv.extend([join(DATA_DIR, "WI-28.rep"), '--show', '--niter=100'])
 
     args = parser.parse_args()
 
@@ -105,3 +109,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
