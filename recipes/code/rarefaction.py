@@ -1,9 +1,9 @@
 import sys
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 from random import shuffle
 
+from . import plotter
 
 def join(*args):
     return os.path.abspath(os.path.join(*args))
@@ -33,7 +33,7 @@ def randomize_and_count(data, niter=10, subset=10):
     return mean_unique
 
 
-def generate_plot(files, niter=10, outfile=None, show=False):
+def generate_curves(files, niter=10, outfile=None):
 
     data = dict()
 
@@ -58,23 +58,13 @@ def generate_plot(files, niter=10, outfile=None, show=False):
         for idx in range(len(unique_taxids)):
             curves.setdefault(idx, []).append(unique_taxids[idx])
 
-    for curve, label in zip(curves, legend):
+    title = f"Rarefaction curve with: niter={niter}, nsamples={len(files)}"
+    ylabel = "Number of unique species "
 
-        plt.plot(list(data.keys()), curves[curve], label=label)
+    plotter.rarefactor_plot(curves=curves, legend=legend, data=data, outfile=outfile,
+                            title=title, ylabel=ylabel)
 
-    plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
-    plt.ylabel("Number of unique species ")
-    plt.xlabel("Percentage of data sampled")
-    plt.ylim(ymin=0)
-
-    outfile = join(DATA_DIR, "plot.png") or os.path.abspath(outfile)
-    plt.legend()
-    plt.savefig(outfile)
-
-    if show:
-        plt.show()
-
-    return curves
+    return curves, legend
 
 
 
@@ -89,10 +79,6 @@ def main():
     parser.add_argument('--niter', dest='niter',
                         help="How many times to reshuffle and take subset.",
                         type=int, default=10)
-
-    parser.add_argument('--subset', dest='subset', default=10,
-                        help="Percentage of data to take out and count every iter.",
-                        type=int)
     parser.add_argument('--outfile', dest='outfile', default=False, action="store_true",
                         help="Show the plot in in a GUI window.")
 
@@ -104,7 +90,8 @@ def main():
 
     args = parser.parse_args()
 
-    generate_plot(files=args.files, show=args.show, outfile=args.outfile, niter=args.niter)
+    generate_curves(files=args.files, outfile=args.outfile, niter=args.niter)
+
 
 
 if __name__ == '__main__':

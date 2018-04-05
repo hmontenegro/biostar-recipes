@@ -2,7 +2,9 @@
 Plotter for different types of data
 """
 import sys
+import os
 import matplotlib
+
 
 # Pop a window
 HAS_DISPLAY = '--show' in sys.argv
@@ -14,6 +16,13 @@ if not HAS_DISPLAY:
 import matplotlib.pylab as plt
 import numpy as np
 import pandas as pd
+
+
+def join(*args):
+    return os.path.abspath(os.path.join(*args))
+
+
+DATA_DIR = join(os.path.dirname(__file__), "data")
 
 
 # colidx is the column where the data starts.
@@ -130,6 +139,30 @@ def horizontal_bars(data, colidx=3, labidx=0, fname='plot.png'):
     if HAS_DISPLAY:
         # Pop a window in non-offline mode.
         plt.show()
+
+
+def rarefactor_plot(curves, legend, data, outfile, ylabel="", title=""):
+
+    # param: data is a list of X values
+    # param: curves is a nested list of Y values.
+
+    for curve, label in zip(curves, legend):
+
+        plt.plot(list(data.keys()), curves[curve], label=label)
+
+    plt.suptitle(title)
+    plt.ylabel(ylabel)
+    plt.xlabel("Percentage of data sampled")
+    plt.ylim(ymin=0)
+
+    outfile = join(DATA_DIR, "plot.png") or os.path.abspath(outfile)
+    plt.legend()
+    plt.savefig(outfile)
+
+    if HAS_DISPLAY:
+        plt.show()
+    return
+
 
 
 def main():
