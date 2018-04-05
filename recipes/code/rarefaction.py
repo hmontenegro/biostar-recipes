@@ -67,7 +67,7 @@ def generate_plot(files, niter=10, outfile=None, show=False):
     plt.xlabel("Percentage of data sampled")
     plt.ylim(ymin=0)
 
-    outfile = join(DATA_DIR, "plot.png" or outfile)
+    outfile = join(DATA_DIR, "plot.png") or os.path.abspath(outfile)
     plt.legend()
     plt.savefig(outfile)
 
