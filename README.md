@@ -13,10 +13,30 @@ Recipes are designed to facilitate
 the distribution, the sharing and the reuse of bioinformatics pipelines
 Visit the [Biostar Engine][engine] for installation of each recipe into into the engine.
 
-    https://github.com/biostars/biostar-engine
+## Installation
 
-[engine]: https://github.com/biostars/biostar-engine
+#### 1\. Create a virtual environment
 
+[conda]: https://conda.io/docs/
+
+    conda create -y --name engine python=3.6
+    source activate engine
+
+#### 2\. Clone the recipe code:
+
+There are different repositories for the engine and the recipes.
+
+    # This repository stores the various data analysis recipes.
+    git clone https://github.com/biostars/biostar-recipes.git
+
+### 3\. Install the requirements:
+
+    # Install the conda requirements.
+    conda install --file conf/conda_requirements.txt
+
+    # Add the recipes to the python path.
+    python setup.py develop
+    
 ## What is a recipe made of?
 
 A recipe consists of two files: 
