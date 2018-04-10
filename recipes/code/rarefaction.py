@@ -81,14 +81,14 @@ def main():
     parser.add_argument('--niter', dest='niter',
                         help="How many times to reshuffle and take subset.",
                         type=int, default=10)
-    parser.add_argument('--outfile', dest='outfile', default=False, action="store_true",
+    parser.add_argument('--outfile', dest='outfile', default="plot.png", type=str,
                         help="Show the plot in in a GUI window.")
 
     parser.add_argument('--show', dest='show', default=False, action="store_true",
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend([join(DATA_DIR, "WI-28.rep"), '--show', '--niter=100'])
+        sys.argv.extend([join(DATA_DIR, "WI-28.rep"), f'--outfile={join(DATA_DIR, "test.png")}', '--niter=100'])
 
     args = parser.parse_args()
 

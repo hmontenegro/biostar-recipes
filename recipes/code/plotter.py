@@ -155,8 +155,9 @@ def rarefactor_plot(curves, legend, data, outfile, ylabel="", title=""):
     plt.xlabel("Percentage of data sampled")
     plt.ylim(ymin=0)
 
-    outfile = join(DATA_DIR, "plot.png") or os.path.abspath(outfile)
+    outfile = os.path.abspath(outfile) or join(DATA_DIR, "plot.png")
     plt.legend()
+    print(outfile)
     plt.savefig(outfile)
 
     if HAS_DISPLAY:

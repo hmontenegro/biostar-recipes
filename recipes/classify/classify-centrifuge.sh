@@ -43,6 +43,8 @@ N=2
 # (cd $TAXDIR && gunzip nucl_gb.accession2taxid.gz)
 # Create the conversion table (accession to taxid mapping).
 # cat $TAXDIR/nucl_gb.accession2taxid | cut -f 1,3 > $TAXDIR/table.txt
+# Untar file
+# tar -xvf $TAXDIR/taxdump.tar
 
 # Use the taxonomy specific files to build the custom database.
 TAXDIR=/export/refs/taxonomy
@@ -65,3 +67,5 @@ set -e
 # Generate a combined reformatted.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
 
+# Generate rarefaction plot using rep file.
+python -m recipes.code.rarefaction results/*.rep --niter 100 --outfile rarefaction.png
