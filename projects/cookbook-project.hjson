@@ -113,13 +113,18 @@ data: [
     }
 
     {
-        name: Fish Database
-        value: export/local/usfish/fishdb.fa
+        name: Fish Sequences by Common Name
+        value: export/local/usfish/fishname.fa
         type: FASTA
-        summary: This collections contains fish sequences.
-
+        summary: Fish genomic sequences identified by common names.
     }
 
+    {
+        name: Fish Sequences by Accession Number
+        value: export/local/usfish/fishacc.fa
+        type: FASTA
+        summary: Fish genomic sequences identified by accession numbers.
+    }
 
 
     {

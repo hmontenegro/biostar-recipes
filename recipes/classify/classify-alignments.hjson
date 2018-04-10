@@ -19,7 +19,7 @@
   }
 
   genome: {
-    value: Fish Database
+    value: Fish Sequences by Common Name
     label: Reference genome
     help: The reference genome
     source: PROJECT

@@ -31,12 +31,17 @@ There are different repositories for the engine and the recipes.
 
 ### 3\. Install the requirements:
 
+    # Enable the required channels.
+    conda config --add channels r
+    conda config --add channels conda-forge
+    conda config --add channels bioconda
+
     # Install the conda requirements.
     conda install --file conf/conda_requirements.txt
 
     # Add the recipes to the python path.
     python setup.py develop
-    
+
 ## What is a recipe made of?
 
 A recipe consists of two files: 

@@ -20,16 +20,12 @@
   }
 
   reference: {
-        value: FISH
-        label: Reference library to use
-        help: The available classification categories
-        display: DROPDOWN
-        choices: [
-            ["FISH", "Fish Database"]
-            ["BAVH", "Bacteria, Archaea, Viruses, Human"]
-            ["JAW", "Gnathostomata (jawed vertebrates) Excluding Mammals" ]
-            ["NT", "NCBI Refseq database " ]
-        ]
+    value: Fish Sequences by Accession Number
+    label: Reference Sequences
+    help: The sequences to classify against
+    source: PROJECT
+    type: FASTA
+    display: DROPDOWN
   }
 
 
