@@ -12,48 +12,54 @@ CUTOFF={{cutoff.value}}
 # The minimal hit length for classification.
 HITLEN={{hitlen.value}}
 
-# The input sample sheet
+# The list of files in the directory.
 SHEET={{sheet.value}}
 
 # Output generated while running the tool.
 RUNLOG=runlog/runlog.txt
 
-# Select the database to classify against.
-if [ ${REFERENCE} == "BAVH" ]; then
-    INDEX=/export/refs/centrifuge/p_compressed+h+v
-fi
+# The name of the centrifuge index.
+INDEX=index/database
 
-if [ ${REFERENCE} == "JAW" ]; then
-    # Custom database for taxid 7776
-    INDEX=/export/refs/centrifuge/7776
-fi
-
-if [ ${REFERENCE} == "FISH" ]; then
-    # Custom database for taxid 7776
-    INDEX=/export/refs/centrifuge/fishdb
-fi
-
-if [ ${REFERENCE} == "NT" ]; then
-    # Refseq NT
-    INDEX=/export/refs/centrifuge/nt
-fi
+# Create the custom database.
+mkdir -p index
 
 # All results go into this folder.
 rm -rf results
 mkdir -p results
 
+# Wipe clean the runlog.
 echo "" > $RUNLOG
 
 # How many parallel processes to allow.
-PROC=2
+N=2
+
+# Download taxonomy specific files. Run these in  $TAXDIR.
+# This operation only needs to be done once for the entire website.
+#
+# (cd $TAXDIR && wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz)
+# (cd $TAXDIR && wget ftp://ftp.ncbi.nih.gov/pub/taxonomy/accession2taxid/nucl_gb.accession2taxid.gz)
+# (cd $TAXDIR && gunzip taxdump.tar.gz)
+# (cd $TAXDIR && gunzip nucl_gb.accession2taxid.gz)
+# Create the conversion table (accession to taxid mapping).
+# cat $TAXDIR/nucl_gb.accession2taxid | cut -f 1,3 > $TAXDIR/table.txt
+
+# Use the taxonomy specific files to build the custom database.
+TAXDIR=/export/refs/taxonomy
+TABLE=$TAXDIR/table.txt
+NODES=$TAXDIR/nodes.dmp
+NAMES=$TAXDIR/names.dmp
+
+# Build the index.
+centrifuge-build -p $N --conversion-table $TABLE --taxonomy-tree $NODES  --name-table $NAMES  $REFERENCE $INDEX >> $RUNLOG
 
 # Perform the classification.
-cat ${SHEET} | parallel --header : --colsep , -j $PROC  "centrifuge -x  $INDEX -1 $DDIR/{read1} -2 $DDIR/{read2} --min-hitlen $HITLEN -S results/{sample}.rep --report-file  results/{sample}.tsv 2>> $RUNLOG"
+cat ${SHEET} | parallel --header : --colsep , -j $N  "centrifuge -x  $INDEX -1 $DDIR/{read1} -2 $DDIR/{read2} --min-hitlen $HITLEN -S results/{sample}.rep --report-file  results/{sample}.tsv 2>> $RUNLOG"
 
 set +e
 # Generate an individual kraken style reports for each sample
 # This will raise an error on no hits, hence we turn of error checking.
-ls -1 results/*.rep | parallel -j $PROC "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
+ls -1 results/*.rep | parallel -j $N "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
 set -e
 
 # Generate a combined reformatted.

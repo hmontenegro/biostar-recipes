@@ -36,8 +36,8 @@ analyses: [
 data: [
 
     {
-        name: Fish Sequences
-        value: export/local/usfish/fishdb.fa
+        name: Fish Sequences by Common Name
+        value: export/local/usfish/fishname.fa
         type: FASTA
         summary: Selected fish based sequences
         help: '''
