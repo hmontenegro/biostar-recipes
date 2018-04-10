@@ -40,6 +40,7 @@ def generate_curves(files, niter=10, outfile=None):
     # Take 10, 20, 30 ... 100% of the data.
     # note: chaining does not work with multiple files
     #subsets = chain(range(1, 30), range(20, 110, 10))
+    # TODO: ask about uneven buckets.
     subsets = list(range(1, 30)) + list(range(30, 110, 10))
 
     for fname in files:
@@ -59,12 +60,13 @@ def generate_curves(files, niter=10, outfile=None):
             curves.setdefault(idx, []).append(unique_taxids[idx])
 
     title = f"Rarefaction curve with: niter={niter}, nsamples={len(files)}"
-    ylabel = "Number of unique species "
+    ylabel = "Number of unique species."
 
+    outfile = outfile if outfile.endswith(".png") else f"{outfile}.png"
     plotter.rarefactor_plot(curves=curves, legend=legend, data=data, outfile=outfile,
                             title=title, ylabel=ylabel)
 
-    return curves, legend
+    return curves
 
 
 

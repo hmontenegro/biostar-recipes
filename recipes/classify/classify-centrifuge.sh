@@ -59,6 +59,3 @@ set -e
 # Generate a combined reformatted.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
 
-
-
-
