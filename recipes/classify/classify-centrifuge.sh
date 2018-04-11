@@ -69,5 +69,5 @@ python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt
 
 
 # Draw the rarefaction curves.
-python -m recipes.code.rarefaction results/*.rep --niter 100 --outfile rarefaction.png
+python -m recipes.code.rarefaction results/*.rep
 
