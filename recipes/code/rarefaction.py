@@ -35,7 +35,7 @@ def randomize_and_count(data, niter=10, percent=10):
 def generate_plot(files, niter=10, outfile=None, show=False):
 
     # Percents of the data to compute the counts over
-    percents = list(range(0, 20, 5)) + list(range(20, 120, 20))
+    percents = list(range(0, 20, 2)) + list(range(20, 120, 20))
 
     plt.figure(figsize=(12, 8))
 
@@ -75,7 +75,7 @@ def main():
 
     parser.add_argument('--niter', dest='niter',
                         help="How many times to reshuffle and take subset.",
-                        type=int, default=150)
+                        type=int, default=200)
 
     parser.add_argument('--plot', dest='outfile', default="rarefaction.png",
                         help="The name of the plot file.")
