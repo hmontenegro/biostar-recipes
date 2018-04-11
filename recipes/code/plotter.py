@@ -141,31 +141,6 @@ def horizontal_bars(data, colidx=3, labidx=0, fname='plot.png'):
         plt.show()
 
 
-def rarefactor_plot(curves, legend, data, outfile, ylabel="", title=""):
-
-    # param: data is a list of X values
-    # param: curves is a nested list of Y values.
-
-    for curve, label in zip(curves, legend):
-
-        plt.plot(list(data.keys()), curves[curve], label=label)
-
-    plt.suptitle(title)
-    plt.ylabel(ylabel)
-    plt.xlabel("Percentage of data sampled")
-    plt.ylim(ymin=0)
-
-    outfile = os.path.abspath(outfile) or join(DATA_DIR, "plot.png")
-    plt.legend()
-    print(outfile)
-    plt.savefig(outfile)
-
-    if HAS_DISPLAY:
-        plt.show()
-    return
-
-
-
 def main():
     from argparse import ArgumentParser
 
