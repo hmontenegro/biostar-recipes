@@ -67,5 +67,7 @@ set -e
 # Generate a combined reformatted.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
 
-# Generate rarefaction plot using rep file.
+
+# Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep --niter 100 --outfile rarefaction.png
+
