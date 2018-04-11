@@ -1,9 +1,18 @@
 import os
 import sys
 from random import shuffle
+import pandas as pd
+
+import matplotlib
+
+# Is it an interactive plot.
+SHOW_PLOT = '--show' in sys.argv
+
+if not SHOW_PLOT:
+    # Turn off interactive display.
+    matplotlib.use('Agg')
 
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
 def join(*args):

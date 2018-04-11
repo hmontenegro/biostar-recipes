@@ -5,9 +5,9 @@ import sys
 import matplotlib
 
 # Pop a window
-HAS_DISPLAY = '--show' in sys.argv
+SHOW_PLOT = '--show' in sys.argv
 
-if not HAS_DISPLAY:
+if not SHOW_PLOT:
     # Turn off interactive display.
     matplotlib.use('Agg')
 
@@ -82,7 +82,7 @@ def heatmap(data, colidx=3, labidx=0, fname='heatmap.png'):
 
     plt.savefig(f'{fname}')
 
-    if HAS_DISPLAY:
+    if SHOW_PLOT:
         # Pop a window in non-offline mode.
         plt.show()
 
@@ -127,7 +127,7 @@ def horizontal_bars(data, colidx=3, labidx=0, fname='plot.png'):
     plt.xlabel("Percent reads")
     plt.savefig(f'{fname}')
 
-    if HAS_DISPLAY:
+    if SHOW_PLOT:
         # Pop a window in non-offline mode.
         plt.show()
 
