@@ -52,6 +52,11 @@ TABLE=$TAXDIR/table.txt
 NODES=$TAXDIR/nodes.dmp
 NAMES=$TAXDIR/names.dmp
 
+# Directory to store classification results
+CLASSDIR=classification
+
+mkdir -p $CLASSDIR
+
 # Build the index.
 centrifuge-build -p $N --conversion-table $TABLE --taxonomy-tree $NODES  --name-table $NAMES  $REFERENCE $INDEX >> $RUNLOG
 
@@ -64,9 +69,11 @@ set +e
 ls -1 results/*.rep | parallel -j $N "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
 set -e
 
-# Generate a combined reformatted.
-python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
+# Generate a combined reformatted report inside of CLASSDIR.
+python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt --outdir $CLASSDIR
 
+#Draw the heatmaps for each csv report
+python -m recipes.code.plotter $CLASSDIR/*.csv --type 'heatmap'
 
 # Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep

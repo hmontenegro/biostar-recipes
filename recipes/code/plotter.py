@@ -4,6 +4,7 @@ Plotter for different types of data
 import sys
 import os
 import matplotlib
+from recipes.code import utils
 
 
 # Pop a window
@@ -23,6 +24,14 @@ def join(*args):
 
 
 DATA_DIR = join(os.path.dirname(__file__), "data")
+
+
+def plot(df, name, args):
+
+    # Plot a heatmap
+    if args.type == "heatmap":
+        heatmap(data=df, fname=name)
+
 
 
 # colidx is the column where the data starts.
@@ -146,16 +155,23 @@ def main():
 
     parser = ArgumentParser()
 
-    parser.add_argument('input', metavar='FILES', type=str, nargs=1,
-                        help='The file to be plotted')
+    parser.add_argument('files', metavar='FILES', type=str, nargs='+',
+                        help='Files to be plotted')
 
     parser.add_argument('--type', dest='type', default='hbar',
                         help="Plot type",
                         type=str)
 
-    parser.add_argument('--output', dest='output', default='plot.png',
-                        help="Plot file name",
-                        type=str)
+    args = parser.parse_args()
+
+    for fname in args.files:
+        # Plot each csv file.
+        output, ext = os.path.splitext(os.path.basename(fname))
+        output = os.path.join(os.path.dirname(fname), f'{output}_{args.type}.png')
+
+        df = pd.read_csv(filepath_or_buffer=fname, header=0)
+        plot(df=df, name=output, args=args)
+
 
 
 if __name__ == '__main__':

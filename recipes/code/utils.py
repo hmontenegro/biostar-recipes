@@ -24,3 +24,8 @@ def alias(df, fname, left='name', right='name', column=''):
         pass
 
     return df
+
+def get_subset(df, rank=''):
+    indices = df['rank'] == rank
+    subset = df[indices] if rank else df
+    return subset
