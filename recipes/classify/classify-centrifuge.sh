@@ -24,7 +24,7 @@ INDEX=index/database
 # Create the custom database.
 mkdir -p index
 
-# All results go into this folder.
+# All results from centrifuge go into this folder.
 rm -rf results
 mkdir -p results
 
@@ -54,7 +54,7 @@ NAMES=$TAXDIR/names.dmp
 
 # Directory to store classification results
 CLASSDIR=classification
-
+rm -rf $CLASSDIR
 mkdir -p $CLASSDIR
 
 # Build the index.
@@ -72,8 +72,11 @@ set -e
 # Generate a combined reformatted report inside of CLASSDIR.
 python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt --outdir $CLASSDIR
 
-#Draw the heatmaps for each csv report
-python -m recipes.code.plotter $CLASSDIR/*.csv --type 'heatmap'
+# Draw the heat maps for each csv report
+python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
+
+# Generate report for any unclassified reads
+python -m recipes.code.unclassified --sample_sheet $SHEET --input_dir $DDIR/.. --results_dir $DDIR/../results
 
 # Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep

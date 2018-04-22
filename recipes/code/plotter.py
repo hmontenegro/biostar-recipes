@@ -29,7 +29,7 @@ DATA_DIR = join(os.path.dirname(__file__), "data")
 def plot(df, name, args):
 
     # Plot a heatmap
-    if args.type == "heatmap":
+    if args.type == "heat_map":
         heatmap(data=df, fname=name)
 
 
@@ -159,8 +159,7 @@ def main():
                         help='Files to be plotted')
 
     parser.add_argument('--type', dest='type', default='hbar',
-                        help="Plot type",
-                        type=str)
+                        help="Plot type", type=str)
 
     args = parser.parse_args()
 
@@ -170,6 +169,7 @@ def main():
         output = os.path.join(os.path.dirname(fname), f'{output}_{args.type}.png')
 
         df = pd.read_csv(filepath_or_buffer=fname, header=0)
+
         plot(df=df, name=output, args=args)
 
 
