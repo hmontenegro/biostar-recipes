@@ -17,7 +17,7 @@ def fetch_unclassified(sample_sheet, source, results, ext='.rep'):
     for row in stream:
 
         result_file = os.path.join(results, row['sample'] + ext)
-        # These are the fastq files
+        # These are the fastq file paths
         inputs = (os.path.join(source, row['read1']), os.path.join(source, row['read2']))
 
 
