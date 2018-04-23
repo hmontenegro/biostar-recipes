@@ -43,12 +43,16 @@ def randomize_and_count(data, niter=10, percent=10):
     return mean_count
 
 
-def generate_plot(files, niter=10, outfile=None, show=False):
+def generate_plot(files, niter=10, outplot=None, show=False, outfile=None):
 
     # Percents of the data to compute the counts over
     percents = list(range(5, 100, 10))
 
     plt.figure(figsize=(12, 8))
+
+    outstream = None if not outfile else open(outfile, 'w')
+    if outstream:
+        outstream.write(','.join([str(p) for p in percents]) + '\n')
 
     for fname in files:
         df = pd.read_csv(fname, sep='\t', header=0)
@@ -57,9 +61,10 @@ def generate_plot(files, niter=10, outfile=None, show=False):
         x = percents
         y = [randomize_and_count(data=column, niter=niter, percent=p) for p in percents]
         label = os.path.basename(fname)
+        if outstream:
+            outstream.write(','.join([str(p) for p in y]) + '\n')
 
         plt.plot(x, y, 'o-', label=label)
-
 
     plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
     plt.ylabel("Number of unique species ")
@@ -68,7 +73,7 @@ def generate_plot(files, niter=10, outfile=None, show=False):
 
     plt.legend()
 
-    plt.savefig(outfile)
+    plt.savefig(outplot)
 
     if show:
         plt.show()
@@ -99,7 +104,9 @@ def main():
 
     args = parser.parse_args()
 
-    generate_plot(files=args.files, show=args.show, outfile=args.outfile, niter=args.niter)
+    outfile = 'rarefaction.csv'
+    generate_plot(files=args.files, show=args.show,
+                  outplot=args.outfile, niter=args.niter, outfile=outfile)
 
 
 if __name__ == '__main__':
