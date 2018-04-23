@@ -75,8 +75,6 @@ python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt
 # Draw the heat maps for each csv report
 python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
 
-# Generate report for any unclassified reads
-#python -m recipes.code.unclassified --sample_sheet $SHEET --input $DDIR/.. --results $DDIR/../results
 
 # Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep

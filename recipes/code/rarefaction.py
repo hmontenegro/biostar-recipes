@@ -52,7 +52,8 @@ def generate_plot(files, niter=10, outplot=None, show=False, outfile=None):
 
     outstream = None if not outfile else open(outfile, 'w')
     if outstream:
-        outstream.write(','.join([str(p) for p in percents]) + '\n')
+        header = ','.join(['filename'] + [str(p) for p in percents])
+        outstream.write(header + '\n')
 
     for fname in files:
         df = pd.read_csv(fname, sep='\t', header=0)
@@ -62,7 +63,8 @@ def generate_plot(files, niter=10, outplot=None, show=False, outfile=None):
         y = [randomize_and_count(data=column, niter=niter, percent=p) for p in percents]
         label = os.path.basename(fname)
         if outstream:
-            outstream.write(','.join([str(p) for p in y]) + '\n')
+            row = ','.join([os.path.basename(fname)] + [str(p) for p in y])
+            outstream.write(row + '\n')
 
         plt.plot(x, y, 'o-', label=label)
 
