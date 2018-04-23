@@ -161,12 +161,15 @@ def main():
     parser.add_argument('--type', dest='type', default='hbar',
                         help="Plot type", type=str)
 
+    parser.add_argument('--output', dest='output',
+                        help="Name of output plot file", type=str)
+
     args = parser.parse_args()
 
     for fname in args.files:
         # Plot each csv file.
         output, ext = os.path.splitext(os.path.basename(fname))
-        output = os.path.join(os.path.dirname(fname), f'{output}_{args.type}.png')
+        output = args.output or os.path.join(os.path.dirname(fname), f'{output}_{args.type}.png')
 
         df = pd.read_csv(filepath_or_buffer=fname, header=0)
 
