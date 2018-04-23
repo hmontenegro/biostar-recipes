@@ -113,7 +113,6 @@ def main():
     # Print the data to screen or into a directory
     print_data(df, outdir=args.outdir)
 
-
     # Tabulate by counts
     df = tabulate(files=args.files, rank=args.rank, cutoff=0)
 
