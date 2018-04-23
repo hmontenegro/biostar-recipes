@@ -1,9 +1,19 @@
 import os
 import sys
 from random import shuffle
+import pandas as pd
+
+import matplotlib
+
+# Is it an interactive plot.
+SHOW_PLOT = '--show' in sys.argv
+
+if not SHOW_PLOT:
+    # Turn off interactive display.
+    matplotlib.use('Agg')
+
 
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
 def join(*args):
@@ -22,9 +32,10 @@ def randomize_and_count(data, niter=10, percent=10):
 
     counts = []
 
+    # For performance reasons we moved the shuffle out
     for n in range(niter):
         shuffle(data)
-        subset = data[:sample_size]
+        subset = data[n:n+sample_size]
         counts.append(len(set(subset)))
 
     mean_count = 0 if not len(counts) else sum(counts) / len(counts)
@@ -35,7 +46,7 @@ def randomize_and_count(data, niter=10, percent=10):
 def generate_plot(files, niter=10, outfile=None, show=False):
 
     # Percents of the data to compute the counts over
-    percents = list(range(0, 20, 5)) + list(range(20, 120, 20))
+    percents = list(range(5, 100, 10))
 
     plt.figure(figsize=(12, 8))
 
@@ -47,7 +58,7 @@ def generate_plot(files, niter=10, outfile=None, show=False):
         y = [randomize_and_count(data=column, niter=niter, percent=p) for p in percents]
         label = os.path.basename(fname)
 
-        plt.plot(x, y, 'bo-', label=label)
+        plt.plot(x, y, 'o-', label=label)
 
 
     plt.suptitle(f"Rarefaction curve with: niter={niter}, nsamples={len(files)}")
@@ -75,7 +86,7 @@ def main():
 
     parser.add_argument('--niter', dest='niter',
                         help="How many times to reshuffle and take subset.",
-                        type=int, default=150)
+                        type=int, default=200)
 
     parser.add_argument('--plot', dest='outfile', default="rarefaction.png",
                         help="The name of the plot file.")
@@ -84,7 +95,7 @@ def main():
                         help="Show the plot in in a GUI window.")
 
     if len(sys.argv) == 1:
-        sys.argv.extend([join(DATA_DIR, "WI-28.rep"), '--show', '--niter=100'])
+        sys.argv.extend([join(DATA_DIR, "WI-28.rep"), join(DATA_DIR, "WI-28.rep"), '--show', '--niter=100'])
 
     args = parser.parse_args()
 

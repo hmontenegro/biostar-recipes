@@ -33,7 +33,9 @@ def print_data(df, rank='', outdir=None):
 
 
 def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
-    "Summarize result found in data_dir by grouping them."
+    """
+    Summarize result found in data_dir by grouping them.
+    """
 
     # Collect all data into a dictionary keyed by keyID
     storage = []
@@ -74,9 +76,9 @@ def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
     columns = ["name", "taxid", "rank"] + colnames(files)
     df = pd.DataFrame(table, columns=columns)
 
-    # Attempt to fill in common names at species level:
+    # Attempt to fill in common names at species level.
     fname = "/export/refs/alias/fishalias.txt"
-    df = utils.alias(df=df, fname=fname, left='name', right='sciname', column='name')
+    df = utils.alias(df=df, fname=fname, key1='name', key2='sciname', name='name')
 
     return df
 
@@ -110,6 +112,10 @@ def main():
 
     # Print the data to screen or into a directory
     print_data(df, outdir=args.outdir)
+
+
+    # Tabulate by counts
+    df = tabulate(files=args.files, rank=args.rank, cutoff=0)
 
 
 

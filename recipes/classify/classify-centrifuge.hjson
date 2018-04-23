@@ -47,9 +47,8 @@
 
   }
 
-  settings:
-  {
-    name: Classify sequences using motifs
+  settings: {
+    name: Classify sequences using k-mer motifs
     image: classify-centrifuge.jpg
     summary: Classify paired end reads with a k-mer based approach using the Centrifuge software.
     help:
@@ -60,7 +59,10 @@
       Centrifuge is a microbial classification software that enables rapid, accurate,
       and sensitive labeling of reads and quantification of species.
 
-      This recipe will execute the Centrifuge software and classify against various databases.
+      This recipe will execute the Centrifuge software and classify against a database created from
+      a custom FASTA file.
+
+      A requirement of the custom FASTA file is that it must label the sequences by their accession number.
 
       The resulting datasets are text reports listing the percent abundance for each species
       that that was found in the sample:
@@ -77,26 +79,26 @@
       Acipenser fulvescens    41871   S     13.01           0.04
       Alosa pseudoharengus    34774   S     12.81           0.04
       Fundulus diaphanus      54267   S     10.49           0.01
-      Amia calva              7924    S     8.88            0.14
-      Oncorhynchus kisutch    8019    S     0.01            8.24
-      Channa argus            215402  S     5.58            2.66
-      Ameiurus nebulosus      27778   S     3.58            0.09
       ...
       ```
 
       A different section is generated at each taxonomic rank.
 
-      A visualization of the data above is also generated.
+      The following visualizations are generated:
+
+      1. A heatmap of the percentages at the species level.
+      2. A rarefaction curve for each of the samples.
 
       Tool website: <https://ccb.jhu.edu/software/centrifuge/manual.shtml#introduction>
 
-      ## Requirements
+      ## Input files
 
-      For paired end reads, naming should be such that after sorting replicates group together.
+      1. A directory that contains all the datafiles.
+      2. A sample sheet that connects the read pairs to file names
+      3. A reference file that contains the genomic sequences for the sequences that should be classified against.
 
-      ### Runtime
-
-      Substantially longer runtimes are to be expected when running classificatons againts the NT database.
+      Users may view the sample input files for more information on the precise file formats.
       '''
   }
+
 }
