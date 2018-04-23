@@ -1,8 +1,4 @@
-"""
-
-"""
 import os
-#import csv
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -22,13 +18,13 @@ def single_end(stream, seen=(), output=None):
 
     for rid in stream:
         # Need to further clean line to extract read id.
-        check = rid.split()[0].replace('@','')
+        not_classified = rid.split()[0].replace('@','') not in seen
 
         seq = next(stream)
         tmp = next(stream)
         qual = next(stream)
 
-        if check not in seen:
+        if not_classified:
             output.write(f"{rid}{seq}{tmp}{qual}")
 
     return path
