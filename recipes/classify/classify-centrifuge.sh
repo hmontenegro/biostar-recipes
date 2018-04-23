@@ -24,7 +24,7 @@ INDEX=index/database
 # Create the custom database.
 mkdir -p index
 
-# All results go into this folder.
+# All results from centrifuge go into this folder.
 rm -rf results
 mkdir -p results
 
@@ -43,12 +43,19 @@ N=2
 # (cd $TAXDIR && gunzip nucl_gb.accession2taxid.gz)
 # Create the conversion table (accession to taxid mapping).
 # cat $TAXDIR/nucl_gb.accession2taxid | cut -f 1,3 > $TAXDIR/table.txt
+# Untar file
+# tar -xvf $TAXDIR/taxdump.tar
 
 # Use the taxonomy specific files to build the custom database.
 TAXDIR=/export/refs/taxonomy
 TABLE=$TAXDIR/table.txt
 NODES=$TAXDIR/nodes.dmp
 NAMES=$TAXDIR/names.dmp
+
+# Directory to store classification results
+CLASSDIR=classification
+rm -rf $CLASSDIR
+mkdir -p $CLASSDIR
 
 # Build the index.
 centrifuge-build -p $N --conversion-table $TABLE --taxonomy-tree $NODES  --name-table $NAMES  $REFERENCE $INDEX >> $RUNLOG
@@ -62,10 +69,15 @@ set +e
 ls -1 results/*.rep | parallel -j $N "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
 set -e
 
-# Generate a combined reformatted.
-python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt | column -t -s , > classification.txt
+# Generate a combined reformatted report inside of CLASSDIR.
+python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt --outdir $CLASSDIR
+
+# Draw the heat maps for each csv report
+python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
+
+# Generate report for any unclassified reads
+#python -m recipes.code.unclassified --sample_sheet $SHEET --input $DDIR/.. --results $DDIR/../results
 
 # Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep
-
 

@@ -1,9 +1,5 @@
 """
 
-This program is used to process .tsv report files that creatred via centrifuge-kreport.
-
-It groups the results according to rank code and produces the abundance for each file.
-
 """
 
 import csv
@@ -19,31 +15,21 @@ def colnames(fnames):
     return names
 
 
-def plot(df, args):
-    from recipes.code import plotter
-
-    # Subst to species.
-    data = get_subset(df, 'S')
-
-    # Plot a heatmap
-    plotter.heatmap(data=data, fname="heatmap.png")
-
-def get_subset(df, rank=''):
-    indices = df['rank'] == rank
-    subset = df[indices] if rank else df
-    return subset
-
-
-# Prints a dataframe at a rank.
-def print_data(df, rank=''):
+def print_data(df, rank='', outdir=None):
     rankmap = dict(S="Species", G="Genus", F='Family', C='Class', D='Domain')
     ranks = rank or 'SGFCD'
     pd.set_option('display.expand_frame_repr', False)
+
     for rank in ranks:
-        subset = get_subset(df, rank)
+        subset = utils.get_subset(df, rank)
         label = rankmap.get(rank, 'Unknown')
-        print(f'###\n### Rank: {label}\n###')
-        print(subset.to_csv(index=False))
+
+        if outdir:
+            path = os.path.join(outdir, f'{label.lower()}_classification.csv')
+            subset.to_csv(index=False, path_or_buf=path)
+        else:
+            print(f'#Rank: {label}')
+            print(subset.to_csv(index=False))
 
 
 def tabulate(files, rank='', rankidx=3, keyidx=4, cutoff=1):
@@ -113,21 +99,19 @@ def main():
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
                         type=float)
 
-    parser.add_argument('--show', dest='show', default=False, action="store_true",
-                        help="Show the plot in in a GUI window.")
+    parser.add_argument('--outdir', dest='outdir', default='classification',
+                        help="Csv file name",
+                        type=str)
 
     if len(sys.argv) == 1:
-        sys.argv.extend(['--show', 'data/centrifuge-1.txt', 'data/centrifuge-2.txt'])
+        sys.argv.extend(['data/centrifuge-1.txt', 'data/centrifuge-2.txt'])
 
     args = parser.parse_args()
 
-    df = tabulate(files=args.files, rank=args.rank,
-                  cutoff=args.cutoff)
+    df = tabulate(files=args.files, rank=args.rank, cutoff=args.cutoff)
 
-    # Print the data to screen.
-    print_data(df)
-
-    plot(df=df, args=args)
+    # Print the data to screen or into a directory
+    print_data(df, outdir=args.outdir)
 
     # Tabulate by counts
     df = tabulate(files=args.files, rank=args.rank, cutoff=0)
