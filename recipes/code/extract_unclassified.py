@@ -1,32 +1,42 @@
 import os
+import gzip
+
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
+def decode(stream):
+    for elem in stream:
+        yield elem.decode("utf8")
 
-
-def single_end(stream, seen=(), output=None):
+def separate(fname, seen=(), outdir=None):
     """
     Takes a fastq stream and a set of already seen/classified reads
-    and puts what is not seen/unclassified into a new fastq file.
-
+    and separate what is not seen/unclassified into a new fastq file.
     """
 
-    dirname = output or os.path.dirname(stream.name)
+    if fname.endswith('.gz'):
+        instream = decode(gzip.open(fname, 'rb'))
+        basename = os.path.splitext(os.path.basename(fname))[0]
+    else:
+        instream = open(fname, 'rt')
+        basename =  os.path.basename(fname)
 
-    path = os.path.join(dirname, f'Unclassified_{os.path.basename(stream.name)}')
+    outname = "Unclassified_" + basename
 
-    output = open(path, 'w')
+    path = os.path.join(outdir, outname)
 
-    for rid in stream:
-        # Need to further clean line to extract read id.
-        not_classified = rid.split()[0].replace('@','') not in seen
+    outstream = open(path, 'w')
 
-        seq = next(stream)
-        tmp = next(stream)
-        qual = next(stream)
+    for rid in instream:
+        # Drop leading @ in readid.
+        not_classified = rid.split()[0][1:] not in seen
+
+        seq = next(instream)
+        tmp = next(instream)
+        qual = next(instream)
 
         if not_classified:
-            output.write(f"{rid}{seq}{tmp}{qual}")
+            outstream.write(f"{rid}{seq}{tmp}{qual}")
 
     return path
 
@@ -56,12 +66,12 @@ def main():
     parser.add_argument('--report_files', dest='report', type=str, required=True,
                         nargs='+', help='Generated report file.')
 
-    parser.add_argument('--output', dest='output', type=str,
+    parser.add_argument('--outdir', dest='outdir', type=str,
                         help='Directory to store the unclassified fastq file.')
 
     if len(sys.argv) == 1:
 
-        sys.argv.extend([f'{DATA_DIR}/*.fastq.gz' ,'--report_files', f'{DATA_DIR}/*.rep', f'--output={DATA_DIR}'])
+        sys.argv.extend([f'{DATA_DIR}/test.fastq.gz', '--report_files', f'{DATA_DIR}/test.rep', f'--outdir={DATA_DIR}'])
 
     args = parser.parse_args()
 
@@ -69,10 +79,9 @@ def main():
     seen = classified_reads(report_files=args.report)
 
     for fname in args.files:
-        stream = open(fname, 'r')
 
         # Prints the path to unclassified fastq file
-        print(single_end(seen=seen, output=args.output, stream=stream))
+        separate(seen=seen, outdir=args.outdir, fname=fname)
 
 
 if __name__ == '__main__':

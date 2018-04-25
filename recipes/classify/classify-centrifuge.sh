@@ -25,7 +25,6 @@ INDEX=index/database
 mkdir -p index
 
 # All results from centrifuge go into this folder.
-rm -rf results
 mkdir -p results
 
 # Wipe clean the runlog.
@@ -54,12 +53,10 @@ NAMES=$TAXDIR/names.dmp
 
 # Directory to store classification results
 CLASSDIR=classification
-rm -rf $CLASSDIR
 mkdir -p $CLASSDIR
 
 # Directory to store unclassified reads
 UNCLASS=unclassified
-rm -rf $ UNCLASS
 mkdir -p $UNCLASS
 
 # Build the index.
@@ -84,4 +81,4 @@ python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
 python -m recipes.code.rarefaction results/*.rep
 
 # Extract unclassified reads into separate folder.
-python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files results/*.rep --output $UNCLASS
+python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files results/*.rep --outdir $UNCLASS
