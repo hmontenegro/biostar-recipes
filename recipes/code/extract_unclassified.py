@@ -20,13 +20,10 @@ def separate(fname, seen=(), outdir=None):
     create_stream = lambda p,m: gzip.open(p,m) if is_gz else open(p,m)
 
     instream = create_stream(fname, 'rt')
-
-    basename = os.path.splitext(os.path.basename(fname))[0]
-    basename = basename if is_gz else os.path.basename(fname)
-    outname = "Unclassified_" + basename
+    outname = "Unclassified_" + os.path.basename(fname)
 
     path = join(str(outdir), outname)
-    outstream = sys.stdout if not outdir else create_stream(path, 'w')
+    outstream = sys.stdout if not outdir else create_stream(path, 'wt')
 
     for rid in instream:
         # Drop leading @ in readid.

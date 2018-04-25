@@ -42,22 +42,27 @@ TABLE=$TAXDIR/table.txt
 NODES=$TAXDIR/nodes.dmp
 NAMES=$TAXDIR/names.dmp
 
-# The name of the centrifuge index.
-INDEX=index/database
-
 # Create the custom database.
-mkdir -p $INDEX
+CUSTOMDB=index
+mkdir -p $CUSTOMDB
+
+# Create main store for results
+STORE=results
+mkdir -p $STORE
+
+# The name of the centrifuge index.
+INDEX=$CUSTOMDB/database
 
 # Directory to store classified results
-CLASSDIR=results/classified
+CLASSDIR=$STORE/classified
 mkdir -p $CLASSDIR
 
 # Directory to store unclassified reads
-UNCLASS=results/unclassified
+UNCLASS=$STORE/unclassified
 mkdir -p $UNCLASS
 
 # Directory to store results from centrifuge
-COUNTSDIR=results/counts
+COUNTSDIR=$STORE/counts
 mkdir -p $COUNTSDIR
 
 # Build the index.
@@ -79,7 +84,7 @@ python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF $COUNTSDIR/*.
 python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
 
 # Draw the rarefaction curves.
-python -m recipes.code.rarefaction $COUNTSDIR/*.rep
+python -m recipes.code.rarefaction $COUNTSDIR/*.rep --outdir $STORE
 
 # Extract unclassified reads into separate folder.
 python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files $COUNTSDIR/*.rep --outdir $UNCLASS

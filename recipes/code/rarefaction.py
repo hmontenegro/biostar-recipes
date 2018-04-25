@@ -50,10 +50,9 @@ def generate_plot(files, niter=10, outplot=None, show=False, outfile=None):
 
     plt.figure(figsize=(12, 8))
 
-    outstream = None if not outfile else open(outfile, 'w')
-    if outstream:
-        header = ','.join(['filename'] + [str(p) for p in percents])
-        outstream.write(header + '\n')
+    outstream = sys.stdout if not outfile else open(outfile, 'w')
+    header = ','.join(['filename'] + [str(p) for p in percents])
+    outstream.write(header + '\n')
 
     for fname in files:
         df = pd.read_csv(fname, sep='\t', header=0)
@@ -95,8 +94,11 @@ def main():
                         help="How many times to reshuffle and take subset.",
                         type=int, default=200)
 
-    parser.add_argument('--plot', dest='outfile', default="rarefaction.png",
+    parser.add_argument('--plot', dest='plot', default="rarefaction.png", type=str,
                         help="The name of the plot file.")
+
+    parser.add_argument('--outdir', dest='outdir', type=str,
+                        help="Directory to store plot and csv file.")
 
     parser.add_argument('--show', dest='show', default=False, action="store_true",
                         help="Show the plot in in a GUI window.")
@@ -106,9 +108,15 @@ def main():
 
     args = parser.parse_args()
 
-    outfile = 'rarefaction.csv'
+    if args.outdir:
+        outfile = os.path.join(args.outdir, 'rarefaction.csv')
+        outplot = os.path.join(args.outdir, args.plot)
+    else:
+        outfile, outplot = None, args.plot
+
     generate_plot(files=args.files, show=args.show,
-                  outplot=args.outfile, niter=args.niter, outfile=outfile)
+                  outplot=outplot, niter=args.niter,
+                  outfile=outfile)
 
 
 if __name__ == '__main__':
