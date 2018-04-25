@@ -80,14 +80,13 @@ def tabulate(files, rankidx=None, keyidx=4, cutoff=1, has_header=True, is_kraken
 
     # Collect all data into a dictionary keyed by keyID
     storage = []
-    headers = set()
     for fname in files:
         stream = csv.reader(open(fname, 'rt'), delimiter="\t")
         # Keep only known rank codes
         if rankidx != None:
             stream = filter(lambda x: x[rankidx] != '-', stream)
         if has_header:
-            headers.add(next(stream))
+            next(stream)
         data = dict()
         for row in stream:
             data[row[keyidx]] = [elem.strip() for elem in row]
@@ -130,30 +129,29 @@ def main():
                         help='a file list')
 
     parser.add_argument('--column', dest='column', type=str,
-                        help="Name of column to combine across all files",
-                        )
+                        help="Name of column to combine across all files")
 
     parser.add_argument('--cutoff', dest='cutoff', default=0.1,
                         help="The sum of rows have to be larger than the cutoff to be registered default=%(default)s.",
                         type=float)
 
-    parser.add_argument('--is_kreport', default=False, type=bool,
+    parser.add_argument('--is_kreport', default=False, action='store_true',
                         help="The files to be analyzed are centrifuge kraken reports.")
 
-    parser.add_argument('--outdir', dest='outdir', default='combine_report',
-                        help="Directory name to write data out to.",
-                        type=str)
+    parser.add_argument('--outdir', dest='outdir', type=str,
+                        help="Directory name to write data out to." )
+
     if len(sys.argv) == 1:
         full = lambda path: os.path.join(DATA_DIR, path)
-        txt_sample = [full('centrifuge-1.txt'), full('centrifuge-2.txt'), '--is_kraken']
+        txt_sample = [full('centrifuge-1.txt'), full('centrifuge-2.txt'), '--is_kreport']
         tsv_sample = [full('1000-MiniXFish.tsv'), full('WI-10.tsv'),
                       '--column=numReads', '--cutoff=0.0', ]
 
-        sys.argv.extend(tsv_sample)
+        sys.argv.extend(txt_sample)
 
     args = parser.parse_args()
 
-    if args.is_kraken:
+    if args.is_kreport:
         # Special case to handle kraken reports
         df = tabulate(files=args.files, cutoff=args.cutoff, rankidx=3, keyidx=4, is_kraken=args.is_kreport)
         print_data(df, outdir=args.outdir)

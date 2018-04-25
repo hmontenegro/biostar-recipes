@@ -84,8 +84,4 @@ python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
 python -m recipes.code.rarefaction results/*.rep
 
 # Extract unclassified reads into separate folder.
-gunzip $DDIR/*.fastq.gz --keep
-python -m recipes.code.extract_unclassified $DDIR/*.fastq --report_files results/*.rep --output $UNCLASS
-
-# Compress resulting unclassified fastq file
-gunzip $UNCLASS/*.fastq
+python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files results/*.rep --output $UNCLASS
