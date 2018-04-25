@@ -71,12 +71,11 @@ def main():
                         help='Directory to store the unclassified fastq file.')
 
     if len(sys.argv) == 1:
-
         sys.argv.extend([join(DATA_DIR,"test.fastq.gz"), '--report_files', join(DATA_DIR,'test.rep')])
 
     args = parser.parse_args()
 
-    # Classified reads across report files
+    # Classified reads
     seen = get_classified_reads(report_files=args.report)
 
     for fname in args.files:
