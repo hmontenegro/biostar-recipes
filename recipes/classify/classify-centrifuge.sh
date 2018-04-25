@@ -88,3 +88,6 @@ python -m recipes.code.rarefaction $COUNTSDIR/*.rep --outdir $STORE
 
 # Extract unclassified reads into separate folder.
 python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files $COUNTSDIR/*.rep --outdir $UNCLASS
+
+# Tabulate result data by column numReads
+python -m recipes.code.combine_centrifuge_reports $COUNTSDIR/*.tsv --cutoff 0 --column "numReads" > $STORE/combined_numreads.csv
