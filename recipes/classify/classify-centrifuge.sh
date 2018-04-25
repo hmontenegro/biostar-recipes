@@ -57,6 +57,11 @@ CLASSDIR=classification
 rm -rf $CLASSDIR
 mkdir -p $CLASSDIR
 
+# Directory to store unclassified reads
+UNCLASS=unclassified
+rm -rf $ UNCLASS
+mkdir -p $UNCLASS
+
 # Build the index.
 centrifuge-build -p $N --conversion-table $TABLE --taxonomy-tree $NODES  --name-table $NAMES  $REFERENCE $INDEX >> $RUNLOG
 
@@ -69,13 +74,14 @@ set +e
 ls -1 results/*.rep | parallel -j $N "centrifuge-kreport -x $INDEX {} > results/{/.}.txt 2>> $RUNLOG"
 set -e
 
-# Generate a combined reformatted report inside of CLASSDIR.
-python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt --outdir $CLASSDIR
+# Generate a combined reformatted report of kraken reports inside of classification directory.
+python -m recipes.code.combine_centrifuge_reports --cutoff $CUTOFF results/*.txt --outdir $CLASSDIR --is_kreport
 
 # Draw the heat maps for each csv report
 python -m recipes.code.plotter $CLASSDIR/*.csv --type heat_map
 
-
 # Draw the rarefaction curves.
 python -m recipes.code.rarefaction results/*.rep
 
+# Extract unclassified reads into separate folder.
+python -m recipes.code.extract_unclassified $DDIR/*.fastq.gz --report_files results/*.rep --output $UNCLASS

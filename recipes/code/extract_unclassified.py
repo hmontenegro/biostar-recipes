@@ -3,14 +3,15 @@ import os
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
 
+
 def single_end(stream, seen=(), output=None):
     """
     Takes a fastq stream and a set of already seen/classified reads
-    and puts what is not seen/unclassified into a fastq file inside of outdir.
+    and puts what is not seen/unclassified into a new fastq file.
 
     """
 
-    dirname = output or os.path.dirname(stream.path)
+    dirname = output or os.path.dirname(stream.name)
 
     path = os.path.join(dirname, f'Unclassified_{os.path.basename(stream.name)}')
 
@@ -30,21 +31,17 @@ def single_end(stream, seen=(), output=None):
     return path
 
 
-def extract(stream1, report_file, stream2=None, output=None):
+def classified_reads(report_files):
+    "Get classified reads from report files."
 
-    seen = set()
-    source = open(report_file, 'r')
-    for line in source:
-        seen.add(line.split()[0].strip())
+    classified = set()
 
-    if stream2:
-        # Handle pair-end reads with list-comp
-        unclassified = [single_end(stream=s, seen=seen, output=output) for s in (stream1, stream2)]
-    else:
-        unclassified = [single_end(stream=stream1, seen=seen, output=output)]
+    for fname in report_files:
+        source = open(fname, 'r')
+        for line in source:
+            classified.add(line.split()[0].strip())
 
-    # Returns list of paths to new fastq files with unclassified reads.
-    return unclassified
+    return classified
 
 
 def main():
@@ -53,33 +50,29 @@ def main():
 
     parser = ArgumentParser()
 
-    parser.add_argument('files', metavar='FILES', type=str, nargs=2,
+    parser.add_argument('files', metavar='FILES', type=str, nargs='+',
                         help='Fastq file(s) used to generate the report file')
 
-    parser.add_argument('--report_file', dest='report', type=str, required=True,
-                        help='Generated report file.')
+    parser.add_argument('--report_files', dest='report', type=str, required=True,
+                        nargs='+', help='Generated report file.')
 
     parser.add_argument('--output', dest='output', type=str,
                         help='Directory to store the unclassified fastq file.')
 
     if len(sys.argv) == 1:
-        report_file = os.path.join(DATA_DIR, '1000-MiniXFish.rep')
-        files = ['1000-MiniXFish_S2_L001_R1_001.fastq.gz', '1000-MiniXFish_S2_L001_R2_001.fastq.gz']
-        files = [os.path.join(DATA_DIR, f) for f in files]
 
-        sys.argv.extend(files + [f'--report_file={report_file}', f'--output={DATA_DIR}'])
+        sys.argv.extend([f'{DATA_DIR}/*.fastq.gz' ,'--report_files', f'{DATA_DIR}/*.rep', f'--output={DATA_DIR}'])
 
     args = parser.parse_args()
 
-    stream1 = open(args.files[0], 'r')
-    stream2 = None if len(args.files) <= 1 else open(args.files[1], 'r')
+    # All classified reads across report files
+    seen = classified_reads(report_files=args.report)
 
-    outputs = extract(stream1=stream1,
-                        stream2=stream2,
-                        report_file=args.report,
-                        output=args.output)
-    for o in outputs:
-        print(o)
+    for fname in args.files:
+        stream = open(fname, 'r')
+
+        # Prints the path to unclassified fastq file
+        print(single_end(seen=seen, output=args.output, stream=stream))
 
 
 if __name__ == '__main__':
