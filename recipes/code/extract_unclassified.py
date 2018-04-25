@@ -61,7 +61,7 @@ def main():
 
     if len(sys.argv) == 1:
 
-        sys.argv.extend([f'{DATA_DIR}/*.fastq.gz' ,f'--report_files={DATA_DIR}/*.rep', f'--output={DATA_DIR}'])
+        sys.argv.extend([f'{DATA_DIR}/*.fastq.gz' ,'--report_files', f'{DATA_DIR}/*.rep', f'--output={DATA_DIR}'])
 
     args = parser.parse_args()
 
