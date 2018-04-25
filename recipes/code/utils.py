@@ -25,7 +25,7 @@ def alias(df, fname, key1='col1', key2='col2', name='foo', delimiter='\t'):
         df[key1] = values
 
     except Exception as exc:
-        print(f"Aliasing not performed: {exc}")
+        #print(f"Aliasing not performed: {exc}")
         pass
 
     return df
