@@ -43,7 +43,7 @@ def print_kreport(df, outdir=None, rank=''):
         subset = utils.get_subset(df, rank)
         label = rankmap.get(rank, 'Unknown')
 
-        path = os.path.join(str(outdir), f'{label.lower()}_classification.csv')
+        path = os.path.join(str(outdir), f'{label.lower()}_percent_classification.csv')
         path = sys.stdout if not outdir else path
 
         subset.to_csv(index=False, path_or_buf=path)
