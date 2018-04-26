@@ -1,6 +1,7 @@
 import os
 import sys
 import gzip
+import mimetypes
 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
@@ -15,8 +16,8 @@ def separate(fname, seen=(), outdir=None):
     Takes a fastq stream and a set of already seen/classified reads
     and separate what is not seen/unclassified into a new fastq file.
     """
-
-    is_gz = fname.endswith('.gz')
+    mimetype, mimecode = mimetypes.guess_type(fname)
+    is_gz = mimetype == None and mimecode == 'gzip'
     create_stream = lambda p,m: gzip.open(p,m) if is_gz else open(p,m)
 
     instream = create_stream(fname, 'rt')
