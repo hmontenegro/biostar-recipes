@@ -20,7 +20,7 @@ def separate(fname, seen=(), outdir=None):
     create_stream = lambda p,m: gzip.open(p,m) if is_gz else open(p,m)
 
     instream = create_stream(fname, 'rt')
-    outname = "Unclassified_" + os.path.basename(fname)
+    outname = "unclassified_" + os.path.basename(fname)
 
     path = join(str(outdir), outname)
     outstream = sys.stdout if not outdir else create_stream(path, 'wt')
@@ -54,7 +54,6 @@ def get_classified_reads(report_files):
 
 def main():
     from argparse import ArgumentParser
-    import sys
 
     parser = ArgumentParser()
 
