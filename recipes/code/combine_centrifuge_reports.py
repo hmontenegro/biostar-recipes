@@ -20,21 +20,20 @@ def map_name(name, files, delim='\t'):
         header = next(stream)
         idx_set.add(header.index(name))
 
-    idx = list(idx_set)[0]
     if len(idx_set) > 1:
-        msg = f"The column name does not have the same index across files."
+        msg = f"The column name ({name}) does not have the same index across files."
         raise Exception(msg)
 
-    return idx
+    return list(idx_set)[0]
 
 
 def colnames(fnames):
     names = [os.path.basename(fname) for fname in fnames]
-    names = [fname.split(".")[0] for fname in names]
+    names = [os.path.splitext(fname)[0] for fname in names]
     return names
 
 
-def print_data(df, rank='', outdir=None):
+def print_kreport(df, outdir=None, rank=''):
 
     rankmap = dict(S="Species", G="Genus", F='Family', C='Class', D='Domain')
     ranks = rank or 'SGFCD'
@@ -44,27 +43,22 @@ def print_data(df, rank='', outdir=None):
         subset = utils.get_subset(df, rank)
         label = rankmap.get(rank, 'Unknown')
 
-        # Given a directory to write data in
-        if outdir != None:
-            assert os.path.exists(outdir), outdir
-            path = os.path.join(outdir, f'{label.lower()}_classification.csv')
-            subset.to_csv(index=False, path_or_buf=path)
-        else:
-            print(f'#Rank: {label}')
-            print(subset.to_csv(index=False))
+        path = os.path.join(str(outdir), f'{label.lower()}_classification.csv')
+        path = sys.stdout if not outdir else path
+
+        subset.to_csv(index=False, path_or_buf=path)
 
 
-
-def generate_table(allkeys, keyidx, storage, kraken_report=False):
+def generate_table(allkeys, keyidx, storage, is_kreport=False):
 
     table = []
     for key, fields in allkeys.items():
         collect = list(reversed(fields[3:]))
-        collect = collect if kraken_report else fields[0:3]
+        collect = collect if is_kreport else fields[0:3]
 
         for data in storage:
-            value = data.get(key, [0]* (keyidx + 1))[keyidx]
-            value = data.get(key, [0])[0] if kraken_report else value
+            value = data.get(key, [0] * (keyidx + 1))[keyidx]
+            value = data.get(key, [0])[0] if is_kreport else value
 
             value = float(value)
             collect.append(value)
@@ -73,33 +67,31 @@ def generate_table(allkeys, keyidx, storage, kraken_report=False):
     return table
 
 
-def tabulate(files, rankidx=None, keyidx=4, cutoff=1, has_header=True, is_kraken=False):
+def tabulate(files, rankidx=None, keyidx=4, cutoff=1, has_header=True, is_kreport=False):
     """
     Summarize result found in data_dir by grouping them.
     """
 
-    # Collect all data into a dictionary keyed by keyID
-    storage = []
+    storage, allkeys = [], {}
+    rank_filter = lambda x: True if rankidx == None else x[rankidx] != '-'
+
     for fname in files:
         stream = csv.reader(open(fname, 'rt'), delimiter="\t")
         # Keep only known rank codes
-        if rankidx != None:
-            stream = filter(lambda x: x[rankidx] != '-', stream)
+        stream = filter(rank_filter, stream)
         if has_header:
             next(stream)
+        # Collect all data into a dictionary keyed by keyID
         data = dict()
         for row in stream:
             data[row[keyidx]] = [elem.strip() for elem in row]
+        # Collect all keys across all data.
         storage.append(data)
-
-    # Collect all taxid keys across all data.
-    allkeys = {}
-    for data in storage:
         allkeys.update(data)
 
     # The final table that can be printed and further analyzed
-    table = generate_table(allkeys=allkeys, keyidx=keyidx, storage=storage,
-                           kraken_report=is_kraken)
+    table = generate_table(allkeys=allkeys, keyidx=keyidx,
+                           storage=storage, is_kreport=is_kreport)
 
     # Filter table by cutoffs
     cond1 = lambda row: sum(row[3:]) > cutoff
@@ -142,26 +134,27 @@ def main():
                         help="Directory name to write data out to." )
 
     if len(sys.argv) == 1:
-        full = lambda path: os.path.join(DATA_DIR, path)
-        txt_sample = [full('centrifuge-1.txt'), full('centrifuge-2.txt'), '--is_kreport']
-        tsv_sample = [full('1000-MiniXFish.tsv'), full('WI-10.tsv'),
-                      '--column=numReads', '--cutoff=0.0', ]
+        join = lambda path: os.path.join(DATA_DIR, path)
+        kreport_sample = [join('centrifuge-1.txt'), join('centrifuge-2.txt'), '--is_kreport']
+        tsv_sample = [join('sample-1.tsv'), join('sample-2.tsv'), '--column=numReads', '--cutoff=0.0' ]
 
-        sys.argv.extend(txt_sample)
+        sys.argv.extend(kreport_sample)
 
     args = parser.parse_args()
 
     if args.is_kreport:
         # Special case to handle kraken reports
-        df = tabulate(files=args.files, cutoff=args.cutoff, rankidx=3, keyidx=4, is_kraken=args.is_kreport)
-        print_data(df, outdir=args.outdir)
+        df = tabulate(files=args.files, cutoff=args.cutoff,
+                      rankidx=3, keyidx=4,
+                      has_header=False,
+                      is_kreport=True)
+        print_kreport(df, outdir=args.outdir)
     else:
-        # Map the column name to an id.
         assert args.column, "--column argument required."
-        colid = map_name(name=args.column, files=args.files)
-        df = tabulate(files=args.files, cutoff=args.cutoff, keyidx=colid)
-        # Print one combined file
-        print(df.to_csv(index=False))
+        # Map the column name to an index
+        colidx = map_name(name=args.column, files=args.files)
+        df = tabulate(files=args.files, cutoff=args.cutoff, keyidx=colidx)
+        df.to_csv(index=False, path_or_buf=sys.stdout)
 
 
 

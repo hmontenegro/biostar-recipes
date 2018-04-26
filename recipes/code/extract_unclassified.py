@@ -1,31 +1,30 @@
 import os
+import sys
 import gzip
+import mimetypes
 
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
-def decode(stream):
-    for elem in stream:
-        yield elem.decode("utf8")
+
+def join(*paths):
+    return os.path.abspath(os.path.join(*paths))
+
 
 def separate(fname, seen=(), outdir=None):
     """
     Takes a fastq stream and a set of already seen/classified reads
     and separate what is not seen/unclassified into a new fastq file.
     """
+    mimetype, mimecode = mimetypes.guess_type(fname)
+    is_gz = mimetype == None and mimecode == 'gzip'
+    create_stream = lambda p,m: gzip.open(p,m) if is_gz else open(p,m)
 
-    if fname.endswith('.gz'):
-        instream = decode(gzip.open(fname, 'rb'))
-        basename = os.path.splitext(os.path.basename(fname))[0]
-    else:
-        instream = open(fname, 'rt')
-        basename =  os.path.basename(fname)
+    instream = create_stream(fname, 'rt')
+    outname = "unclassified_" + os.path.basename(fname)
 
-    outname = "Unclassified_" + basename
-
-    path = os.path.join(outdir, outname)
-
-    outstream = open(path, 'w')
+    path = join(str(outdir), outname)
+    outstream = sys.stdout if not outdir else create_stream(path, 'wt')
 
     for rid in instream:
         # Drop leading @ in readid.
@@ -41,7 +40,7 @@ def separate(fname, seen=(), outdir=None):
     return path
 
 
-def classified_reads(report_files):
+def get_classified_reads(report_files):
     "Get classified reads from report files."
 
     classified = set()
@@ -56,7 +55,6 @@ def classified_reads(report_files):
 
 def main():
     from argparse import ArgumentParser
-    import sys
 
     parser = ArgumentParser()
 
@@ -70,17 +68,14 @@ def main():
                         help='Directory to store the unclassified fastq file.')
 
     if len(sys.argv) == 1:
-
-        sys.argv.extend([f'{DATA_DIR}/test.fastq.gz', '--report_files', f'{DATA_DIR}/test.rep', f'--outdir={DATA_DIR}'])
+        sys.argv.extend([join(DATA_DIR,"test.fastq.gz"), '--report_files', join(DATA_DIR,'test.rep')])
 
     args = parser.parse_args()
 
-    # All classified reads across report files
-    seen = classified_reads(report_files=args.report)
+    # Classified reads
+    seen = get_classified_reads(report_files=args.report)
 
     for fname in args.files:
-
-        # Prints the path to unclassified fastq file
         separate(seen=seen, outdir=args.outdir, fname=fname)
 
 
