@@ -1,5 +1,5 @@
 ## Collabrative Ananlysis in Bioinformatics 
-![](./bioinfo.jpg ) 
+![](./images/collab.jpg ) 
 Natay Aberra 
 Aswathy Sebastian 
 Istavan Albert 
@@ -14,7 +14,7 @@ Istavan Albert
 - __Aswathy Sebastian__ - Bioinformatician, wrote pipelines used for metabarcode analysis
 
 - __Natay Aberra__ ( me ) - Programmer, made platform used to run and share pipelines. 
-![](./sta.png)
+![](./images/state.png)
 
 ---
 
