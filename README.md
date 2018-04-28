@@ -37,7 +37,7 @@ There are different repositories for the engine and the recipes.
     conda config --add channels bioconda
 
     # Install the conda requirements.
-    conda install --file conf/conda_requirements.txt
+    conda install --file conf/conda-requirements.txt
 
     # Add the recipes to the python path.
     python setup.py develop
@@ -54,7 +54,7 @@ and how these are rendered.
 
 See the page 
 
-* [How to write recipes?](docs/how-to-write-recipes.md)
+* [How to write recipes?](docs/recipe-howto.md)
 
 ## How do I learn how to write recipes?
 
